@@ -9,57 +9,57 @@ const Data = [
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 2,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 3,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 4,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 5,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 6,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 7,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 8,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 9,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 10,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 11,
     avt: "Sach 1",
     name: "Sach 1"
   },
   {
-    id: 1,
+    id: 12,
     avt: "Sach 1",
     name: "Sach 1"
   }

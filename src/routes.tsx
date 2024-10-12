@@ -1,3 +1,4 @@
+import BookDetail from 'modules/bookDetail'
 import { lazy } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 
@@ -12,6 +13,10 @@ export default function Routes() {
     {
       path: '*',
       element: <Navigate to="/" />,
+    },
+    {
+      path: '/detail',
+      element: <BookDetail />,
     },
   ])
   return element
