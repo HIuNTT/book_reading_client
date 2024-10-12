@@ -1,19 +1,17 @@
+import Detail from "components/BookDetail/Detail";
 import Footer from "components/Footer";
 import Header from "components/Header";
-import BookNew from "components/Home/BookNew";
 import DeXuat from "components/Home/DeXuat";
 import Rank from "components/Home/Rank";
-import Slider from "components/Home/Slider";
 
-export default function HomePage() {
+export default function BookDetail() {
   return (
     <div>
       <Header />
-      <Slider />
-      <BookNew />
+      <Detail />
       <DeXuat />
       <Rank />
       <Footer />
     </div>
-  );
+  )
 }
