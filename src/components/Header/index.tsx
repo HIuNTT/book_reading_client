@@ -6,53 +6,55 @@ import HomeIcon from '@/../../public/img/home_icon.png'
 const Data = [
   {
     id: 1,
-    name: "Loai 1"
+    name: 'Loai 1',
   },
   {
     id: 2,
-    name: "Loai 2"
+    name: 'Loai 2',
   },
   {
     id: 3,
-    name: "Loai 3"
+    name: 'Loai 3',
   },
   {
     id: 4,
-    name: "Loai 4"
+    name: 'Loai 4',
   },
   {
     id: 5,
-    name: "Loai 5"
+    name: 'Loai 5',
   },
-];
+]
 const Header = () => {
   return (
-    <div className="w-full px-[40px] bg-[#e369ac] pt-[5px]">
+    <div className="w-full bg-[#e369ac] px-[40px] pt-[5px]">
       <div className="flex justify-between gap-8">
-        <div className="flex gap-9 items-center">
-          <div className="py-1 px-3">
-            <img src={HomeIcon} alt="Home" className='max-w-10 cursor-pointer' />
+        <div className="flex items-center gap-9">
+          <div className="px-3 py-1">
+            <img src={HomeIcon} alt="Home" className="max-w-10 cursor-pointer" />
           </div>
-          <div className="flex flex-1 gap-x-5 flex-wrap cursor-pointer">
+          <div className="flex flex-1 cursor-pointer flex-wrap gap-x-5">
             {Data.map((item, index) => (
-              <div className="py-2" key={index}>{item.name}</div>
+              <div className="py-2" key={index}>
+                {item.name}
+              </div>
             ))}
           </div>
         </div>
-        <div className="flex gap-4 h-fit items-center">
-          <div className="py-1 px-3">
-            <img src={SearchIcon} alt="Search" className='max-w-8 cursor-pointer' />
+        <div className="flex h-fit items-center gap-4">
+          <div className="px-3 py-1">
+            <img src={SearchIcon} alt="Search" className="max-w-8 cursor-pointer" />
           </div>
-          <div className="py-1 px-3">
-            <img src={BellIcon} alt="Bell" className='max-w-8 cursor-pointer' />
+          <div className="px-3 py-1">
+            <img src={BellIcon} alt="Bell" className="max-w-8 cursor-pointer" />
           </div>
-          <div className="py-1 px-3 rounded-full overflow-hidden">
-            <img src={UserIcon} alt="User" className='max-w-8 w-[32px] h-[32px] cursor-pointer' />
+          <div className="overflow-hidden rounded-full px-3 py-1">
+            <img src={UserIcon} alt="User" className="h-[32px] w-[32px] max-w-8 cursor-pointer" />
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Header;
+export default Header

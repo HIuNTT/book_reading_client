@@ -6,6 +6,7 @@ import { queryClient } from 'configs/queryClient'
 import { Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Routes from 'routes'
+import { Toaster } from 'sonner'
 import { themeConfig } from 'styles/theme'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Routes />
           </Suspense>
           <ReactQueryDevtools />
+          <Toaster richColors position="bottom-right" closeButton />
         </QueryClientProvider>
       </ConfigProvider>
     </BrowserRouter>

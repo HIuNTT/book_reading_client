@@ -1,12 +1,14 @@
 import type { Config } from 'tailwindcss'
+import tailwindScrollbar from 'tailwind-scrollbar'
 
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#ff2f7f',
+      },
+    },
   },
-  plugins: [],
+  plugins: [tailwindScrollbar],
 } satisfies Config
