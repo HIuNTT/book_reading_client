@@ -9,7 +9,7 @@ export default function Redirect({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const currentRoute = adminRoute.find((route) => route.path === pathname)
-    if (currentRoute && (!currentRoute.element || !currentRoute.Component)) {
+    if (currentRoute && !currentRoute.element && !currentRoute.Component) {
       navigate(currentRoute.children?.[0].path || '/admin', { replace: true })
     }
   }, [pathname, navigate])

@@ -34,23 +34,10 @@ export const adminRoute: AppRoute[] = [
   },
   {
     path: '/admin/category',
-    name: 'Danh mục',
+    name: 'Thể loại',
     icon: 'bx:category',
     showOnMenu: true,
-    children: [
-      {
-        path: '/admin/category/list',
-        name: 'Tất cả danh mục',
-        showOnMenu: true,
-        element: 'Tất cả danh mục',
-      },
-      {
-        path: '/admin/category/add',
-        name: 'Thêm danh mục mới',
-        showOnMenu: true,
-        element: 'Thêm danh mục mới',
-      },
-    ],
+    element: 'Thể loại',
   },
   {
     path: '/admin/chapter',
