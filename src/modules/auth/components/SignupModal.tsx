@@ -73,7 +73,7 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
               const disabled =
                 !form.getFieldsValue().email?.length ||
                 !form.getFieldsValue().password?.length ||
-                !form.getFieldsValue().rePassword.length
+                !form.getFieldsValue().rePassword?.length
               const disabledStyle: CSSProperties = {}
               if (disabled) {
                 disabledStyle.opacity = 0.5
