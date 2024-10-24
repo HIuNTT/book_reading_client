@@ -1,6 +1,5 @@
 import AdminLayout from 'components/layout/admin'
 import { ERole } from 'enums/role'
-import Redirect from 'modules/admin/Redirect'
 import { adminRoute } from 'modules/admin/route'
 import BookDetail from 'modules/bookDetail'
 import { lazy } from 'react'
@@ -10,19 +9,28 @@ const HomePage = lazy(() => import('modules/home/pages/HomePage'))
 
 export type AppRoute = NonIndexRouteObject & {
   path: string
-  name: string
+  name?: string
   icon?: string
   showOnMenu?: boolean
   role?: ERole
+  redirect?: string
   children?: AppRoute[]
 }
 
 function formatRoutes(routes: AppRoute[]): NonIndexRouteObject[] {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return routes.map(({ name, icon, showOnMenu, children, ...rest }) => ({
-    ...rest,
-    children: children ? formatRoutes(children) : [],
-  }))
+  return routes.map(({ name, icon, showOnMenu, children, redirect, ...rest }) => {
+    if (redirect) {
+      return {
+        ...rest,
+        element: <Navigate to={redirect} replace />,
+      }
+    }
+    return {
+      ...rest,
+      children: children ? formatRoutes(children) : [],
+    }
+  })
 }
 
 export default function Routes() {
@@ -41,11 +49,7 @@ export default function Routes() {
     },
     {
       path: '/admin',
-      element: (
-        <Redirect>
-          <AdminLayout />
-        </Redirect>
-      ),
+      element: <AdminLayout />,
       children: formatRoutes(adminRoute),
     },
   ])

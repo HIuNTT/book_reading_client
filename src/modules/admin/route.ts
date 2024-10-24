@@ -16,8 +16,8 @@ export const adminRoute: AppRoute[] = [
     name: 'Sách',
     icon: 'ion:book-outline',
     showOnMenu: true,
-
     children: [
+      { path: '/admin/book', redirect: '/admin/book/list' },
       {
         path: '/admin/book/list',
         name: 'Tất cả sách',
@@ -45,6 +45,7 @@ export const adminRoute: AppRoute[] = [
     icon: 'grommet-icons:chapter-add',
     showOnMenu: true,
     children: [
+      { path: '/admin/chapter', redirect: '/admin/chapter/list' },
       {
         path: '/admin/chapter/list',
         name: 'Tất cả chương',
@@ -65,6 +66,7 @@ export const adminRoute: AppRoute[] = [
     icon: 'bi:badge-ad',
     showOnMenu: true,
     children: [
+      { path: '/admin/banner', redirect: '/admin/banner/list' },
       {
         path: '/admin/banner/list',
         name: 'Tất cả banner',
@@ -85,6 +87,7 @@ export const adminRoute: AppRoute[] = [
     icon: 'tabler:file-ai',
     showOnMenu: true,
     children: [
+      { path: '/admin/recommend', redirect: '/admin/recommend/list' },
       {
         path: '/admin/recommend/list',
         name: 'Sửa module',

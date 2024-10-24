@@ -12,7 +12,7 @@ export default function Breadcrumbs() {
     const result: ItemType[] = []
     const findRoutes = (items: AppRoute[]) => {
       for (const item of items) {
-        if (pathname.startsWith(item.path)) {
+        if (pathname.startsWith(item.path) && !item.redirect) {
           result.push({ path: item.path, title: item.name })
           if (item.children) {
             findRoutes(item.children)
