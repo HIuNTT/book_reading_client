@@ -5,7 +5,6 @@ import Logo from './Logo'
 import { Suspense, useState } from 'react'
 import PageLoading from 'components/common/PageLoading'
 import MenuComponent from './Menu'
-import Breadcrumbs from './Breadcrumbs'
 
 export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState<boolean>(false)
@@ -23,7 +22,6 @@ export default function AdminLayout() {
       <Layout>
         <Header toggle={toggle} collapsed={collapsed} />
         <Layout.Content className="overflow-auto px-4 pt-6">
-          <Breadcrumbs />
           <Suspense fallback={<PageLoading />}>
             <Outlet />
           </Suspense>
