@@ -1,11 +1,14 @@
 import { Breadcrumb } from 'antd'
 import { BreadcrumbProps, ItemType } from 'antd/es/breadcrumb/Breadcrumb'
-import { adminRoute } from 'modules/admin/route'
 import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AppRoute } from 'routes'
 
-export default function Breadcrumbs() {
+interface BreadcrumbsProps {
+  routes: AppRoute[]
+}
+
+export default function Breadcrumbs({ routes }: BreadcrumbsProps) {
   const { pathname } = useLocation()
 
   const breadcrumbItems = useMemo(() => {
@@ -21,13 +24,9 @@ export default function Breadcrumbs() {
         }
       }
     }
-
-    if (pathname !== '/admin') {
-      findRoutes(adminRoute)
-    }
-
+    findRoutes(routes)
     return result
-  }, [pathname])
+  }, [pathname, routes])
 
   const itemRender: BreadcrumbProps['itemRender'] = (currentRoute, _params, items) => {
     const isLast = currentRoute?.path === items[items.length - 1]?.path
