@@ -15,6 +15,14 @@ export const themeConfig: ThemeConfig = {
       paddingInline: 16,
       paddingBlockLG: 23,
       paddingInlineLG: 24,
+      borderRadiusLG: 12,
+    },
+    Card: {
+      borderRadiusLG: 6,
+    },
+    InputNumber: {
+      paddingBlock: 9,
+      paddingInline: 12,
     },
   },
 }

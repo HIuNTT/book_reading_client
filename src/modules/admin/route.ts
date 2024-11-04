@@ -1,3 +1,4 @@
+import { categoryAdminRoute } from 'modules/category/route'
 import { lazy } from 'react'
 import { AppRoute } from 'routes'
 
@@ -32,13 +33,7 @@ export const adminRoute: AppRoute[] = [
       },
     ],
   },
-  {
-    path: '/admin/category',
-    name: 'Thể loại',
-    icon: 'bx:category',
-    showOnMenu: true,
-    element: 'Thể loại',
-  },
+
   {
     path: '/admin/chapter',
     name: 'Chương',
@@ -96,4 +91,5 @@ export const adminRoute: AppRoute[] = [
       },
     ],
   },
+  { ...categoryAdminRoute },
 ]
