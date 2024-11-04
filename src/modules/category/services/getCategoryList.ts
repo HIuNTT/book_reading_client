@@ -7,8 +7,8 @@ export interface CategoryListResponse {
 }
 
 export interface CategoryListParams {
-  search?: string
-  limit?: number
+  name?: string
+  size?: number
   page?: number
 }
 

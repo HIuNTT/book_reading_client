@@ -16,7 +16,7 @@ export default function CategoryAdmin() {
 
   const [form] = Form.useForm<{ search: string }>()
 
-  const [reqQuery, setReqQuery] = useState<CategoryListParams>({ limit: 10, page: 1 })
+  const [reqQuery, setReqQuery] = useState<CategoryListParams>({ size: 10, page: 1 })
   const [currentRow, setCurrentRow] = useState<Category>()
 
   const getCategoryList = useGetCategoryList(reqQuery)
@@ -96,18 +96,19 @@ export default function CategoryAdmin() {
   ]
 
   const handleTableChange: TableProps<Category>['onChange'] = ({ current, pageSize }) => {
-    setReqQuery({ ...reqQuery, page: current, limit: pageSize })
+    queryClient.removeQueries({ queryKey: ['categoryList'], exact: true })
+    setReqQuery({ ...reqQuery, page: current, size: pageSize })
   }
 
   const onSubmit = (data: { search: string }) => {
     queryClient.removeQueries({ queryKey: ['categoryList'], exact: true })
-    setReqQuery({ ...reqQuery, page: 1, search: data.search || undefined })
+    setReqQuery({ ...reqQuery, page: 1, name: data.search || undefined })
   }
 
   const handleResetForm = () => {
     form.resetFields()
     queryClient.removeQueries({ queryKey: ['categoryList'], exact: true })
-    setReqQuery({ ...reqQuery, page: 1, search: undefined })
+    setReqQuery({ ...reqQuery, page: 1, name: undefined })
   }
 
   const delCategory = (record: Category) => {
@@ -184,7 +185,7 @@ export default function CategoryAdmin() {
           </div>
           <Table<Category>
             columns={columns}
-            pagination={{ current: reqQuery.page, pageSize: reqQuery.limit, showQuickJumper: true }}
+            pagination={{ current: reqQuery.page, pageSize: reqQuery.size, showQuickJumper: true }}
             dataSource={getCategoryList.data}
             rowKey="id"
             scroll={{ x: 'max-content' }}
