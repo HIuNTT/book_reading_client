@@ -40,13 +40,13 @@ export default function CategoryAdmin() {
     },
     {
       title: 'Thời gian thêm',
-      dataIndex: 'createdAt',
+      dataIndex: 'created_at',
       width: 200,
       align: 'center',
     },
     {
       title: 'Thời gian cập nhật',
-      dataIndex: 'updatedAt',
+      dataIndex: 'updated_at',
       width: 200,
       align: 'center',
     },
@@ -185,8 +185,16 @@ export default function CategoryAdmin() {
           </div>
           <Table<Category>
             columns={columns}
-            pagination={{ current: reqQuery.page, pageSize: reqQuery.size, showQuickJumper: true }}
-            dataSource={getCategoryList.data}
+            pagination={{
+              current: reqQuery.page,
+              pageSize: reqQuery.size,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              total: getCategoryList.data?.total_elements,
+              showTotal: (total) => `Tổng ${total} thể loại`,
+              size: 'default',
+            }}
+            dataSource={getCategoryList.data?.content}
             rowKey="id"
             scroll={{ x: 'max-content' }}
             loading={getCategoryList.isFetching}

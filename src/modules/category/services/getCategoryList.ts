@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from 'configs/api'
 import { Category } from 'types/category'
+import { PaginationResult } from 'types/getList'
 
-export interface CategoryListResponse {
-  data: Category[]
+export type CategoryListResponse = {
+  data: {
+    content: Category[]
+  } & PaginationResult
 }
 
 export interface CategoryListParams {

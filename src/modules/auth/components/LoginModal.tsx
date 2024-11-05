@@ -1,7 +1,9 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { Button, Divider, Form, Input } from 'antd'
-import { LoginDto } from '../services/login'
+import { LoginDto, useAuthLogin } from '../services/login'
 import { CSSProperties } from 'react'
+import { useUser } from 'stores/user'
+import { toast } from 'sonner'
 interface LoginModalProp {
   onSwitchSignup?(): void
   onCloseModal?(): void
@@ -12,8 +14,14 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
 
   const [form] = Form.useForm<LoginDto>()
 
-  const onSubmit = (data: LoginDto) => {
-    console.log(data)
+  const login = useAuthLogin()
+  const user = useUser()
+
+  const onSubmit = async (values: LoginDto) => {
+    const data = await login.mutateAsync(values)
+    user.setTokens({ accessToken: data.data.access_token, refreshToken: data.data.refresh_token })
+    toast.success('Đăng nhập thành công')
+    onCloseModal?.()
   }
 
   /** Hàm xử lý chuyển sang modal đăng ký tài khoản */
@@ -57,6 +65,7 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
                     size="large"
                     block
                     type="primary"
+                    loading={login.isPending}
                   >
                     Đăng nhập
                   </Button>
@@ -84,7 +93,7 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
         <Divider className="border-black/20" plain />
         <div>
           <span className="mr-2 text-[15px]">Bạn chưa có tài khoản?</span>
-          <span className="text-primary cursor-pointer text-[15px]" onClick={handleSwitchSignup}>
+          <span className="cursor-pointer text-[15px] text-primary" onClick={handleSwitchSignup}>
             Đăng ký ngay
           </span>
         </div>

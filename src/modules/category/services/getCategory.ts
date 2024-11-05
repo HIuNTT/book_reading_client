@@ -6,5 +6,5 @@ export interface CategoryInfoResponse {
 }
 
 export async function getCategory(categoryId: number) {
-  return (await api.get<CategoryInfoResponse>(`/category/${categoryId}`)).data.data
+  return (await api.get<CategoryInfoResponse>(`/category/info/${categoryId}`)).data.data
 }
