@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { AppRoute } from 'routes'
 
 const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Book = lazy(() => import('./pages/Book/index'))
 
 export const adminRoute: AppRoute[] = [
   {
@@ -23,6 +24,7 @@ export const adminRoute: AppRoute[] = [
         name: 'Tất cả sách',
         showOnMenu: true,
         element: 'Tất cả sách',
+        Component: Book,
       },
       {
         path: '/admin/book/add',
