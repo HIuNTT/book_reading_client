@@ -10,14 +10,26 @@ const Book = () => {
   const [curBook, setCurBook] = useState<API.BookItem>({});
   const [reload, setReload] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [currentName, setCurrentName] = useState<string | null>(null);
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
+  const [currentName, setCurrentName] = useState<string | null>(null);
+  const [currentStatus, setCurrentStatus] = useState<string | null>(null);
+  const [currentAuthorId, setCurrentAuthorId] = useState<number | null>(null);
+  const [currentCategoryId, setCurrentCategoryId] = useState<number | null>(null);
 
   const handleSetCurBook = (x: API.BookItem) => {
     setCurBook(x);
   };
   const handleNameChange = (x: string) => {
     setCurrentName(x);
+  };
+  const handleStatusChange = (x: string) => {
+    setCurrentStatus(x);
+  };
+  const handleAuthorIdChange = (x: number) => {
+    setCurrentAuthorId(x);
+  };
+  const handleCategoryIdChange = (x: number) => {
+    setCurrentCategoryId(x);
   };
 
   return (
@@ -33,6 +45,36 @@ const Book = () => {
             placeholder='Search by name'
             prefix={<SearchOutlined />}
             onChange={(e) => handleNameChange(e.target.value)}
+            allowClear
+          />
+          <Input
+            style={{
+              width: '200px',
+              marginBottom: '24px',
+            }}
+            placeholder='Search by status'
+            prefix={<SearchOutlined />}
+            onChange={(e) => handleStatusChange(e.target.value)}
+            allowClear
+          />
+          <Input
+            style={{
+              width: '200px',
+              marginBottom: '24px',
+            }}
+            placeholder='Search by author'
+            prefix={<SearchOutlined />}
+            onChange={(e) => handleAuthorIdChange(e.target.valueAsNumber)}
+            allowClear
+          />
+          <Input
+            style={{
+              width: '200px',
+              marginBottom: '24px',
+            }}
+            placeholder='Search by category'
+            prefix={<SearchOutlined />}
+            onChange={(e) => handleCategoryIdChange(e.target.valueAsNumber)}
             allowClear
           />
         </div>
@@ -57,6 +99,9 @@ const Book = () => {
         setReload={setReload}
         setShowModalForm={setShowModalForm}
         currentName={currentName}
+        currentStatus={currentStatus}
+        currentAuthorId={currentAuthorId}
+        currentCategoryId={currentCategoryId}
         loading={loading}
         setLoading={setLoading}
       />

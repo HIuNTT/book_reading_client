@@ -1,35 +1,41 @@
 import { Table } from "antd"
-import { configColumns } from "./colums"
 import { FC, useEffect, useState } from "react";
-import { getBooks } from "services/Book";
+import { configChapterColumns } from "./columns";
 
-interface DataBookTableProps {
+interface DataChapterTableProps {
   handleSetCurBook: (x: API.BookItem) => void;
   reload?: boolean;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
   setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>;
   currentName: string | null;
-  currentStatus: string | null;
-  currentAuthorId: number | null;
-  currentCategoryId: number | null;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const DataBookTable : FC<DataBookTableProps> = ({
+const DataChapterTable : FC<DataChapterTableProps> = ({
   handleSetCurBook,
   reload,
   setReload,
   setShowModalForm,
   currentName,
-  currentStatus,
-  currentAuthorId,
-  currentCategoryId,
   loading,
   setLoading,
 }) => {
 
-  const [bookData, setBookData] = useState<API.BookItem[]>([]);
-
+  const [bookData, setBookData] = useState<API.BookItem[]>([{
+    id: 1,
+    title: 'string',
+    summary: 'string',
+    avg_rating: "string",
+    thumbnail: 'string',
+    view: 1,
+    status: 'string',
+    createdAt: 'string',
+    updatedAt: 'string',
+    createdBy: 1,
+    updatedBy: 1,
+    deleteAt: 'string',
+    authorid: 1,
+  }]);
   const handleReload = () => {
     setReload((pre) => !pre);
   };
@@ -37,30 +43,15 @@ const DataBookTable : FC<DataBookTableProps> = ({
     setShowModalForm(true);
   };
 
-  const handleGetBooks = async () => {
-    setLoading(true);
-    const res = await getBooks({
-      title: currentName,
-      status:currentStatus,
-      authorId:currentAuthorId,
-      categoryId:currentCategoryId,
-      page: 0,
-      size: 1,
-      sort: "",
-    });
-    setBookData(res);
-    setLoading(false);
-  };
 
   useEffect(() => {
-    handleGetBooks();
-  }, [reload, currentName, currentStatus, currentAuthorId, currentCategoryId]);
+  }, [reload, currentName]);
 
   return (
     <div className="">
       <Table
         loading={loading}
-        columns={configColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}
+        columns={configChapterColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}
         dataSource={bookData}
         pagination={{
           showQuickJumper: true,
@@ -73,4 +64,4 @@ const DataBookTable : FC<DataBookTableProps> = ({
   )
 }
 
-export default DataBookTable;
+export default DataChapterTable;

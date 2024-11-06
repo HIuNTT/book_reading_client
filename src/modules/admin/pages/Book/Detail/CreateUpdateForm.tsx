@@ -1,5 +1,6 @@
-import { Form, message, Modal } from "antd";
+import { Form, message, Modal, UploadFile } from "antd";
 import {
+  ProFormDatePicker,
   ProFormSelect,
   ProFormText,
   ProFormUploadButton,
@@ -17,7 +18,7 @@ interface CreateUpdateFormProps {
 }
 
 
-const CreatUpateForm: FC<CreateUpdateFormProps> = ({
+const CreatUpateForm : FC<CreateUpdateFormProps> = ({
   showModal,
   setShowModal,
   curItem,
@@ -27,27 +28,26 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
 
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  // const [curThumbnailFile, setCurThumbnailFile] = useState<UploadFile<any>[]>([]);
+  const [curAvatarFile, setCurAvatarFile] = useState<UploadFile<any>[]>([]);
 
   const handleCloseModal = () => {
     setShowModal(false);
     setCurBook({});
-    // setCurThumbnailFile([]);
+    setCurAvatarFile([]);
     setReload((pre) => !pre);
     setLoading(false);
     form?.resetFields();
   };
 
-
   const handleSave = async (formItem: API.BookItem) => {
     setLoading(true);
-    let thumbnailFile;
     const payload: API.PayloadBook = {
-      title: formItem?.title,
-      summary: formItem.summary,
-      thumbnail: thumbnailFile || curItem?.thumbnail_url,
-      author_id: formItem.author?.id,
-      category_book: formItem.category_book,
+      title: curItem?.title,
+      summary: curItem?.summary,
+      avg_rating: formItem?.avg_rating,
+      thumbnail: formItem?.avg_rating,
+      status: formItem?.status,
+      view: formItem?.view,
     };
 
     if (!curItem?.id) {
@@ -59,7 +59,10 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           handleCloseModal();
         });
     } else {
-      putBook(payload)
+      putBook({
+        ...payload,
+        id: curItem.id,
+      })
         .then(() => {
           message.success('Update successfully!');
         })
@@ -70,6 +73,11 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     setLoading(false);
   };
 
+  
+
+  console.log('curItem',curItem);
+  
+
   useEffect(() => {
     form.setFieldValue('id', curItem?.id);
     form.setFieldValue('title', curItem?.title);
@@ -79,24 +87,24 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
 
   return (
     <Modal
-      title={
+      title = {
         !curItem?.id ? "Add Book" : "Edit Book"
       }
-      okText="Save"
-      cancelText="Cancel"
+      okText = "Save"
+      cancelText = "Cancel"
       onOk={() => form.submit()}
       open={showModal}
       confirmLoading={loading}
       onCancel={handleCloseModal}
     >
       <Form
-        form={form}
-        layout="vertical"
-        name="roleForm"
-        onFinish={handleSave}
-        style={{
-          padding: '12px 0',
-        }}
+      form={form}
+      layout="vertical"
+      name="roleForm"
+      onFinish={handleSave}
+      style={{
+        padding: '12px 0',
+      }}
       >
         <ProFormText
           label='Tên sách'
@@ -105,7 +113,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
         />
         <ProFormSelect
           allowClear
-          label='The loai'
+          label= 'The loai'
           name={'authorid'}
           placeholder=' Chon the loai'
           mode="single"

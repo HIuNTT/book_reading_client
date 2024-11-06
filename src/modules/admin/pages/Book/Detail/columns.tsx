@@ -1,10 +1,8 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Modal } from "antd"
+import { Button, Modal } from "antd"
 import { ColumnsType } from "antd/es/table"
-import { useNavigate } from "react-router-dom";
-import { deleteBook } from "services/Book";
 
-export const configColumns = (
+export const configChapterColumns = (
   handleSetCurBook: (x: API.BookItem) => void,
   handleReload: () => void,
   handleSetShowModalForm: () => void,
@@ -17,7 +15,6 @@ export const configColumns = (
     
   };
   const {confirm} = Modal;
-  const navigate = useNavigate();
 
   const showDeleteConfirm = (x: API.BookItem) => {
     confirm({
@@ -29,9 +26,7 @@ export const configColumns = (
       cancelText: 'Cancel',
       onOk: async () => {
         try {
-          await deleteBook(x?.id ?? -1).then(() => {
-            message.success('Delete successfully!');
-          });
+          
           handleReload();
         } catch (error) {
           console.error('Error:', error);
@@ -93,12 +88,6 @@ export const configColumns = (
             onClick={() => showDeleteConfirm(original)}
           >
             <DeleteOutlined />
-          </Button>
-          <Button
-            style={{ padding: '2px 6px', border: 'none' }}
-            onClick={() => navigate(`/admin/book/detail/${original.id}`)}
-          >
-           <PlusOutlined /> Add Chapter
           </Button>
         </div>
       ),
