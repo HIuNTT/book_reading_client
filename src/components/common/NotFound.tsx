@@ -5,7 +5,7 @@ export default function NotFound() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
+    <div className="m-auto flex h-screen flex-col items-center justify-center">
       <div className="mb-[-30px] max-w-[400px]">
         <img src="/img/404-bg.png" alt="404 bg" />
       </div>
