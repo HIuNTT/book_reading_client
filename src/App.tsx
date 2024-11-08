@@ -9,6 +9,7 @@ import Routes from 'routes'
 import { Toaster } from 'sonner'
 import { themeConfig } from 'styles/theme'
 import vi_VN from 'antd/locale/vi_VN'
+import ScrollToTop from 'components/common/ScrollToTop'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <ConfigProvider theme={themeConfig} componentSize="middle" locale={vi_VN}>
         <QueryClientProvider client={queryClient}>
           <Suspense fallback={<PageLoading />}>
+            <ScrollToTop />
             <Routes />
           </Suspense>
           <ReactQueryDevtools />

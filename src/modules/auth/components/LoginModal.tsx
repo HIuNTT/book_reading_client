@@ -19,9 +19,11 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
 
   const onSubmit = async (values: LoginDto) => {
     const data = await login.mutateAsync(values)
+
     user.setTokens({ accessToken: data.data.access_token, refreshToken: data.data.refresh_token })
     toast.success('Đăng nhập thành công')
     onCloseModal?.()
+    form.resetFields()
   }
 
   /** Hàm xử lý chuyển sang modal đăng ký tài khoản */
@@ -33,20 +35,23 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
 
   return (
     <>
-      <div className="text-center">
-        <h1 className="mb-6 text-2xl font-semibold">Đăng Nhập</h1>
-        <div className="px-14">
+      <div className="px-2 py-3 text-center">
+        <div className="flex justify-center">
+          <img width="96" src="/logo.svg" alt="Waka Logo" />
+        </div>
+        <h2 className="mb-6 mt-4 text-[24px] font-semibold">Đăng Nhập Tài Khoản</h2>
+        <div>
           <Form onFinish={onSubmit} form={form} layout="vertical">
-            <Form.Item<LoginDto> label="Email/Tên đăng nhập" name="username">
-              <Input placeholder="Nhập email hoặc tên đăng nhập" />
+            <Form.Item<LoginDto> label="Tên đăng nhập" name="username">
+              <Input placeholder="Nhập tên đăng nhập" />
             </Form.Item>
             <Form.Item<LoginDto> label="Mật khẩu" name="password">
               <Input.Password classNames={{ suffix: 'text-[16px]' }} placeholder="Nhập mật khẩu" />
             </Form.Item>
-            <div className="mb-5 text-end">
+            <div className="mb-4 mt-[-10px] text-end">
               <span className="cursor-pointer hover:text-[rgba(0,0,0,0.65)]">Quên mật khẩu?</span>
             </div>
-            <Form.Item shouldUpdate>
+            <Form.Item className="mb-4" shouldUpdate>
               {() => {
                 const disabled = !form.getFieldsValue().username?.length || !form.getFieldsValue().password?.length
                 const disabledStyle: CSSProperties = {}
@@ -61,8 +66,7 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
                     style={disabled ? disabledStyle : {}}
                     htmlType="submit"
                     className="!font-semibold"
-                    shape="round"
-                    size="large"
+                    size="middle"
                     block
                     type="primary"
                     loading={login.isPending}
@@ -72,30 +76,26 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
                 )
               }}
             </Form.Item>
-            <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '15px' }} plain>
-              Hoặc tiếp tục với
-            </Divider>
-            <Form.Item>
-              <Button
-                htmlType="button"
-                shape="round"
-                size="large"
-                block
-                icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-                variant="filled"
-                color="primary"
-              >
-                Tiếp tục với Google
-              </Button>
-            </Form.Item>
+            <div className="leading-none">
+              <span className="mr-2 text-[13px]">Bạn chưa có tài khoản?</span>
+              <span className="cursor-pointer text-[13px] text-primary" onClick={handleSwitchSignup}>
+                Đăng ký ngay
+              </span>
+            </div>
           </Form>
-        </div>
-        <Divider className="border-black/20" plain />
-        <div>
-          <span className="mr-2 text-[15px]">Bạn chưa có tài khoản?</span>
-          <span className="cursor-pointer text-[15px] text-primary" onClick={handleSwitchSignup}>
-            Đăng ký ngay
-          </span>
+          <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '14px' }} plain>
+            Hoặc tiếp tục với
+          </Divider>
+          <Button
+            htmlType="button"
+            size="large"
+            block
+            icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
+            variant="filled"
+            color="primary"
+          >
+            Tiếp tục với Google
+          </Button>
         </div>
       </div>
     </>

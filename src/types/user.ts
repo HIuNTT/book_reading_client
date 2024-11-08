@@ -1,5 +1,8 @@
+import { ERole } from 'enums/role'
+
 export interface Role {
-  name: string
+  id: number
+  name: ERole
 }
 
 export interface User {
@@ -10,7 +13,7 @@ export interface User {
   phone: string
   birthday: string
   gender: string
-  avatarUrl: string
+  avatar_url: string
   role: Role
 }
 

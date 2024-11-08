@@ -34,7 +34,6 @@ export const adminRoute: AppRoute[] = [
       },
     ],
   },
-
   {
     path: '/admin/chapter',
     name: 'Chương',

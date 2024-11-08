@@ -18,7 +18,7 @@ export interface CategoryListParams {
 async function getCategoryList(params?: CategoryListParams) {
   return (
     (
-      await api.get<CategoryListResponse>('/category/list_search', {
+      await api.get<CategoryListResponse>('/public/category/list_search', {
         params,
       })
     ).data.data ?? null
