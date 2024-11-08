@@ -21,7 +21,7 @@ export default function AdminLayout() {
       </Layout.Sider>
       <Layout>
         <Header toggle={toggle} collapsed={collapsed} />
-        <Layout.Content className="overflow-auto px-4 pt-6">
+        <Layout.Content className="overflow-auto">
           <Suspense fallback={<PageLoading />}>
             <Outlet />
           </Suspense>

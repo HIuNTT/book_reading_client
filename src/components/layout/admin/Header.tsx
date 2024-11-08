@@ -1,7 +1,10 @@
 import { Icon } from '@iconify/react'
 import { Avatar, Dropdown, Layout, theme } from 'antd'
 import type { MenuProps } from 'antd'
+import { EGender } from 'enums/gender'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useUser } from 'stores/user'
 
 interface HeaderProps {
   collapsed: boolean
@@ -12,6 +15,10 @@ export default function Header({ collapsed, toggle }: HeaderProps) {
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+
+  const navigate = useNavigate()
+
+  const { user, clear } = useUser()
 
   const items: MenuProps['items'] = [
     {
@@ -30,7 +37,8 @@ export default function Header({ collapsed, toggle }: HeaderProps) {
       label: 'Đăng xuất',
       icon: <Icon icon="material-symbols:logout" />,
       onClick: () => {
-        toast.info('Tính năng sẽ sớm phát triển')
+        clear()
+        navigate('/')
       },
     },
   ]
@@ -51,9 +59,12 @@ export default function Header({ collapsed, toggle }: HeaderProps) {
       </div>
       <div className="cursor-pointer">
         <Dropdown menu={{ items }} placement="bottomRight">
-          <Avatar size="large" className="bg-[#ff2f7f] uppercase">
-            admin
-          </Avatar>
+          <Avatar
+            size="large"
+            src={
+              user.avatar_url || (user.gender === EGender.FEMALE ? '/avatar/female-130.png' : '/avatar/male-130.png')
+            }
+          />
         </Dropdown>
       </div>
     </Layout.Header>

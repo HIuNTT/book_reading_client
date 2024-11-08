@@ -34,5 +34,7 @@ export default function Breadcrumbs({ routes }: BreadcrumbsProps) {
     return isLast ? <span>{currentRoute.title}</span> : <Link to={currentRoute.path!}>{currentRoute.title}</Link>
   }
 
-  return !!breadcrumbItems.length && <Breadcrumb className="mb-4" itemRender={itemRender} items={breadcrumbItems} />
+  return (
+    !!breadcrumbItems.length && <Breadcrumb className="pt-[18px]" itemRender={itemRender} items={breadcrumbItems} />
+  )
 }

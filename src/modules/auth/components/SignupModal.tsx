@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
 import { Button, Divider, Form, Input } from 'antd'
-import { SignupDto } from '../services/signup'
+import { SignupDto, useAuthSignup } from '../services/signup'
 import { CSSProperties } from 'react'
+import { toast } from 'sonner'
 
 interface SignupModalProp {
   onSwitchLogin?(): void
@@ -11,8 +12,13 @@ interface SignupModalProp {
 export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModalProp) {
   const [form] = Form.useForm<SignupDto>()
 
-  const onSubmit = (data: SignupDto) => {
-    console.log(data)
+  const signup = useAuthSignup()
+
+  const onSubmit = async (data: SignupDto) => {
+    await signup.mutateAsync(data)
+    toast.success('Đăng ký tài khoản thành công')
+    onCloseModal?.()
+    form.resetFields()
   }
 
   /** Hàm xử lý chuyển sang modal đăng nhập */
@@ -24,37 +30,42 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
 
   return (
     <>
-      <h1 className="mb-6 text-center text-2xl font-semibold">Đăng Ký Tài Khoản</h1>
-      <div className="px-14">
+      <div className="px-2 py-3">
+        <div className="flex justify-center">
+          <img width="96" src="/logo.svg" alt="Waka Logo" />
+        </div>
+        <h2 className="mb-6 mt-4 text-center text-[24px] font-semibold">Đăng Ký Tài Khoản</h2>
         <Form name="Signup" form={form} layout="vertical" onFinish={onSubmit}>
+          <Form.Item<SignupDto> required label="Tên đăng nhập" name="username">
+            <Input placeholder="Nhập tên đăng nhập" />
+          </Form.Item>
           <Form.Item<SignupDto>
             required
             label="Email"
             name="email"
             rules={[{ type: 'email', message: 'Email không đúng định dạng' }]}
           >
-            <Input placeholder="Email" />
+            <Input placeholder="Nhập tài khoản email" />
           </Form.Item>
 
           <Form.Item<SignupDto>
             required
             label="Mật khẩu"
             name="password"
-            extra="Mật khẩu bao gồm ít nhất 6 ký tự"
-            rules={[{ min: 6, max: 20, message: 'Mật khẩu phải có độ dài từ 6 đến 20 ký tự' }]}
+            rules={[{ min: 8, max: 20, message: 'Mật khẩu phải có độ dài từ 8 đến 20 ký tự' }]}
           >
             <Input.Password classNames={{ suffix: 'text-[16px]' }} placeholder="Mật khẩu" />
           </Form.Item>
 
           <Form.Item<SignupDto>
-            extra="Mật khẩu bao gồm ít nhất 6 ký tự"
             required
+            className="mb-7"
             label="Nhập lại mật khẩu"
             name="rePassword"
             dependencies={['password']}
             validateFirst
             rules={[
-              { min: 6, max: 20, message: 'Mật khẩu phải có độ dài từ 6 đến 20 ký tự' },
+              { min: 8, max: 20, message: 'Mật khẩu phải có độ dài từ 8 đến 20 ký tự' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
@@ -68,7 +79,7 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
             <Input.Password classNames={{ suffix: 'text-[16px]' }} placeholder="Nhập lại mật khẩu" />
           </Form.Item>
 
-          <Form.Item shouldUpdate>
+          <Form.Item className="mb-4" shouldUpdate>
             {() => {
               const disabled =
                 !form.getFieldsValue().email?.length ||
@@ -86,42 +97,35 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
                   style={disabled ? disabledStyle : {}}
                   htmlType="submit"
                   className="!font-semibold"
-                  shape="round"
-                  size="large"
                   block
                   type="primary"
+                  loading={signup.isPending}
                 >
                   Đăng ký
                 </Button>
               )
             }}
           </Form.Item>
-
-          <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '15px' }} plain>
-            Hoặc tiếp tục với
-          </Divider>
-
-          <Form.Item>
-            <Button
-              htmlType="button"
-              shape="round"
-              size="large"
-              block
-              icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-              variant="filled"
-              color="primary"
-            >
-              Tiếp tục với Google
-            </Button>
-          </Form.Item>
+          <div className="text-center leading-none">
+            <span className="mr-2 text-[13px]">Bạn đã có tài khoản?</span>
+            <span className="cursor-pointer text-[13px] text-primary" onClick={handleSwitchLogin}>
+              Đăng nhập ngay
+            </span>
+          </div>
         </Form>
-      </div>
-      <Divider className="border-black/20" plain />
-      <div className="text-center">
-        <span className="mr-2 text-[15px]">Bạn đã có tài khoản?</span>
-        <span className="text-primary cursor-pointer text-[15px]" onClick={handleSwitchLogin}>
-          Đăng nhập ngay
-        </span>
+        <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '15px' }} plain>
+          Hoặc tiếp tục với
+        </Divider>
+        <Button
+          htmlType="button"
+          size="large"
+          block
+          icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
+          variant="filled"
+          color="primary"
+        >
+          Tiếp tục với Google
+        </Button>
       </div>
     </>
   )

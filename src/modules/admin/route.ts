@@ -1,3 +1,5 @@
+import { authorAdminRoute } from 'modules/author/route'
+import { categoryAdminRoute } from 'modules/category/route'
 import { lazy } from 'react'
 import { AppRoute } from 'routes'
 
@@ -31,13 +33,6 @@ export const adminRoute: AppRoute[] = [
         element: 'Thêm sách mới',
       },
     ],
-  },
-  {
-    path: '/admin/category',
-    name: 'Thể loại',
-    icon: 'bx:category',
-    showOnMenu: true,
-    element: 'Thể loại',
   },
   {
     path: '/admin/chapter',
@@ -96,4 +91,6 @@ export const adminRoute: AppRoute[] = [
       },
     ],
   },
+  { ...categoryAdminRoute },
+  { ...authorAdminRoute },
 ]

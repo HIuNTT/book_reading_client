@@ -9,12 +9,14 @@ export interface LoginDto {
 }
 
 export interface LoginResponse {
-  accessToken: string
-  refreshToken: string
+  data: {
+    access_token: string
+    refresh_token: string
+  }
 }
 
 async function authLogin(data: LoginDto) {
-  return (await api.post<LoginResponse>('/auth/login', data)).data
+  return (await api.post<LoginResponse>('/public/login', data)).data
 }
 
 export function useAuthLogin() {
