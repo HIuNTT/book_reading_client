@@ -1,30 +1,41 @@
 import AdminLayout from 'components/layout/admin'
+import AuthLayout from 'components/layout/AuthLayout'
+import MainLayout from 'components/layout/home'
 import { ERole } from 'enums/role'
+import { isEmpty } from 'lodash'
 import { adminRoute } from 'modules/admin/route'
 import BookDetail from 'modules/bookDetail'
+import { homeRoute } from 'modules/home/route'
+import PrivateRoute from 'PrivateRoute'
 import { lazy } from 'react'
 import { Navigate, NonIndexRouteObject, useRoutes } from 'react-router-dom'
 
-const HomePage = lazy(() => import('modules/home/pages/HomePage'))
+const NotFound = lazy(() => import('components/common/NotFound'))
 
 export type AppRoute = NonIndexRouteObject & {
   path: string
   name?: string
   icon?: string
   showOnMenu?: boolean
-  role?: ERole
+  roles?: ERole[]
   redirect?: string
   children?: AppRoute[]
 }
 
+const routes: AppRoute[] = [homeRoute]
+
 function formatRoutes(routes: AppRoute[]): NonIndexRouteObject[] {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return routes.map(({ name, icon, showOnMenu, children, redirect, ...rest }) => {
+  return routes.map(({ name, icon, showOnMenu, children, redirect, roles, ...rest }) => {
     if (redirect) {
       return {
         ...rest,
         element: <Navigate to={redirect} replace />,
       }
+    }
+
+    if (!isEmpty(roles) && rest.element) {
+      rest.element = <PrivateRoute roles={roles} element={rest.element} />
     }
     return {
       ...rest,
@@ -37,11 +48,16 @@ export default function Routes() {
   const element = useRoutes([
     {
       path: '',
-      element: <HomePage />,
+      element: (
+        <AuthLayout>
+          <MainLayout />
+        </AuthLayout>
+      ),
+      children: formatRoutes(routes),
     },
     {
       path: '*',
-      element: <Navigate to="/" />,
+      element: <NotFound />,
     },
     {
       path: '/detail',
@@ -49,7 +65,16 @@ export default function Routes() {
     },
     {
       path: '/admin',
-      element: <AdminLayout />,
+      element: (
+        <PrivateRoute
+          roles={[ERole.ADMIN]}
+          element={
+            <AuthLayout>
+              <AdminLayout />
+            </AuthLayout>
+          }
+        />
+      ),
       children: formatRoutes(adminRoute),
     },
   ])

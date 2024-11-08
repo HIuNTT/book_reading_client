@@ -4,6 +4,8 @@ export const themeConfig: ThemeConfig = {
   token: {
     colorPrimary: '#ff2f7f',
     colorTextBase: '#11181C',
+    borderRadius: 8,
+    borderRadiusLG: 12,
   },
   components: {
     Input: {
@@ -15,6 +17,13 @@ export const themeConfig: ThemeConfig = {
       paddingInline: 16,
       paddingBlockLG: 23,
       paddingInlineLG: 24,
+    },
+    Card: {
+      borderRadiusLG: 6,
+    },
+    InputNumber: {
+      paddingBlock: 9,
+      paddingInline: 12,
     },
   },
 }
