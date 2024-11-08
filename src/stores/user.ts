@@ -1,3 +1,4 @@
+import { ERole } from 'enums/role'
 import { User, UserTokens } from 'types/user'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -20,8 +21,11 @@ const defaultUserState: Pick<UserState, 'tokens' | 'user'> = {
     phone: '',
     birthday: '',
     gender: '',
-    avatarUrl: '',
-    role: { name: '' },
+    avatar_url: '',
+    role: {
+      id: NaN,
+      name: ERole.USER,
+    },
   },
 }
 
