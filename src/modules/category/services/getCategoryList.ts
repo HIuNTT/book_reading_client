@@ -15,7 +15,7 @@ export interface CategoryListParams {
   page?: number
 }
 
-async function getCategoryList(params?: CategoryListParams) {
+export async function getCategoryList(params?: CategoryListParams) {
   return (
     (
       await api.get<CategoryListResponse>('/public/category/list_search', {
