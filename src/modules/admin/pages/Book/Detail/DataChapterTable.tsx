@@ -1,13 +1,16 @@
 import { Table } from "antd"
+import { getChapterList } from "modules/chapter";
 import { FC, useEffect, useState } from "react";
+import { BookItem } from "types/book";
+import { ChapterItem } from "types/chapter";
 import { configChapterColumns } from "./columns";
 
 interface DataChapterTableProps {
-  handleSetCurBook: (x: API.BookItem) => void;
+  handleSetCurBook: (x: ChapterItem) => void;
   reload?: boolean;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
   setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>;
-  currentName: string | null;
+  bookId: number | null;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -16,26 +19,12 @@ const DataChapterTable : FC<DataChapterTableProps> = ({
   reload,
   setReload,
   setShowModalForm,
-  currentName,
   loading,
+  bookId,
   setLoading,
 }) => {
 
-  const [bookData, setBookData] = useState<API.BookItem[]>([{
-    id: 1,
-    title: 'string',
-    summary: 'string',
-    avg_rating: "string",
-    thumbnail: 'string',
-    view: 1,
-    status: 'string',
-    createdAt: 'string',
-    updatedAt: 'string',
-    createdBy: 1,
-    updatedBy: 1,
-    deleteAt: 'string',
-    authorid: 1,
-  }]);
+  const [chapterData, setChapterData] = useState<ChapterItem[]>([]);
   const handleReload = () => {
     setReload((pre) => !pre);
   };
@@ -43,21 +32,32 @@ const DataChapterTable : FC<DataChapterTableProps> = ({
     setShowModalForm(true);
   };
 
+  console.log("bookId",bookId);
+  
+
+  const handleGetChapters = async () => {
+    setLoading(true);
+    const res = await getChapterList({bookId: bookId});
+    setChapterData(res.content);
+    setLoading(false);
+  };
+
 
   useEffect(() => {
-  }, [reload, currentName]);
+    handleGetChapters();
+  }, [reload]);
 
   return (
     <div className="">
       <Table
         loading={loading}
         columns={configChapterColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}
-        dataSource={bookData}
+        dataSource={chapterData}
         pagination={{
           showQuickJumper: true,
           defaultCurrent: 1,
           defaultPageSize: 10,
-          total: bookData.length,
+          total: chapterData.length,
         }}
       />
     </div>

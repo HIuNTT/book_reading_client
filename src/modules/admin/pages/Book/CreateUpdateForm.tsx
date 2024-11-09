@@ -1,19 +1,22 @@
-import { Form, message, Modal } from "antd";
+import { Form, message, Modal, UploadFile } from "antd";
 import {
   ProFormSelect,
   ProFormText,
   ProFormUploadButton,
 } from '@ant-design/pro-components';
 import { FC, useEffect, useState } from "react";
-import { postBook, putBook } from "services/Book";
+// import { postBook, putBook } from "services/Book";
+import { BookItem } from "types/book";
+import { Category } from "types/category";
+import { getCategoryList } from "modules/category/services/getCategoryList";
 
 
 interface CreateUpdateFormProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  curItem?: API.BookItem;
+  curItem?: BookItem;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurBook: React.Dispatch<React.SetStateAction<API.BookItem>>;
+  setCurBook: React.Dispatch<React.SetStateAction<BookItem | undefined>>;
 }
 
 
@@ -27,54 +30,41 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
 
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  // const [curThumbnailFile, setCurThumbnailFile] = useState<UploadFile<any>[]>([]);
+
+  const [categorySelected, setCategorySelected] = useState<number[]>(
+    curItem?.category_book?.map((e) => e?.category_id || 0) || [],
+  );
+
+  const [listCategory, setListCategory] = useState<Category[]>();
+  const [curThumbnailFile, setCurThumbnailFile] = useState<UploadFile<any>[]>([]);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setCurBook({});
-    // setCurThumbnailFile([]);
     setReload((pre) => !pre);
     setLoading(false);
+    setCurThumbnailFile([]);
     form?.resetFields();
   };
 
+  const handleThumbnailChange = (file: File | null) => {
+  
+};
 
-  const handleSave = async (formItem: API.BookItem) => {
+  const handleSave = async (formItem: BookItem) => {
     setLoading(true);
     let thumbnailFile;
-    const payload: API.PayloadBook = {
-      title: formItem?.title,
-      summary: formItem.summary,
-      thumbnail: thumbnailFile || curItem?.thumbnail_url,
-      author_id: formItem.author?.id,
-      category_book: formItem.category_book,
-    };
-
-    if (!curItem?.id) {
-      postBook(payload)
-        .then(() => {
-          message.success('Create successfully!');
-        })
-        .then(() => {
-          handleCloseModal();
-        });
-    } else {
-      putBook(payload)
-        .then(() => {
-          message.success('Update successfully!');
-        })
-        .then(() => {
-          handleCloseModal();
-        });
-    }
     setLoading(false);
   };
 
+  const handleGetListSolo = async () => {
+    const res = await getCategoryList();
+    if (res) {
+      setListCategory(res.content);
+    }
+  };
+
   useEffect(() => {
-    form.setFieldValue('id', curItem?.id);
-    form.setFieldValue('title', curItem?.title);
-    form.setFieldValue('summary', curItem?.summary);
-    form.setFieldValue('avg_rating', curItem?.avg_rating);
+    handleGetListSolo();
   }, [curItem]);
 
   return (
@@ -104,22 +94,31 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           name={'title'}
         />
         <ProFormSelect
-          allowClear
-          label='The loai'
-          name={'authorid'}
-          placeholder=' Chon the loai'
-          mode="single"
-        />
+            label='The loai'
+            name={'authorid'}
+            placeholder=' Chon the loai'
+            options={listCategory?.map((item) => ({ label: item.name, value: item.id }))}
+            mode="multiple"
+            onChange={(e: number[]) => setCategorySelected(e)}
+          />
         <ProFormText
           label='Tóm tắt'
           placeholder={''}
           name={'summary'}
         />
         <ProFormUploadButton
-          label='Avatar'
+          label='Thumbnail'
           title='Upload'
           name={'avg_rating'}
           max={1}
+          fieldProps={{ onRemove: () => setCurThumbnailFile([]) }}
+          fileList={curThumbnailFile}
+          onChange={(e) => {
+            if (e.fileList.length > 0) {
+              // handleThumbnailChange(e.fileList[0].originFileObj);
+              setCurThumbnailFile(e.fileList);
+            }
+          }}
         />
       </Form>
     </Modal>

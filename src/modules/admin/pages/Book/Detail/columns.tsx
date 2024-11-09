@@ -1,14 +1,16 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, PlusOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd"
 import { ColumnsType } from "antd/es/table"
+import { BookItem } from "types/book";
+import { ChapterItem } from "types/chapter";
 
 export const configChapterColumns = (
-  handleSetCurBook: (x: API.BookItem) => void,
+  handleSetCurBook: (x: ChapterItem) => void,
   handleReload: () => void,
   handleSetShowModalForm: () => void,
-): ColumnsType<API.BookItem>  => {
+): ColumnsType<ChapterItem>  => {
 
-  const handleClickEdit = (x: API.BookItem) => {
+  const handleClickEdit = (x: ChapterItem) => {
     handleSetCurBook(x);
     handleSetShowModalForm();
     handleReload();
@@ -16,23 +18,23 @@ export const configChapterColumns = (
   };
   const {confirm} = Modal;
 
-  const showDeleteConfirm = (x: API.BookItem) => {
-    confirm({
-      title: 'Delete this item',
-      icon: <ExclamationCircleFilled style={{ color: 'red' }} />,
-      content: 'Do you really want to delete this item? This process can not be undone.',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk: async () => {
-        try {
+  const showDeleteConfirm = (x: BookItem) => {
+    // confirm({
+    //   title: 'Delete this item',
+    //   icon: <ExclamationCircleFilled style={{ color: 'red' }} />,
+    //   content: 'Do you really want to delete this item? This process can not be undone.',
+    //   okText: 'Delete',
+    //   okType: 'danger',
+    //   cancelText: 'Cancel',
+    //   onOk: async () => {
+    //     try {
           
-          handleReload();
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      },
-    });
+    //       handleReload();
+    //     } catch (error) {
+    //       console.error('Error:', error);
+    //     }
+    //   },
+    // });
   };
   return [
     {
@@ -48,22 +50,17 @@ export const configChapterColumns = (
       width:'15%',
     },
     {
-      title:'Tóm tắt',
-      dataIndex:'summary',
-      key:'summary',
+      title:'Order Chap',
+      dataIndex:'order_chap',
+      key:'order_chap',
       width:'35%',
     },
     {
-      title:'Trạng thái',
-      dataIndex:'status',
-      key:'status',
+      title:'Ten sach',
+      dataIndex:'book.title',
+      key:'book.title',
       width:'10%',
-    },
-    {
-      title:'Ngày tạo',
-      dataIndex:'createdAt',
-      key:'createdAt',
-      width:'10%',
+      render: (_, original) => <div>{original.title}</div>,
     },
     {
       title: 'Action',
@@ -85,7 +82,7 @@ export const configChapterColumns = (
           </Button>
           <Button
             style={{ padding: '2px 6px', border: 'none' }}
-            onClick={() => showDeleteConfirm(original)}
+            // onClick={() => showDeleteConfirm(original)}
           >
             <DeleteOutlined />
           </Button>

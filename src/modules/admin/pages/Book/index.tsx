@@ -3,11 +3,12 @@ import DataBookTable from "./DataBookTable";
 import CreatUpateForm from "./CreateUpdateForm";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { BookItem } from "types/book";
 
 const { Title } = Typography;
 
 const Book = () => {
-  const [curBook, setCurBook] = useState<API.BookItem>({});
+  const [curBook, setCurBook] = useState<BookItem>();
   const [reload, setReload] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
@@ -16,7 +17,7 @@ const Book = () => {
   const [currentAuthorId, setCurrentAuthorId] = useState<number | null>(null);
   const [currentCategoryId, setCurrentCategoryId] = useState<number | null>(null);
 
-  const handleSetCurBook = (x: API.BookItem) => {
+  const handleSetCurBook = (x: BookItem) => {
     setCurBook(x);
   };
   const handleNameChange = (x: string) => {

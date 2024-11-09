@@ -1,5 +1,5 @@
-import StarIcon from '@/../../public/img/star_icon.png'
-import BookIcon from '@/../../public/img/book_icon.png'
+import StarIcon from '/img/star_icon.png'
+import BookIcon from '/img/book_icon.png'
 import Comment from './Tab/Comment';
 import Feedback from './Tab/Feedback';
 import { Tabs } from 'antd';

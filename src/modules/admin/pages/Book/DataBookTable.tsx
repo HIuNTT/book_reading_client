@@ -1,10 +1,11 @@
 import { Table } from "antd"
 import { configColumns } from "./colums"
 import { FC, useEffect, useState } from "react";
-import { getBooks } from "services/Book";
+import { BookItem } from "types/book";
+import { getBookList } from "modules/book/services";
 
 interface DataBookTableProps {
-  handleSetCurBook: (x: API.BookItem) => void;
+  handleSetCurBook: (x: BookItem) => void;
   reload?: boolean;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
   setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,7 +29,7 @@ const DataBookTable : FC<DataBookTableProps> = ({
   setLoading,
 }) => {
 
-  const [bookData, setBookData] = useState<API.BookItem[]>([]);
+  const [bookData, setBookData] = useState<BookItem[]>([]);
 
   const handleReload = () => {
     setReload((pre) => !pre);
@@ -39,16 +40,8 @@ const DataBookTable : FC<DataBookTableProps> = ({
 
   const handleGetBooks = async () => {
     setLoading(true);
-    const res = await getBooks({
-      title: currentName,
-      status:currentStatus,
-      authorId:currentAuthorId,
-      categoryId:currentCategoryId,
-      page: 0,
-      size: 1,
-      sort: "",
-    });
-    setBookData(res);
+    const res = await getBookList();
+    setBookData(res.content);
     setLoading(false);
   };
 

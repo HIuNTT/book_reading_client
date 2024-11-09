@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import ArrowLeft from '@/../../public/img/arrowleft.png'
-import ArrowRight from '@/../../public/img/arrowright.png'
+import ArrowLeft from '/img/arrowleft.png'
+import ArrowRight from '/img/arrowright.png'
 
 const Data = [
   {

@@ -1,4 +1,4 @@
-import StarIcon from '@/../../public/img/star_icon.png'
+import StarIcon from '/img/star_icon.png'
 
 
 const Feedback = () => {

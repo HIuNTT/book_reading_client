@@ -1,31 +1,30 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBookDetail } from "services/Book";
 import DataChapterTable from "./DataChapterTable";
+import { getBookInfo } from "modules/book/services";
+import { ChapterItem } from "types/chapter";
+import { BookItem } from "types/book";
 
 const Chapter = () => {
 
-  const [curBook, setCurBook] = useState<API.BookItem>({});
+  const [curChapter, setCurChapter] = useState<ChapterItem>();
   const [reload, setReload] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [currentName, setCurrentName] = useState<string | null>(null);
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
 
-  const handleSetCurBook = (x: API.BookItem) => {
-    setCurBook(x);
-  };
-  const handleNameChange = (x: string) => {
-    setCurrentName(x);
+  const handleSetCurBook = (x: ChapterItem) => {
+    setCurChapter(x);
   };
   const navigate = useNavigate();
   const paramUrl = useParams();
 
-  const [bookDetail, setBookDetail] = useState<API.BookItem>();
+  const [bookDetail, setBookDetail] = useState<BookItem>();
 
+  const bookId = Number(paramUrl.id);
   const handleGetBookDetail = async () => {
-    const res = await getBookDetail({ bookId: Number(paramUrl.id) });
+    const res = await getBookInfo(bookId);
     setBookDetail(res);
   };
   useEffect(() => {
@@ -63,12 +62,24 @@ const Chapter = () => {
           {bookDetail?.title}
         </div>
       </div>
+      <div>
+      <Input
+            style={{
+              width: '200px',
+              marginBottom: '24px',
+            }}
+            placeholder='Search by name'
+            prefix={<SearchOutlined />}
+            // onChange={(e) => han(e.target.valueAsNumber)}
+            allowClear
+          />
+      </div>
       <DataChapterTable
         handleSetCurBook={handleSetCurBook}
         reload={reload}
         setReload={setReload}
         setShowModalForm={setShowModalForm}
-        currentName={currentName}
+        bookId = {bookId}
         loading={loading}
         setLoading={setLoading}
       />

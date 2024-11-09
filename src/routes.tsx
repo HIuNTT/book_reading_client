@@ -56,26 +56,21 @@ export default function Routes() {
       children: formatRoutes(routes),
     },
     {
-      path: '*',
-      element: <NotFound />,
-    },
-    {
       path: '/detail',
       element: <BookDetail />,
     },
     {
       path: '/admin',
       element: (
-        <PrivateRoute
-          roles={[ERole.ADMIN]}
-          element={
-            <AuthLayout>
-              <AdminLayout />
-            </AuthLayout>
-          }
-        />
+        <AuthLayout>
+          <PrivateRoute roles={[ERole.ADMIN]} element={<AdminLayout />} />
+        </AuthLayout>
       ),
       children: formatRoutes(adminRoute),
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ])
   return element

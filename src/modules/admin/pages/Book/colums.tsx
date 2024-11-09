@@ -1,16 +1,18 @@
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Modal } from "antd"
+import { Button, message, Modal, Tag, Tooltip } from "antd"
 import { ColumnsType } from "antd/es/table"
+import { deleteBook } from "modules/book/services";
 import { useNavigate } from "react-router-dom";
-import { deleteBook } from "services/Book";
+import { BookItem } from "types/book";
+import { FormatDay } from "utils/datetime";
 
 export const configColumns = (
-  handleSetCurBook: (x: API.BookItem) => void,
+  handleSetCurBook: (x: BookItem) => void,
   handleReload: () => void,
   handleSetShowModalForm: () => void,
-): ColumnsType<API.BookItem>  => {
+): ColumnsType<BookItem>  => {
 
-  const handleClickEdit = (x: API.BookItem) => {
+  const handleClickEdit = (x: BookItem) => {
     handleSetCurBook(x);
     handleSetShowModalForm();
     handleReload();
@@ -19,7 +21,7 @@ export const configColumns = (
   const {confirm} = Modal;
   const navigate = useNavigate();
 
-  const showDeleteConfirm = (x: API.BookItem) => {
+  const showDeleteConfirm = (x: BookItem) => {
     confirm({
       title: 'Delete this item',
       icon: <ExclamationCircleFilled style={{ color: 'red' }} />,
@@ -66,10 +68,57 @@ export const configColumns = (
     },
     {
       title:'Ngày tạo',
-      dataIndex:'createdAt',
-      key:'createdAt',
+      dataIndex:'created_at',
+      key:'created_at',
       width:'10%',
+      render: (_, original) => {
+        return <div>{FormatDay(original.created_at ?? '')}</div>;
+      },
     },
+    {
+        title: "Category",
+        dataIndex: 'category_book',
+        key: 'category_book',
+        render: (_, original) => (
+          <div
+            style={{
+              display: 'flex',
+              gap: '2px',
+              flexWrap: 'wrap',
+            }}
+          >
+            {!original.category_book?.length && ' - '}
+            {original.category_book?.map((member, indexM) => {
+              return <>{indexM <= 4 && <Tag style={{ fontSize: '13px' }}>{member.category_name}</Tag>}</>;
+            })}
+            {original.category_book && original.category_book?.length > 5 && (
+              <Tooltip
+                color="#FFF"
+                placement="bottom"
+                title={
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      rowGap: '6px',
+                      backgroundColor: '#FFF',
+                    }}
+                  >
+                    {original.category_book?.map((member, indexM) => {
+                      return (
+                        <>{indexM > 4 && <Tag style={{ fontSize: '13px' }}>{member.category_name}</Tag>}</>
+                      );
+                    })}
+                  </div>
+                }
+              >
+                <Tag style={{ cursor: 'pointer' }}>...</Tag>
+              </Tooltip>
+            )}
+          </div>
+        ),
+        width: '45%',
+      },
     {
       title: 'Action',
       dataIndex: 'action',
