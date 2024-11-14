@@ -1,22 +1,22 @@
-import { Table } from "antd"
-import { configColumns } from "./colums"
-import { FC, useEffect, useState } from "react";
-import { BookItem } from "types/book";
-import { getBookList } from "modules/book/services";
+import { Table } from 'antd'
+import { configColumns } from './colums'
+import { FC, useEffect, useState } from 'react'
+import { BookItem } from 'types/book'
+import { getBookList } from 'modules/book/services/getBookList'
 
 interface DataBookTableProps {
-  handleSetCurBook: (x: BookItem) => void;
-  reload?: boolean;
-  setReload: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>;
-  currentName: string | null;
-  currentStatus: string | null;
-  currentAuthorId: number | null;
-  currentCategoryId: number | null;
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSetCurBook: (x: BookItem) => void
+  reload?: boolean
+  setReload: React.Dispatch<React.SetStateAction<boolean>>
+  setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>
+  currentName: string | null
+  currentStatus: string | null
+  currentAuthorId: number | null
+  currentCategoryId: number | null
+  loading: boolean
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
-const DataBookTable : FC<DataBookTableProps> = ({
+const DataBookTable: FC<DataBookTableProps> = ({
   handleSetCurBook,
   reload,
   setReload,
@@ -28,26 +28,25 @@ const DataBookTable : FC<DataBookTableProps> = ({
   loading,
   setLoading,
 }) => {
-
-  const [bookData, setBookData] = useState<BookItem[]>([]);
+  const [bookData, setBookData] = useState<BookItem[]>([])
 
   const handleReload = () => {
-    setReload((pre) => !pre);
-  };
+    setReload((pre) => !pre)
+  }
   const handleSetShowModalForm = () => {
-    setShowModalForm(true);
-  };
+    setShowModalForm(true)
+  }
 
   const handleGetBooks = async () => {
-    setLoading(true);
-    const res = await getBookList();
-    setBookData(res.content);
-    setLoading(false);
-  };
+    setLoading(true)
+    const res = await getBookList({})
+    setBookData(res.content)
+    setLoading(false)
+  }
 
   useEffect(() => {
-    handleGetBooks();
-  }, [reload, currentName, currentStatus, currentAuthorId, currentCategoryId]);
+    handleGetBooks()
+  }, [reload, currentName, currentStatus, currentAuthorId, currentCategoryId])
 
   return (
     <div className="">
@@ -66,4 +65,4 @@ const DataBookTable : FC<DataBookTableProps> = ({
   )
 }
 
-export default DataBookTable;
+export default DataBookTable

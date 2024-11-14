@@ -10,19 +10,22 @@ import { Toaster } from 'sonner'
 import { themeConfig } from 'styles/theme'
 import vi_VN from 'antd/locale/vi_VN'
 import ScrollToTop from 'components/common/ScrollToTop'
+import { StyleProvider } from '@ant-design/cssinjs'
 
 function App() {
   return (
     <BrowserRouter>
       <ConfigProvider theme={themeConfig} componentSize="middle" locale={vi_VN}>
-        <QueryClientProvider client={queryClient}>
-          <Suspense fallback={<PageLoading />}>
-            <ScrollToTop />
-            <Routes />
-          </Suspense>
-          <ReactQueryDevtools />
-          <Toaster richColors position="bottom-right" closeButton />
-        </QueryClientProvider>
+        <StyleProvider layer>
+          <QueryClientProvider client={queryClient}>
+            <Suspense fallback={<PageLoading />}>
+              <ScrollToTop />
+              <Routes />
+            </Suspense>
+            <ReactQueryDevtools />
+            <Toaster richColors position="bottom-right" closeButton />
+          </QueryClientProvider>
+        </StyleProvider>
       </ConfigProvider>
     </BrowserRouter>
   )

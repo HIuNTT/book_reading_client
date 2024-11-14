@@ -67,6 +67,7 @@ function Header() {
           <div
             className="flex cursor-pointer items-center justify-start rounded-xl p-4 hover:bg-[#1212120a]"
             onClick={item.onClick}
+            key={item.key}
           >
             <div className="mr-4">{item.icon}</div>
             <div className="text-[16px] font-medium">{item.label}</div>

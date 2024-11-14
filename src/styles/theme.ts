@@ -3,7 +3,8 @@ import { ThemeConfig } from 'antd'
 export const themeConfig: ThemeConfig = {
   token: {
     colorPrimary: '#ff2f7f',
-    colorTextBase: '#11181C',
+    colorTextBase: '#11181c',
+    colorTextPlaceholder: 'rgba(17,24,28,0.7)',
     borderRadius: 8,
     borderRadiusLG: 12,
   },
@@ -11,6 +12,8 @@ export const themeConfig: ThemeConfig = {
     Input: {
       paddingBlock: 9,
       paddingInline: 12,
+      paddingBlockLG: 11,
+      paddingInlineLG: 12,
     },
     Button: {
       paddingBlock: 19,

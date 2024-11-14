@@ -7,3 +7,7 @@ export type PaginationResult = {
   total_pages: number
   total_elements: number
 }
+
+export type PageParams = {
+  page: number
+}
