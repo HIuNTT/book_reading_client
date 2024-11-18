@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ms+Madi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+
+/* Import Swiper styles */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
 
 @layer tailwind-base, antd;
 
@@ -13,6 +20,42 @@
   :root {
     --app-header-height: 64px;
     --app-home-header-height: 72px;
+    --transition-curve: cubic-bezier(0.05, 0, 0.2, 1);
+    --swiper-pagination-bullet-border-radius: 0.5px;
+    --swiper-pagination-bottom: 3%;
+    --swiper-pagination-bullet-inactive-color: rgb(255, 255, 255);
+    --swiper-pagination-bullet-inactive-opacity: 0.3;
+    --swiper-pagination-color: rgb(255, 255, 255);
+    --swiper-pagination-bullet-width: 3px;
+    --swiper-pagination-bullet-height: 3px;
+    --swiper-pagination-bullet-horizontal-gap: 2px;
+  }
+
+  .swiper-pagination-bullet-active {
+    --swiper-pagination-bullet-width: 6px;
+  }
+
+  @screen md {
+    :root {
+      --swiper-pagination-bullet-width: 6px;
+      --swiper-pagination-bullet-height: 6px;
+      --swiper-pagination-bullet-horizontal-gap: 3px;
+      --swiper-pagination-bullet-border-radius: 1px;
+    }
+    .swiper-pagination-bullet-active {
+      --swiper-pagination-bullet-width: 12px;
+    }
+  }
+  @screen xxl {
+    :root {
+      --swiper-pagination-bullet-width: 8px;
+      --swiper-pagination-bullet-height: 8px;
+      --swiper-pagination-bullet-horizontal-gap: 4px;
+      --swiper-pagination-bullet-border-radius: 2px;
+    }
+    .swiper-pagination-bullet-active {
+      --swiper-pagination-bullet-width: 16px;
+    }
   }
 }
 
@@ -45,4 +88,12 @@
   width: 24px !important;
   height: auto !important;
   background-color: transparent !important;
+}
+
+.swiper-pagination-bullet {
+  transition: all 0.6s cubic-bezier(0.14, 1, 0.34, 1) 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  transition: all 0.6s cubic-bezier(0.14, 1, 0.34, 1) 0.3s;
 }

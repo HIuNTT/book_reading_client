@@ -2,12 +2,13 @@ import { Avatar, Button, Layout, Modal, Popover } from 'antd'
 import LoginModal from 'modules/auth/components/LoginModal'
 import useDisclosure from 'hooks/useDisclosure'
 import SignupModal from 'modules/auth/components/SignupModal'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import SearchBookHome from 'modules/book/components/SearchBookHome'
 import { useUser } from 'stores/user'
 import { Icon } from '@iconify/react'
 import { EGender } from 'enums/gender'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { cn } from 'utils/cn'
 
 interface DropdownItem {
   key: string
@@ -17,12 +18,33 @@ interface DropdownItem {
 }
 
 function Header() {
+  const [isTop, setIsTop] = useState(true)
+
   const { user, clear } = useUser()
 
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const isHome = pathname === '/'
+  console.log('render')
 
   const disclosureLogin = useDisclosure()
   const disclosureSignup = useDisclosure()
+
+  useEffect(() => {
+    function handleScrollTop() {
+      if (window.scrollY > 20) {
+        setIsTop(false)
+      } else {
+        setIsTop(true)
+      }
+    }
+
+    window.addEventListener('scroll', handleScrollTop)
+    return () => {
+      window.removeEventListener('scroll', handleScrollTop)
+    }
+  }, [])
 
   const items: DropdownItem[] = [
     {
@@ -79,7 +101,18 @@ function Header() {
 
   return (
     <>
-      <Layout.Header className="sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b bg-white px-4 sm:px-8 xxl:px-16">
+      <Layout.Header
+        className={cn(
+          'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b bg-white px-4 sm:px-8 xxl:px-16',
+          {
+            'border-b-0 bg-transparent': isTop && isHome,
+          },
+        )}
+        style={{
+          transition:
+            'background-color 0.2s var(--transition-curve), box-shadow 0.2s var(--transition-curve), color 0.2s var(--transition-curve), opacity 0.2s var(--transition-curve), transform 0.4s var(--transition-curve)',
+        }}
+      >
         <div className="flex h-full items-center justify-between lg:py-1.5">
           <div className="flex h-full items-center">
             <div className="h-full">
@@ -87,14 +120,23 @@ function Header() {
                 <div className="h-10 w-10">
                   <img src="/logo.svg" alt="Waka Logo" />
                 </div>
-                <div className="ml-2.5 w-[100px]">
-                  <img src="/img/logo waka rose.png" alt="Waka Logo Text" />
+                <div className="relative ml-2.5 w-[100px]">
+                  <img
+                    className={cn('absolute', { 'opacity-0': isTop && isHome })}
+                    src={'/img/logo waka rose.png'}
+                    alt="Waka Logo Text"
+                  />
+                  <img
+                    className={cn({ 'opacity-0': !isTop && !isHome })}
+                    src={'/img/logo waka white.png'}
+                    alt="Waka Logo Text"
+                  />
                 </div>
               </Link>
             </div>
           </div>
           <div className="flex flex-1 justify-center">
-            <SearchBookHome />
+            <SearchBookHome isTop={isTop} isHome={isHome} />
           </div>
           {user.username ? (
             <div className="flex items-center gap-5">
@@ -119,10 +161,26 @@ function Header() {
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Button size="large" color="primary" variant="filled" onClick={disclosureSignup.onOpen}>
+              <Button
+                size="large"
+                color="primary"
+                variant={isTop && isHome ? 'text' : 'filled'}
+                onClick={disclosureSignup.onOpen}
+                className={cn({
+                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
+                })}
+                style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
+              >
                 Đăng ký
               </Button>
-              <Button size="large" type="primary" onClick={disclosureLogin.onOpen}>
+              <Button
+                size="large"
+                type="primary"
+                onClick={disclosureLogin.onOpen}
+                className={cn({
+                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isHome && isTop,
+                })}
+              >
                 Đăng nhập
               </Button>
             </div>

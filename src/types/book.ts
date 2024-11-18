@@ -11,10 +11,8 @@ export interface BookItem {
   created_at: string
   updated_at: string
   author: Author
-  category_book: [
-    {
-      category_id: number
-      category_name: string
-    },
-  ]
+  category_book: {
+    category_id: number
+    category_name: string
+  }[]
 }
