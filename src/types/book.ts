@@ -10,11 +10,19 @@ export interface BookItem {
   status?: string,
   created_at?: string,
   updated_at?: string,
-  author: Author,
-  category_book: [
-    {
-      category_id: number,
-      category_name: string
-    }
-  ]
+  author?: Author,
+  category_book?: {
+    category_id?: number,
+    category_name?: string
+  }[],
+}
+
+export interface BookPayload {
+  title?: string,
+  summary?: string,
+  thumbnail_url?: string,
+  author_id?: number,
+  category_book?: {
+    category_id?: number,
+  }[],
 }

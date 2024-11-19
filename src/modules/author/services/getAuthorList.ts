@@ -15,7 +15,7 @@ export interface AuthorListParams {
   page?: number
 }
 
-async function getAuthorList(params?: AuthorListParams) {
+export async function getAuthorList(params?: AuthorListParams) {
   return (
     (
       await api.get<AuthorListResponse>('/public/author/list_search', {
