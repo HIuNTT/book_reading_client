@@ -1,11 +1,12 @@
-import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DataChapterTable from "./DataChapterTable";
 import { getBookInfo } from "modules/book/services";
 import { ChapterItem } from "types/chapter";
 import { BookItem } from "types/book";
+import CreatUpateForm from "./CreateUpdateForm";
 
 const Chapter = () => {
 
@@ -14,7 +15,7 @@ const Chapter = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModalForm, setShowModalForm] = useState<boolean>(false);
 
-  const handleSetCurBook = (x: ChapterItem) => {
+  const handleSetCurChapter = (x: ChapterItem) => {
     setCurChapter(x);
   };
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Chapter = () => {
     handleGetBookDetail();
   }, []);
   return (
-    <div>
+    <div className="ml-[10px]">
       <div
         style={{
           display: 'flex',
@@ -62,26 +63,38 @@ const Chapter = () => {
           {bookDetail?.title}
         </div>
       </div>
-      <div>
-      <Input
-            style={{
-              width: '200px',
-              marginBottom: '24px',
-            }}
-            placeholder='Search by name'
-            prefix={<SearchOutlined />}
-            // onChange={(e) => han(e.target.valueAsNumber)}
-            allowClear
-          />
+      <div className="my-[10px] ml-[20px]">
+        <Button
+          type="primary"
+          style={{
+            display: 'flex',
+            gap: '2px',
+            alignItems: 'center',
+          }}
+          onClick={() => setShowModalForm(true)}
+        >
+          <PlusOutlined />
+          <span>
+            Add
+          </span>
+        </Button>
       </div>
       <DataChapterTable
-        handleSetCurBook={handleSetCurBook}
+        handleSetCurChapter={handleSetCurChapter}
         reload={reload}
         setReload={setReload}
         setShowModalForm={setShowModalForm}
-        bookId = {bookId}
+        bookId={bookId}
         loading={loading}
         setLoading={setLoading}
+      />
+      <CreatUpateForm
+        showModal={showModalForm}
+        setShowModal={setShowModalForm}
+        curItem={curChapter}
+        setReload={setReload}
+        setCurChapter={setCurChapter} 
+        bookId={bookId}
       />
     </div>
   )

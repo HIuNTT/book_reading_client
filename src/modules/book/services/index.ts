@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { api } from "configs/api"
-import { BookItem } from "types/book"
+import { BookItem, BookPayload } from "types/book"
 import { PaginationResult } from "types/getList"
 
 export type BookListResponse = {
@@ -9,29 +9,17 @@ export type BookListResponse = {
   } & PaginationResult
 }
 
-export interface UpdateBookDto extends BookDto {
+export interface UpdateBookDto extends BookPayload {
   id?: number;
 }
 
 export interface BookListParams {
-  title?: string;
-  status?: string;
-  authorId?: number;
-  categoryId?: number;
+  title?: string | null;
+  status?: string | null;
+  authorId?: number | null;
+  categoryId?: number | null;
   size?: number;
   page?: number;
-}
-
-export interface BookDto {
-  title?: string,
-  summary?: string,
-  thumbnail?: string,
-  author_id?: number,
-  category_book?: [
-    {
-      category_id?: number
-    }
-  ]
 }
 
 export interface BookInfoResponse {
@@ -48,16 +36,16 @@ export async function getBookList(params?: BookListParams) {
   )
 }
 
-export async function createBook(data: BookDto) {
+export async function createBook(data: BookPayload) {
   return (await api.post('/book/create', data)).data
 }
 
-export async function updateCategory(data: UpdateBookDto) {
+export async function updateBook(data: UpdateBookDto) {
   return (await api.put('/book/update', data)).data
 }
 
 export async function deleteBook(bookId: number) {
-  return await api.delete(`/book/${bookId}`)
+  return await api.delete(`/book/delete/${bookId}`)
 }
 
 export async function getBookInfo(bookId: number) {
@@ -68,7 +56,16 @@ export async function getBookInfo(bookId: number) {
 /** Lấy danh sách thể loại GET /books */
 export default function useGetBookList(params?: BookListParams) {
   return useQuery({
-    queryKey: ['categoryList'],
+    queryKey: ['bookList'],
     queryFn: async () => await getBookList(params),
   })
+}
+
+export async function postFile(formData: FormData) {
+  const response = await api.post('/file/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data; 2
 }

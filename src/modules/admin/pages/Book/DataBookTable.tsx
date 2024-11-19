@@ -40,7 +40,12 @@ const DataBookTable : FC<DataBookTableProps> = ({
 
   const handleGetBooks = async () => {
     setLoading(true);
-    const res = await getBookList();
+    const res = await getBookList({
+      title: currentName,
+      status: currentStatus,
+      authorId: currentAuthorId,
+      categoryId: currentCategoryId
+    });
     setBookData(res.content);
     setLoading(false);
   };
@@ -50,7 +55,7 @@ const DataBookTable : FC<DataBookTableProps> = ({
   }, [reload, currentName, currentStatus, currentAuthorId, currentCategoryId]);
 
   return (
-    <div className="">
+    <div className="my-[5px]">
       <Table
         loading={loading}
         columns={configColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}
