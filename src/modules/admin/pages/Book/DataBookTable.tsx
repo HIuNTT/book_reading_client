@@ -2,7 +2,7 @@ import { Table } from 'antd'
 import { configColumns } from './colums'
 import { FC, useEffect, useState } from 'react'
 import { BookItem } from 'types/book'
-import { getBookList } from 'modules/book/services/getBookList'
+import { getBookList } from 'modules/book/services'
 
 interface DataBookTableProps {
   handleSetCurBook: (x: BookItem) => void
@@ -39,7 +39,12 @@ const DataBookTable: FC<DataBookTableProps> = ({
 
   const handleGetBooks = async () => {
     setLoading(true)
-    const res = await getBookList({})
+    const res = await getBookList({
+      title: currentName,
+      status: currentStatus,
+      authorId: currentAuthorId,
+      categoryId: currentCategoryId,
+    })
     setBookData(res.content)
     setLoading(false)
   }
@@ -49,7 +54,7 @@ const DataBookTable: FC<DataBookTableProps> = ({
   }, [reload, currentName, currentStatus, currentAuthorId, currentCategoryId])
 
   return (
-    <div className="">
+    <div className="my-[5px]">
       <Table
         loading={loading}
         columns={configColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}

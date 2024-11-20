@@ -16,3 +16,13 @@ export interface BookItem {
     category_name: string
   }[]
 }
+
+export interface BookPayload {
+  title?: string
+  summary?: string
+  thumbnail_url?: string
+  author_id?: number
+  category_book?: {
+    category_id?: number
+  }[]
+}

@@ -232,7 +232,7 @@ const slides: BookItem[] = [
         category_name: 'Tu tiên',
       },
       {
-        category_id: 5,
+        category_id: 6,
         category_name: 'Huyền huyễn',
       },
     ],
@@ -271,6 +271,7 @@ export default function Carousel() {
                   'opacity-100': slide.id === slides[activeIndex].id,
                 },
               )}
+              key={slide.id}
             >
               <div className="mb-4 line-clamp-2 w-[50vw] font-['Merienda'] text-[20px] capitalize sm:text-[30px] md:mb-0 md:line-clamp-1 md:w-[38vw] md:text-[35px] lg:text-[40px] xl:text-[45px] xxl:text-[55px]">
                 {slide.title}

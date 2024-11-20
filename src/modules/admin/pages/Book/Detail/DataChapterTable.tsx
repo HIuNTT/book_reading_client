@@ -1,12 +1,11 @@
 import { Table } from "antd"
 import { getChapterList } from "modules/chapter";
 import { FC, useEffect, useState } from "react";
-import { BookItem } from "types/book";
 import { ChapterItem } from "types/chapter";
 import { configChapterColumns } from "./columns";
 
 interface DataChapterTableProps {
-  handleSetCurBook: (x: ChapterItem) => void;
+  handleSetCurChapter: (x: ChapterItem) => void;
   reload?: boolean;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
   setShowModalForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +14,7 @@ interface DataChapterTableProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const DataChapterTable : FC<DataChapterTableProps> = ({
-  handleSetCurBook,
+  handleSetCurChapter,
   reload,
   setReload,
   setShowModalForm,
@@ -31,8 +30,6 @@ const DataChapterTable : FC<DataChapterTableProps> = ({
   const handleSetShowModalForm = () => {
     setShowModalForm(true);
   };
-
-  console.log("bookId",bookId);
   
 
   const handleGetChapters = async () => {
@@ -51,7 +48,7 @@ const DataChapterTable : FC<DataChapterTableProps> = ({
     <div className="">
       <Table
         loading={loading}
-        columns={configChapterColumns(handleSetCurBook, handleReload, handleSetShowModalForm)}
+        columns={configChapterColumns(handleSetCurChapter, handleReload, handleSetShowModalForm)}
         dataSource={chapterData}
         pagination={{
           showQuickJumper: true,

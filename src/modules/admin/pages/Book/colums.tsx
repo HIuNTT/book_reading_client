@@ -25,7 +25,7 @@ export const configColumns = (
     confirm({
       title: 'Delete this item',
       icon: <ExclamationCircleFilled style={{ color: 'red' }} />,
-      content: 'Do you really want to delete this item? This process can not be undone.',
+      content: 'Bạn có muốn xóa sách này không?',
       okText: 'Delete',
       okType: 'danger',
       cancelText: 'Cancel',
@@ -46,7 +46,7 @@ export const configColumns = (
       title:'ID',
       dataIndex:'id',
       key:'id',
-      width:'10%',
+      width:'5%',
     },
     {
       title:'Tên sách',
@@ -58,7 +58,16 @@ export const configColumns = (
       title:'Tóm tắt',
       dataIndex:'summary',
       key:'summary',
-      width:'35%',
+      width:'30%',
+    },
+    {
+      title:'Tác giả',
+      dataIndex:'author',
+      key:'author',
+      width:'10%',
+      render: (_, origin) => (
+        <div>{origin.author?.name}</div>
+      )
     },
     {
       title:'Trạng thái',

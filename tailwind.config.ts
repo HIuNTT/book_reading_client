@@ -7,6 +7,7 @@ export default {
     extend: {
       colors: {
         primary: '#ff2f7f',
+        textColor: '#11181c',
       },
       keyframes: {
         fadeIn: {
@@ -26,6 +27,7 @@ export default {
       lg: '992px',
       xl: '1200px',
       xxl: '1600px',
+      xxxl: '1680px',
     },
   },
   plugins: [tailwindScrollbar],

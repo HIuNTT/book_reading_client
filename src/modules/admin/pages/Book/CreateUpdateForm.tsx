@@ -5,11 +5,10 @@ import {
   ProFormUploadButton,
 } from '@ant-design/pro-components';
 import { FC, useEffect, useState } from "react";
-// import { postBook, putBook } from "services/Book";
-import { BookItem } from "types/book";
+import { BookItem, BookPayload } from "types/book";
 import { Category } from "types/category";
-import { getCategoryList } from "modules/category/services/getCategoryList";
-
+import { createBook, postFile, updateBook } from "modules/book/services";
+import { Author } from "types/author";
 
 interface CreateUpdateFormProps {
   showModal: boolean;
@@ -17,6 +16,12 @@ interface CreateUpdateFormProps {
   curItem?: BookItem;
   setReload: React.Dispatch<React.SetStateAction<boolean>>;
   setCurBook: React.Dispatch<React.SetStateAction<BookItem | undefined>>;
+  listAuthor: Author[] | undefined;
+  setListAuthor:React.Dispatch<React.SetStateAction<Author[] | undefined>>
+  handleGetListAuthor: () => Promise<void>
+  listCategory: Category[] | undefined;
+  setListCategory:React.Dispatch<React.SetStateAction<Category[] | undefined>>
+  handleGetListCategory: () => Promise<void>
 }
 
 
@@ -25,7 +30,13 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
   setShowModal,
   curItem,
   setReload,
-  setCurBook
+  setCurBook,
+  listAuthor,
+  setListAuthor,
+  handleGetListAuthor,
+  listCategory,
+  setListCategory,
+  handleGetListCategory
 }) => {
 
   const [form] = Form.useForm();
@@ -35,36 +46,75 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     curItem?.category_book?.map((e) => e?.category_id || 0) || [],
   );
 
-  const [listCategory, setListCategory] = useState<Category[]>();
+  const [author, setAuthor] = useState<number | undefined>();
+  const [thumbnailFile, setThumbnailFile] = useState<FormData | undefined>();
   const [curThumbnailFile, setCurThumbnailFile] = useState<UploadFile<any>[]>([]);
+
+
+  let payLoadAuthor: number[] = [];
+  if (author) payLoadAuthor.push(author);
+
+
 
   const handleCloseModal = () => {
     setShowModal(false);
     setReload((pre) => !pre);
     setLoading(false);
     setCurThumbnailFile([]);
+    setListAuthor([]);
+    setListCategory([]);
+    setAuthor(undefined);
+    setCurBook({});
     form?.resetFields();
   };
 
-  const handleThumbnailChange = (file: File | null) => {
-  
-};
-
-  const handleSave = async (formItem: BookItem) => {
-    setLoading(true);
-    let thumbnailFile;
-    setLoading(false);
-  };
-
-  const handleGetListSolo = async () => {
-    const res = await getCategoryList();
-    if (res) {
-      setListCategory(res.content);
+  const handleThumbnailChange = async (file: File) => {
+    const formData = new FormData();
+    if(file){
+      formData.append('file', file);
+      setThumbnailFile(formData);
+    } else {
+      setThumbnailFile(undefined);
     }
   };
 
+  const category_book = categorySelected.map((id) => ({ category_id: id }));
+
+  const handleSave = async (formItem: BookItem) => {
+    setLoading(true);
+    let nameThumbnailFile;
+
+    if (thumbnailFile) {
+      nameThumbnailFile = await postFile(thumbnailFile);
+    }
+
+    const payload: BookPayload = {
+      title: formItem.title,
+      summary: formItem.summary,
+      thumbnail_url: nameThumbnailFile || curItem?.thumbnail_url,
+      author_id: author || formItem.author?.id,
+      category_book: category_book,
+    }
+
+    if (!curItem?.id) {
+      createBook(payload).then(() => message.success("Tạo mới sách thành công!")).then(() => { handleCloseModal() })
+    } else {
+      updateBook({
+        ...payload,
+        id: curItem.id,
+      }).then(() => message.success("Cập nhật sách thành công!")).then(() => { handleCloseModal() })
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    handleGetListSolo();
+    form.setFieldValue('title', curItem?.title);
+    form.setFieldValue('author_id', curItem?.author?.id);
+    form.setFieldValue('category_book', curItem?.category_book?.map((item) => ({label: item.category_name, value: item.category_id})));
+    form.setFieldValue('summary', curItem?.summary);
+    form.setFieldValue('thumbnail_url', curItem?.thumbnail_url);
+    handleGetListAuthor();
+    handleGetListCategory();
   }, [curItem]);
 
   return (
@@ -94,13 +144,21 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           name={'title'}
         />
         <ProFormSelect
-            label='The loai'
-            name={'authorid'}
-            placeholder=' Chon the loai'
-            options={listCategory?.map((item) => ({ label: item.name, value: item.id }))}
-            mode="multiple"
-            onChange={(e: number[]) => setCategorySelected(e)}
-          />
+          label='The loai'
+          name={'category_book'}
+          placeholder=' Chon the loai'
+          options={listCategory?.map((item) => ({ label: item.name, value: item.id }))}
+          mode="multiple"
+          onChange={(e: number[]) => setCategorySelected(e)}
+        />
+        <ProFormSelect
+          label='Tac gia'
+          name={'author_id'}
+          placeholder=' Chon tac gia'
+          options={listAuthor?.map((item) => ({ label: item.name, value: item.id }))}
+          mode="single"
+          onChange={(e: number) => setAuthor(e)}
+        />
         <ProFormText
           label='Tóm tắt'
           placeholder={''}
@@ -109,13 +167,16 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
         <ProFormUploadButton
           label='Thumbnail'
           title='Upload'
-          name={'avg_rating'}
+          name={'thumbnail_url'}
           max={1}
           fieldProps={{ onRemove: () => setCurThumbnailFile([]) }}
           fileList={curThumbnailFile}
           onChange={(e) => {
             if (e.fileList.length > 0) {
-              // handleThumbnailChange(e.fileList[0].originFileObj);
+              const file = e.fileList[0].originFileObj;
+              if (file) {
+                handleThumbnailChange(file);
+              }
               setCurThumbnailFile(e.fileList);
             }
           }}
