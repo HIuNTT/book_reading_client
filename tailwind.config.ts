@@ -7,6 +7,17 @@ export default {
     extend: {
       colors: {
         primary: '#ff2f7f',
+        textColor: '#11181c',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
     },
     screens: {
@@ -16,6 +27,7 @@ export default {
       lg: '992px',
       xl: '1200px',
       xxl: '1600px',
+      xxxl: '1680px',
     },
   },
   plugins: [tailwindScrollbar],

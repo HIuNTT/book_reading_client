@@ -1,11 +1,10 @@
 import PageLoading from 'components/common/PageLoading'
 import { useGetUserInfo } from 'modules/user/services/getUserInfo'
 import { PropsWithChildren, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { useUser } from 'stores/user'
 
 export default function AuthLayout({ children }: PropsWithChildren) {
-  console.log('render auth layout')
-
   const [loading, setLoading] = useState<boolean>(true)
 
   const { setUser, clear, tokens } = useUser()
@@ -18,6 +17,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
     }
     if (getUserInfo.isError) {
       clear()
+      toast.error('Lỗi không xác định. Vui lòng thử lại!')
     }
   }, [clear, getUserInfo.data, getUserInfo.isError, setUser])
 
