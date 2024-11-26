@@ -26,11 +26,12 @@ const Chapter = () => {
   const bookId = Number(paramUrl.id);
   const handleGetBookDetail = async () => {
     const res = await getBookInfo(bookId);
-    setBookDetail(res);
+    setBookDetail({ ...res, id: bookId });
   };
   useEffect(() => {
     handleGetBookDetail();
   }, []);
+  
   return (
     <div className="ml-[10px]">
       <div

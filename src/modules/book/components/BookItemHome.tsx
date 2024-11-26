@@ -32,7 +32,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
 
   const content = (
     <div className="w-full">
-      <Link className="text-white" to={`/book/${bookItem.id}`}>
+      <Link className="text-white" to={`/book/detail/${bookItem.id}`}>
         <div className="relative w-full max-[767px]:hidden">
           <div
             className="w-full bg-cover bg-no-repeat pt-[56%]"
@@ -46,7 +46,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
           </div>
         </div>
       </Link>
-      <div className="cursor-pointer select-none" onClick={() => navigate(`/book/${bookItem.id}`)}>
+      <div className="cursor-pointer select-none" onClick={() => navigate(`/book/detail/${bookItem.id}`)}>
         <div className="relative flex h-[258px] w-full px-2 max-[1679px]:h-[220px] max-[767px]:hidden">
           <div className="w-full">
             <Paragraph
@@ -110,7 +110,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
       onOpenChange={handlePopoverHover}
     >
       <div ref={triggerRef} className="group relative max-[767px]:hover:scale-[1.05]" style={{ transition: '0.3s' }}>
-        <Link to={`/book/${bookItem.id}`} className="text-white">
+        <Link to={`/book/detail/${bookItem.id}`} className="text-white">
           <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[133.33%]">
             <span className="absolute inset-0 overflow-hidden">
               <img
@@ -138,7 +138,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
 
         <div
           className="h-[49.5px] cursor-pointer pt-[7.5px] sm:h-[50.75px] sm:pt-[8.75px] min-[1024px]:h-[52px] min-[1024px]:pt-[10px] xxl:h-[58px]"
-          onClick={() => navigate(`/book/${bookItem.id}`)}
+          onClick={() => navigate(`/book/detail/${bookItem.id}`)}
         >
           <p className="line-clamp-2 capitalize text-textColor group-hover:text-primary xxl:text-[16px]">
             {bookItem.title}
