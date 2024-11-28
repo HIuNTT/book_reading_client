@@ -7,3 +7,7 @@ export interface FeedbackItem {
   last_updated: string,
   user: User
 }
+export interface FeedBackPayload {
+  content: string,
+  rating: number,
+}
