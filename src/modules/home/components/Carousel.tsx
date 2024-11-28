@@ -314,7 +314,7 @@ export default function Carousel() {
             </div>
           ))}
           <Button
-            onClick={() => navigate(`/book/${slides[activeIndex].id}`)}
+            onClick={() => navigate(`/book/${slides[activeIndex].id}/2`)}
             type="primary"
             size="middle"
             className="absolute bottom-[5%] left-4 z-10 max-[767px]:hidden md:left-14 min-[1024px]:bottom-[10%] min-[1024px]:left-[64px] min-[1024px]:px-[24px] min-[1024px]:py-[23px] min-[1024px]:text-[16px] xxl:bottom-[12%] xxl:px-[28px] xxl:py-[27px] xxl:text-[20px]"

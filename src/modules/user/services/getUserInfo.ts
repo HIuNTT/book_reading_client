@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from 'configs/api'
-import { useUser } from 'stores/user'
 import { User } from 'types/user'
 
 export interface UserInfoResponse {
@@ -13,7 +12,7 @@ async function getUserInfo() {
 
 export function useGetUserInfo(enabled?: boolean) {
   return useQuery({
-    queryKey: ['userInfo', useUser.getState().tokens.accessToken],
+    queryKey: ['userInfo'],
     queryFn: getUserInfo,
     enabled,
   })

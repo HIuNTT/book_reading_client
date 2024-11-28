@@ -1,6 +1,3 @@
-import BookNew from 'components/Home/BookNew'
-import DeXuat from 'components/Home/DeXuat'
-import Rank from 'components/Home/Rank'
 import Carousel from '../components/Carousel'
 import BookListHome from 'modules/book/components/BookListHome'
 import { BookItem } from 'types/book'
@@ -238,11 +235,9 @@ export default function HomePage() {
     <div>
       <Carousel />
       <BookListHome books={slides} title="Đề xuất hot" />
+      <BookListHome books={slides2} title="Đọc tiếp" isHistory={true} />
       <BookListHome books={slides2} title="Đề xuất cho bạn" />
       <BookListHome books={slides2} title="Ngôn tình" viewMoreUrl="/category/ngon-tinh" />
-      <BookNew />
-      <DeXuat />
-      <Rank />
     </div>
   )
 }
