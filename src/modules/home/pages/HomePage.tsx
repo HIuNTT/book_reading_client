@@ -1,8 +1,7 @@
-import BookNew from 'components/Home/BookNew'
-import DeXuat from 'components/Home/DeXuat'
-import Rank from 'components/Home/Rank'
 import Carousel from '../components/Carousel'
 import BookListHome from 'modules/book/components/BookListHome'
+import RecommendedBookList from 'modules/book/components/RecommendedBookList'
+import { useUser } from 'stores/user'
 import { BookItem } from 'types/book'
 const slides: BookItem[] = [
   {
@@ -234,15 +233,17 @@ const slides: BookItem[] = [
 const slides2: BookItem[] = [...slides, ...slides.reverse()]
 
 export default function HomePage() {
+  console.log('HomePage')
+
+  const user = useUser()
+
   return (
     <div>
       <Carousel />
       <BookListHome books={slides} title="Đề xuất hot" />
-      <BookListHome books={slides2} title="Đề xuất cho bạn" />
+      <BookListHome books={slides2} title="Đọc tiếp" isHistory={true} />
+      {user.user.id ? <RecommendedBookList /> : null}
       <BookListHome books={slides2} title="Ngôn tình" viewMoreUrl="/category/ngon-tinh" />
-      <BookNew />
-      <DeXuat />
-      <Rank />
     </div>
   )
 }

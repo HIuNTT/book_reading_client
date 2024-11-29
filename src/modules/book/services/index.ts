@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { api } from 'configs/api'
-import { BookItem, BookPayload } from 'types/book'
+import { api, apiRecommend } from 'configs/api'
+import { BookItem, BookPayload, RecommendedBook } from 'types/book'
 import { PageParams, PaginationResult } from 'types/getList'
 
 export type BookListResponse = {
@@ -25,6 +25,16 @@ export interface BookListParams {
 
 export interface BookInfoResponse {
   data: Omit<BookItem, 'id'>
+}
+
+export interface RecommendedBookListDto {
+  user_id: number
+  top_n?: number
+}
+
+export interface RecommendedBookListResponse {
+  user_id: number
+  recommended_books: RecommendedBook[]
 }
 
 export async function getBookList(params?: BookListParams) {
@@ -90,6 +100,19 @@ export function useGetBookListInfinite(params: Omit<BookListParams, 'page'>, ena
         page: lastPage.number + 1,
       }
     },
+    enabled,
+  })
+}
+
+export async function getRecommendedBookList(data: RecommendedBookListDto) {
+  return (await apiRecommend.post<RecommendedBookListResponse>('/recommend/', data)).data.recommended_books
+}
+
+/** Lấy danh sách sách được recommend POST /recommend */
+export function useGetRecommendedBookList({ user_id, top_n = 30 }: RecommendedBookListDto, enabled?: boolean) {
+  return useQuery({
+    queryKey: ['recommendedBookList', user_id],
+    queryFn: async () => await getRecommendedBookList({ user_id, top_n }),
     enabled,
   })
 }

@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react'
 import { EGender } from 'enums/gender'
 import { ReactNode, useEffect, useState } from 'react'
 import { cn } from 'utils/cn'
+import { queryClient } from 'configs/queryClient'
 
 interface DropdownItem {
   key: string
@@ -70,6 +71,7 @@ function Header() {
       label: 'Đăng xuất',
       icon: <Icon width="1.3rem" icon="material-symbols:logout" />,
       onClick: () => {
+        queryClient.removeQueries({ queryKey: ['userInfo'] })
         clear()
       },
     },

@@ -16,6 +16,7 @@ export const themeConfig: ThemeConfig = {
       paddingInlineLG: 12,
     },
     Button: {
+      paddingBlockSM: 13,
       paddingBlock: 19,
       paddingInline: 16,
       paddingBlockLG: 23,
