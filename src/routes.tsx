@@ -1,3 +1,4 @@
+import Category from 'components/Category'
 import AdminLayout from 'components/layout/admin'
 import AuthLayout from 'components/layout/AuthLayout'
 import MainLayout from 'components/layout/home'
@@ -74,6 +75,10 @@ export default function Routes() {
       path: '*',
       element: <NotFound />,
     },
+    {
+      path:'/category/:id',
+      element: <Category />
+    }
   ])
   return element
 }
