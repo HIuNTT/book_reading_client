@@ -1,3 +1,4 @@
+import Rank from 'components/Home/Rank'
 import Carousel from '../components/Carousel'
 import BookListHome from 'modules/book/components/BookListHome'
 import RecommendedBookList from 'modules/book/components/RecommendedBookList'
@@ -244,6 +245,7 @@ export default function HomePage() {
       <BookListHome books={slides2} title="Đọc tiếp" isHistory={true} />
       {user.user.id ? <RecommendedBookList /> : null}
       <BookListHome books={slides2} title="Ngôn tình" viewMoreUrl="/category/ngon-tinh" />
+      <Rank />
     </div>
   )
 }

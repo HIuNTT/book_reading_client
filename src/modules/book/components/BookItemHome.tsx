@@ -189,7 +189,9 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
               {bookItem.title}
             </p>
           </div>
-      )}
+        </div>
+      )
+      }
     </>
   )
 }
