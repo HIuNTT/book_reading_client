@@ -49,7 +49,11 @@ export default function Chapter() {
             </div>
             <div className="flex">
               <Space size={24} align="center" className="mr-10 [&>:nth-child(2)]:flex [&>:nth-child(2)]:items-center">
-                <img className="cursor-pointer hover:opacity-65 active:opacity-30" src="/page.svg" alt="Page Mode" />
+                <img
+                  className="hidden cursor-pointer hover:opacity-65 active:opacity-30"
+                  src="/page.svg"
+                  alt="Page Mode"
+                />
                 <Badge
                   color="#11181c"
                   className="cursor-pointer"
