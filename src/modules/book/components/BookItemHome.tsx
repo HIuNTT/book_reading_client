@@ -98,6 +98,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
       </div>
     </div>
   )
+
   return (
     <>
       {!isHistory ? (
@@ -190,8 +191,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
             </p>
           </div>
         </div>
-      )
-      }
+      )}
     </>
   )
 }

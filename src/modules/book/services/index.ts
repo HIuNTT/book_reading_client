@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { api, apiRecommend } from 'configs/api'
-import { BookItem, BookPayload, RecommendedBook } from 'types/book'
+import { BookBannerItem, BookItem, BookPayload, RecommendedBook } from 'types/book'
 import { PageParams, PaginationResult } from 'types/getList'
 
 export type BookListResponse = {
@@ -35,6 +35,18 @@ export interface RecommendedBookListDto {
 export interface RecommendedBookListResponse {
   user_id: number
   recommended_books: RecommendedBook[]
+}
+
+export interface BannerBookListParams {
+  page?: number
+  size?: number
+  sort?: string
+}
+
+export interface BannerBookListResponse {
+  data: {
+    content: BookBannerItem[]
+  } & PaginationResult
 }
 
 export async function getBookList(params?: BookListParams) {
@@ -114,5 +126,16 @@ export function useGetRecommendedBookList({ user_id, top_n = 30 }: RecommendedBo
     queryKey: ['recommendedBookList', user_id],
     queryFn: async () => await getRecommendedBookList({ user_id, top_n }),
     enabled,
+  })
+}
+
+export async function getBannerBookList(params: BannerBookListParams) {
+  return (await api.get<BannerBookListResponse>('/public/book/list_banner', { params })).data.data
+}
+
+export function useGetBannerBookList(params: BannerBookListParams) {
+  return useQuery({
+    queryKey: ['bannerBookList', params.page, params.size, params.sort],
+    queryFn: async () => await getBannerBookList(params),
   })
 }
