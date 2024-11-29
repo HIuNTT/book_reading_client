@@ -1,3 +1,4 @@
+import AuthorDetail from 'components/AuthorList/Detail'
 import Category from 'components/Category'
 import AdminLayout from 'components/layout/admin'
 import AuthLayout from 'components/layout/AuthLayout'
@@ -78,6 +79,10 @@ export default function Routes() {
     {
       path:'/category/:id',
       element: <Category />
+    },
+    {
+      path:'/author/:id',
+      element: <AuthorDetail />
     }
   ])
   return element
