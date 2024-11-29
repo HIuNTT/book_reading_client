@@ -113,12 +113,13 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           label='Tên chương'
           placeholder={''}
           name={'title'}
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormDigit
           label='order_chap'
           placeholder={''}
           name={'order_chap'}
-          
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormUploadButton
           label='file_url'

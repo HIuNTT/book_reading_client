@@ -48,23 +48,21 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
 
   const [author, setAuthor] = useState<number | undefined>();
   const [thumbnailFile, setThumbnailFile] = useState<FormData | undefined>();
+  const [bannerlFile, setBannerFile] = useState<FormData | undefined>();
   const [curThumbnailFile, setCurThumbnailFile] = useState<UploadFile<any>[]>([]);
-
-
-  let payLoadAuthor: number[] = [];
-  if (author) payLoadAuthor.push(author);
-
-
+  const [curBannerFile, setCurBannerFile] = useState<UploadFile<any>[]>([]);
 
   const handleCloseModal = () => {
     setShowModal(false);
     setReload((pre) => !pre);
     setLoading(false);
     setCurThumbnailFile([]);
+    setCurBannerFile([]);
     setListAuthor([]);
     setListCategory([]);
-    setAuthor(undefined);
     setCurBook(undefined);
+    setAuthor(undefined);
+    setCategorySelected([]);
     form?.resetFields();
   };
 
@@ -78,21 +76,37 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     }
   };
 
+  const handleBannerChange = async (file: File) => {
+    const formData = new FormData();
+    if(file){
+      formData.append('file', file);
+      setBannerFile(formData);
+    } else {
+      setBannerFile(undefined);
+    }
+  };
+
   const category_book = categorySelected.map((id) => ({ category_id: id }));
 
   const handleSave = async (formItem: BookItem) => {
     setLoading(true);
     let nameThumbnailFile;
+    let nameBannerFile;
 
     if (thumbnailFile) {
       nameThumbnailFile = await postFile(thumbnailFile);
+    }
+
+    if (bannerlFile) {
+      nameBannerFile = await postFile(bannerlFile);
     }
 
     const payload: BookPayload = {
       title: formItem.title,
       summary: formItem.summary,
       thumbnail_url: nameThumbnailFile || curItem?.thumbnail_url,
-      author_id: author || formItem.author?.id,
+      banner_url: nameBannerFile || curItem?.banner_url,
+      author_id: author || curItem?.author?.id,
       category_book: category_book,
     }
 
@@ -113,6 +127,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     form.setFieldValue('category_book', curItem?.category_book?.map((item) => ({label: item.category_name, value: item.category_id})));
     form.setFieldValue('summary', curItem?.summary);
     form.setFieldValue('thumbnail_url', curItem?.thumbnail_url);
+    form.setFieldValue('banner_url', curItem?.banner_url);
     handleGetListAuthor();
     handleGetListCategory();
   }, [curItem]);
@@ -142,6 +157,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           label='Tên sách'
           placeholder={''}
           name={'title'}
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormSelect
           label='The loai'
@@ -150,6 +166,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           options={listCategory?.map((item) => ({ label: item.name, value: item.id }))}
           mode="multiple"
           onChange={(e: number[]) => setCategorySelected(e)}
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormSelect
           label='Tac gia'
@@ -158,11 +175,13 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           options={listAuthor?.map((item) => ({ label: item.name, value: item.id }))}
           mode="single"
           onChange={(e: number) => setAuthor(e)}
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormText
           label='Tóm tắt'
           placeholder={''}
           name={'summary'}
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormUploadButton
           label='Thumbnail'
@@ -178,6 +197,23 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
                 handleThumbnailChange(file);
               }
               setCurThumbnailFile(e.fileList);
+            }
+          }}
+        />
+        <ProFormUploadButton
+          label='Banner'
+          title='Upload'
+          name={'banner_url'}
+          max={1}
+          fieldProps={{ onRemove: () => setCurBannerFile([]) }}
+          fileList={curBannerFile}
+          onChange={(e) => {
+            if (e.fileList.length > 0) {
+              const file = e.fileList[0].originFileObj;
+              if (file) {
+                handleBannerChange(file);
+              }
+              setCurBannerFile(e.fileList);
             }
           }}
         />

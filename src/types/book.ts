@@ -6,6 +6,7 @@ export interface BookItem {
   summary: string
   avg_rating: number
   thumbnail_url: string
+  banner_url: string
   view: number
   status: string
   created_at: string
@@ -29,6 +30,7 @@ export interface BookPayload {
   title?: string
   summary?: string
   thumbnail_url?: string
+  banner_url?: string
   author_id?: number
   category_book?: {
     category_id?: number

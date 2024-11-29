@@ -3,6 +3,8 @@ import { api } from 'configs/api'
 
 export interface AuthorDto {
   name: string
+  image: string
+  description: string
 }
 
 async function createAuthor(data: AuthorDto) {

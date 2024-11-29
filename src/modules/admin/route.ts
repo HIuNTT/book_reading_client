@@ -39,27 +39,6 @@ export const adminRoute: AppRoute[] = [
     ],
   },
   {
-    path: '/admin/chapter',
-    name: 'Chương',
-    icon: 'grommet-icons:chapter-add',
-    showOnMenu: true,
-    children: [
-      { path: '/admin/chapter', redirect: '/admin/chapter/list' },
-      {
-        path: '/admin/chapter/list',
-        name: 'Tất cả chương',
-        showOnMenu: true,
-        element: 'Tất cả chương',
-      },
-      {
-        path: '/admin/chapter/add',
-        name: 'Thêm chương mới',
-        showOnMenu: true,
-        element: 'Thêm chương mới',
-      },
-    ],
-  },
-  {
     path: '/admin/banner',
     name: 'Banner',
     icon: 'bi:badge-ad',

@@ -79,6 +79,14 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
         >
           <Input allowClear placeholder="Nhập tên tác giả" />
         </Form.Item>
+        <Form.Item<AuthorDto>
+          required
+          label="Mô tả"
+          name="description"
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
+        >
+          <Input allowClear placeholder="Nhập mô tả" />
+        </Form.Item>
       </Form>
     </Modal>
   )
