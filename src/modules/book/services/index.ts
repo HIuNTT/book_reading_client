@@ -20,6 +20,7 @@ export interface BookListParams {
   categoryId?: number | null
   size?: number
   page?: number
+  sort?: string
 }
 
 export interface BookInfoResponse {

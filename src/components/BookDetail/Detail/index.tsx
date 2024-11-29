@@ -3,89 +3,86 @@ import BookIcon from '/img/book_icon.png'
 import Comment from './Tab/Comment';
 import Feedback from './Tab/Feedback';
 import { Tabs } from 'antd';
+import { useEffect, useState } from 'react';
+import { BookItem } from 'types/book';
+import { useParams } from 'react-router-dom';
+import { getBookInfo } from 'modules/book/services';
 
 const Detail = () => {
+  const paramUrl = useParams();
+  const [bookDetail, setBookDetail] = useState<BookItem>();
+  const bookId = Number(paramUrl.id);
+  const handleGetBookDetail = async () => {
+    const res = await getBookInfo(bookId);
+    setBookDetail({ ...res, id: bookId });
+  };
+  useEffect(() => {
+    handleGetBookDetail();
+  }, []);
 
   const listTabs = [
     {
       id: 1,
       label: "Binh luan",
-      children: <Comment />,
+      children: <Comment bookDetail={bookDetail}/>,
     },
     {
       id: 2,
       label: "Danh gia & Nhan xet",
-      children: <Feedback />,
+      children: <Feedback bookDetail={bookDetail}/>,
     },
   ];
 
-  const data = {
-    id: 1,
-    avata: "",
-    name: "Sach 1",
-    tacgia: "tac gia",
-    theloai: "the loai",
-    nhaxuatban: "nha xuat ban",
-    sosao: 5,
-    soluongdanhgia: 20,
-    mota: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-  }
   return (
     <div className="flex gap-[80px] mt-3 w-full pl-[40px] bg-black">
-      <div className="sticky top-[10%] h-full w-[310px] mr-15">
+      <div className="sticky top-[20%] h-full w-[310px] mr-15">
         <div className=" relative h-[450px] bg-gray-200 mb-10">
-          <img src={data.avata} alt="" />
+          <img src={bookDetail?.thumbnail_url} alt="" />
         </div>
       </div>
       <div className="content-between w-[45%]">
         <div className="pb-4 border-b-[1px] border-b-white">
-          <h1 className="text-white text-[30px]">{data.name}</h1>
+          <h1 className="text-white text-[30px]">{bookDetail?.title}</h1>
           <div className="flex mt-4 gap-6">
             <div className="flex items-center ">
-              <span className="text-white block mr-1">{data.sosao}</span>
+              <span className="text-white block mr-1">{bookDetail?.view}</span>
               <div className='flex items-center justify-center mr-2'>
-                {data.sosao == 5 ?
+                {bookDetail?.view == 5 ?
                   <>
                     <img className='w-4 h-6' src={StarIcon}></img>
                     <img className='w-4 h-6' src={StarIcon}></img>
                     <img className='w-4 h-6' src={StarIcon}></img>
                     <img className='w-4 h-6' src={StarIcon}></img>
                     <img className='w-4 h-6' src={StarIcon}></img>
-                  </>
-                  : data.sosao >= 4 ?
+                  </> : bookDetail?.view == 4 ?
                     <>
                       <img className='w-4 h-6' src={StarIcon}></img>
                       <img className='w-4 h-6' src={StarIcon}></img>
                       <img className='w-4 h-6' src={StarIcon}></img>
                       <img className='w-4 h-6' src={StarIcon}></img>
                     </>
-                    : data.sosao >= 3 ?
+                    : bookDetail?.view == 3 ?
                       <>
                         <img className='w-4 h-6' src={StarIcon}></img>
                         <img className='w-4 h-6' src={StarIcon}></img>
                         <img className='w-4 h-6' src={StarIcon}></img></>
-                      : data.sosao >= 2 ?
+                      : bookDetail?.view == 2 ?
                         <>
                           <img className='w-4 h-6' src={StarIcon}></img>
                           <img className='w-4 h-6' src={StarIcon}></img></>
                         : <img className='w-4 h-6' src={StarIcon}></img>
                 }
               </div>
-              <p className='text-white'>* {data.soluongdanhgia} danh gia</p>
             </div>
           </div>
           <div className='mt-4 grid grid-cols-2'>
             <div className='col-span-1'>
               <p className='text-[16px] text-gray-400'>Tác giả</p>
-              <p className='text-[20px] text-white'>{data.tacgia}</p>
+              <p className='text-[20px] text-white'>{bookDetail?.author.name}</p>
             </div>
             <div className='col-span-1'>
               <p className='text-[16px] text-gray-400'>Thể loại</p>
-              <p className='text-[20px] text-white'>{data.theloai}</p>
-            </div>
-            <div className='col-span-1'>
-              <p className='text-[16px] text-gray-400'>Nhà xuất bản</p>
-              <p className='text-[20px] text-white'>{data.nhaxuatban}</p>
+              <p className='text-[20px] text-white'>{bookDetail?.category_book.map((item) => item.category_name)}</p>
             </div>
           </div>
         </div>
@@ -96,13 +93,13 @@ const Detail = () => {
               <p className='text-white text-[20px]'>Đọc sách</p>
             </button>
           </div>
-          <div className='my-15'>
+          <div className='my-[20px]'>
             <div className='text-white text-justify'>
-              <span className='break-words'>  {data.mota}</span>
+              <span className='break-words'>  {bookDetail?.summary}</span>
             </div>
           </div>
         </div>
-        <div className='text-white mt-[20px] text-[24px]'>Độc giả nói gì về {data.name}</div>
+        <div className='text-white mt-[20px] text-[24px]'>Độc giả nói gì về {bookDetail?.title}</div>
         <div>
           <Tabs
             tabPosition="top"

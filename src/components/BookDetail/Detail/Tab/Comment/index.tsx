@@ -1,4 +1,11 @@
-const Comment = () => {
+import { FC } from "react";
+import { BookItem } from "types/book";
+
+interface DataCommentProps {
+  bookDetail :  BookItem | undefined
+}
+
+const Comment:FC<DataCommentProps> = (bookDetail) => {
   return (
     <div className="mt-5 mb-10">
       <div className="p-6 mb-[10px] bg-[#262729] rounded-xl">

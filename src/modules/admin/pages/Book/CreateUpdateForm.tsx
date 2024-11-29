@@ -64,7 +64,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     setListAuthor([]);
     setListCategory([]);
     setAuthor(undefined);
-    setCurBook({});
+    setCurBook(undefined);
     form?.resetFields();
   };
 

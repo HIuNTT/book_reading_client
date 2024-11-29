@@ -57,7 +57,7 @@ export default function Routes() {
       children: formatRoutes(routes),
     },
     {
-      path: '/detail',
+      path: '/book/detail/:id',
       element: <BookDetail />,
     },
     chapterRoute,

@@ -6,6 +6,7 @@ export type PaginationResult = {
   is_last: boolean
   total_pages: number
   total_elements: number
+  sort: string[]
 }
 
 export type PageParams = {
