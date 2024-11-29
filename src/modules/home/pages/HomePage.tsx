@@ -4,6 +4,7 @@ import BookListHome from 'modules/book/components/BookListHome'
 import RecommendedBookList from 'modules/book/components/RecommendedBookList'
 import { useUser } from 'stores/user'
 import { BookItem } from 'types/book'
+import AuthorList from 'components/AuthorList'
 const slides: BookItem[] = [
   {
     id: 1,
@@ -246,6 +247,7 @@ export default function HomePage() {
       {user.user.id ? <RecommendedBookList /> : null}
       <BookListHome books={slides2} title="Ngôn tình" viewMoreUrl="/category/ngon-tinh" />
       <Rank />
+      <AuthorList />
     </div>
   )
 }

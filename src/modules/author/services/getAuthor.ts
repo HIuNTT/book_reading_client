@@ -6,5 +6,5 @@ export interface AuthorInfoResponse {
 }
 
 export async function getAuthor(authorId: number) {
-  return (await api.get<AuthorInfoResponse>(`/author/info/${authorId}`)).data.data
+  return (await api.get<AuthorInfoResponse>(`/public/author/info/${authorId}`)).data.data
 }

@@ -152,12 +152,12 @@ function Header() {
             </div>
           </div>
 
-          <div className='flex gap-3 ml-[20px]'>
+          <div className='grid grid-cols-7 gap-[10px] ml-[20px] h-full items-center'>
             {listCategory?.map((item) => (
               <Link
                 key={item.id}
                 to={`/category/${item.id}`}
-                className="hover:bg-slate-300 px-[5px] rounded-xl py-[0px] cursor-pointe"
+                className="hover:bg-slate-300 px-[5px] text-center rounded-xl cursor-pointe leading-[26px] text-black bg-slate-200"
               >
                 {item.name}
               </Link>
