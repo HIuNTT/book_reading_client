@@ -9,6 +9,8 @@ import { Icon } from '@iconify/react'
 import { EGender } from 'enums/gender'
 import { ReactNode, useEffect, useState } from 'react'
 import { cn } from 'utils/cn'
+import { Category } from 'types/category'
+import { getCategoryList } from 'modules/category/services/getCategoryList'
 
 interface DropdownItem {
   key: string
@@ -30,6 +32,18 @@ function Header() {
 
   const disclosureLogin = useDisclosure()
   const disclosureSignup = useDisclosure()
+
+  const [listCategory, setListCategory] = useState<Category[]>();
+  const handleGetListCategory = async () => {
+    const res = await getCategoryList();
+    if (res) {
+      setListCategory(res.content);
+    }
+  };
+
+  useEffect(() => {
+    handleGetListCategory()
+  }, [])
 
   useEffect(() => {
     function handleScrollTop() {
@@ -135,6 +149,19 @@ function Header() {
               </Link>
             </div>
           </div>
+
+          <div className='flex gap-3 ml-[20px]'>
+            {listCategory?.map((item) => (
+              <Link
+                key={item.id}
+                to={`/category/${item.id}`}
+                className="border-[1px] px-[5px] rounded-xl py-[0px] cursor-pointer bg-slate-400"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
           <div className="flex flex-1 justify-center">
             <SearchBookHome isTop={isTop} isHome={isHome} />
           </div>
