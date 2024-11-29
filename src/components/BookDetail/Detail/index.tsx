@@ -5,13 +5,14 @@ import Feedback from './Tab/Feedback';
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { BookItem } from 'types/book';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getBookInfo } from 'modules/book/services';
 
 const Detail = () => {
   const paramUrl = useParams();
   const [bookDetail, setBookDetail] = useState<BookItem>();
   const bookId = Number(paramUrl.id);
+  const navigate = useNavigate  ();
   const handleGetBookDetail = async () => {
     const res = await getBookInfo(bookId);
     setBookDetail({ ...res, id: bookId });
@@ -88,7 +89,7 @@ const Detail = () => {
         </div>
         <div className='mt-[30px]'>
           <div className='mt-3'>
-            <button className='rounded-full w-[230px] px-4 py-3 cursor-pointer flex justify-center items-center bg-green-400'>
+            <button onClick={() => navigate(`/book/${bookId}/:oder`)} className='rounded-full w-[230px] px-4 py-3 cursor-pointer flex justify-center items-center bg-green-400'>
               <img src={BookIcon} alt="" className='mr-2' />
               <p className='text-white text-[20px]'>Đọc sách</p>
             </button>
