@@ -1,39 +1,32 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import Header from "components/layout/home/Header";
+import BookItemHome from "modules/book/components/BookItemHome";
 import { getBookList } from "modules/book/services";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BookItem } from "types/book";
 
 const Category = () => {
-
-  const { Title } = Typography;
   const navigate = useNavigate();
   const paramUrl = useParams();
   const categoryId = Number(paramUrl.id);
 
   const [bookData, setBookData] = useState<BookItem[]>([]);
   const handleGetBookList = async () => {
-    const res = await getBookList({categoryId: categoryId});
+    const res = await getBookList({ categoryId: categoryId });
     setBookData(res.content);
   };
 
   useEffect(() => {
     handleGetBookList();
-  },[])
+  }, [])
 
   return (
     <div>
       <Header />
       <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          height: '24px',
-          alignItems: 'center',
-          marginBottom: '4px',
-        }}
+      className="w-full p-[20px]"
       >
         <Button
           style={{
@@ -47,13 +40,13 @@ const Category = () => {
           <ArrowLeftOutlined />
         </Button>
         <div
-          style={{
-            fontSize: '22px',
-            fontWeight: 600,
-            lineHeight: '24px',
-          }}
+          className="grid grid-cols-5 gap-4 mt-[10px]"
         >
-           
+          {bookData.map((item) => (
+            <div className="">
+              <BookItemHome bookItem={item} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

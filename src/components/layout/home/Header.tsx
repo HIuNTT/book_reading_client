@@ -157,7 +157,7 @@ function Header() {
               <Link
                 key={item.id}
                 to={`/category/${item.id}`}
-                className="border-[1px] px-[5px] rounded-xl py-[0px] cursor-pointer bg-slate-400"
+                className="hover:bg-slate-300 px-[5px] rounded-xl py-[0px] cursor-pointe"
               >
                 {item.name}
               </Link>
