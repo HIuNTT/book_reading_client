@@ -7,7 +7,7 @@ const Chapter = lazy(() => import('./pages/Chapter'))
 
 export interface ChapterParams {
   bookId: string
-  chapterId: string
+  order: string
 }
 
 export const chapterRoute: RouteObject = {
@@ -19,7 +19,7 @@ export const chapterRoute: RouteObject = {
   ),
   children: [
     {
-      path: ':bookId/:chapterId',
+      path: ':bookId/:order',
       Component: Chapter,
     },
   ],

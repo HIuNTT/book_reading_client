@@ -21,6 +21,10 @@ export interface RecommendedBook extends Omit<BookItem, 'id'> {
   book_id: number
 }
 
+export interface BookBannerItem extends BookItem {
+  banner_url: string
+}
+
 export interface BookPayload {
   title?: string
   summary?: string
