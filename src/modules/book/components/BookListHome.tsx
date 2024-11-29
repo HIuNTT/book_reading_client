@@ -15,9 +15,10 @@ interface BookListHomeProps {
   title: string
   viewMoreUrl?: string
   books: BookItem[]
+  isHistory?: boolean
 }
 
-export default function BookListHome({ title, viewMoreUrl, books }: BookListHomeProps) {
+export default function BookListHome({ title, viewMoreUrl, books, isHistory }: BookListHomeProps) {
   const swiperRef = useRef<SwiperRef>(null)
   const nextButtonRef = useRef<HTMLDivElement>(null)
   const prevButtonRef = useRef<HTMLDivElement>(null)
@@ -99,9 +100,9 @@ export default function BookListHome({ title, viewMoreUrl, books }: BookListHome
             onResize={handleNavigationChange}
             className="-mx-1 px-1 pb-4 pt-3 md:-mx-[7px] md:px-[7px] md:py-4 min-[1024px]:-mx-[13px] min-[1024px]:px-[13px] min-[1024px]:pb-9 min-[1024px]:pt-4"
           >
-            {books.map((book) => (
+            {books?.map((book) => (
               <SwiperSlide className="select-none" key={book.id}>
-                <BookItemHome bookItem={book} />
+                <BookItemHome bookItem={book} isHistory={isHistory} />
               </SwiperSlide>
             ))}
           </Swiper>

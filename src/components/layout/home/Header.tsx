@@ -11,6 +11,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { cn } from 'utils/cn'
 import { Category } from 'types/category'
 import { getCategoryList } from 'modules/category/services/getCategoryList'
+import { queryClient } from 'configs/queryClient'
 
 interface DropdownItem {
   key: string
@@ -84,6 +85,7 @@ function Header() {
       label: 'Đăng xuất',
       icon: <Icon width="1.3rem" icon="material-symbols:logout" />,
       onClick: () => {
+        queryClient.removeQueries({ queryKey: ['userInfo'] })
         clear()
       },
     },

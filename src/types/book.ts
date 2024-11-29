@@ -17,6 +17,10 @@ export interface BookItem {
   }[]
 }
 
+export interface RecommendedBook extends Omit<BookItem, 'id'> {
+  book_id: number
+}
+
 export interface BookPayload {
   title?: string
   summary?: string

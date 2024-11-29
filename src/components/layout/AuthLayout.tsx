@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
     }
     if (getUserInfo.isError) {
       clear()
-      toast.error('Lỗi không xác định. Vui lòng thử lại!')
+      toast.error('Lỗi không xác định. Vui lòng đăng nhập lại!')
     }
   }, [clear, getUserInfo.data, getUserInfo.isError, setUser])
 

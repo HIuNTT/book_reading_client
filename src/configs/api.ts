@@ -15,3 +15,7 @@ api.interceptors.request.use(
     return Promise.reject(error)
   },
 )
+
+export const apiRecommend = axios.create({
+  baseURL: import.meta.env.VITE_API_RECOMMENDED_URL,
+})

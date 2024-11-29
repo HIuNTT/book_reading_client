@@ -6,6 +6,7 @@ import { ERole } from 'enums/role'
 import { isEmpty } from 'lodash'
 import { adminRoute } from 'modules/admin/route'
 import BookDetail from 'modules/bookDetail'
+import { chapterRoute } from 'modules/chapter/route'
 import { homeRoute } from 'modules/home/route'
 import PrivateRoute from 'PrivateRoute'
 import { lazy } from 'react'
@@ -60,6 +61,7 @@ export default function Routes() {
       path: '/book/detail/:id',
       element: <BookDetail />,
     },
+    chapterRoute,
     {
       path: '/admin',
       element: (
