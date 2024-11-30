@@ -1,5 +1,19 @@
 import { Icon } from '@iconify/react'
-import { Button, Card, Col, Divider, Form, Input, Popconfirm, Row, Space, Table, TableProps, Tooltip } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Space,
+  Table,
+  TableProps,
+  Tooltip,
+} from 'antd'
 import Breadcrumbs from 'components/core/Breadcrumbs'
 import useDisclosure from 'hooks/useDisclosure'
 import { adminRoute } from 'modules/admin/route'
@@ -34,32 +48,33 @@ export default function AuthorAdmin() {
       dataIndex: 'id',
       width: 100,
       align: 'center',
+    },
+    {
+      title: 'Ảnh đại diện',
       fixed: 'left',
+      dataIndex: 'image',
+      width: 200,
+      render: (image: string) => <Avatar size="large" src={image || undefined} />,
     },
     {
       title: 'Tên tác giả',
+      width: 200,
       dataIndex: 'name',
+
       align: 'left',
       fixed: 'left',
     },
     {
-      title: 'Thời gian thêm',
-      dataIndex: 'created_at',
-      width: 200,
-      align: 'center',
+      title: 'Mô tả',
+      dataIndex: 'description',
     },
-    {
-      title: 'Thời gian cập nhật',
-      dataIndex: 'updated_at',
-      width: 200,
-      align: 'center',
-    },
+
     {
       title: 'Thao tác',
       fixed: 'right',
       align: 'center',
       width: 100,
-      render: (_, record: Category) => {
+      render: (_, record: Author) => {
         return (
           <div className="flex items-center justify-center">
             <Tooltip title="Sửa thông tin tác giả" placement="bottom">
@@ -187,7 +202,7 @@ export default function AuthorAdmin() {
               </Button>
             </div>
           </div>
-          <Table<Category>
+          <Table<Author>
             columns={columns}
             pagination={{
               current: reqQuery.page,

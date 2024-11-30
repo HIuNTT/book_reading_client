@@ -49,6 +49,12 @@ export interface BannerBookListResponse {
   } & PaginationResult
 }
 
+export interface UploadFileResponse {
+  data: {
+    key: string
+  }
+}
+
 export async function getBookList(params?: BookListParams) {
   return (
     (
@@ -84,7 +90,7 @@ export default function useGetBookList(params?: BookListParams) {
 }
 
 export async function postFile(formData: FormData) {
-  const response = await api.post('/file/upload', formData, {
+  const response = await api.post<UploadFileResponse>('/file/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

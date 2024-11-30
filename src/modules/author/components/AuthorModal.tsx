@@ -1,14 +1,15 @@
 import { Form, Input, Modal } from 'antd'
-import { Category } from 'types/category'
 import { toast } from 'sonner'
 import { memo, useEffect } from 'react'
 import { AuthorDto, useCreateAuthor } from '../services/createAuthor'
 import { UpdateAuthorDto, useUpdateAuthor } from '../services/updateAuthor'
+import AvatarUpload from './AvatarUpload'
+import { Author } from 'types/author'
 
 interface AuthorModalProps {
   open: boolean
   onCancel: () => void
-  record?: Partial<Category>
+  record?: Partial<Author>
   onSuccess: () => void
 }
 
@@ -42,6 +43,10 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
         },
       })
     }
+  }
+
+  const onSetValue = (value: string) => {
+    form.setFieldsValue({ image: value })
   }
 
   useEffect(() => {
@@ -79,13 +84,11 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
         >
           <Input allowClear placeholder="Nhập tên tác giả" />
         </Form.Item>
-        <Form.Item<AuthorDto>
-          required
-          label="Mô tả"
-          name="description"
-          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
-        >
-          <Input allowClear placeholder="Nhập mô tả" />
+        <Form.Item<AuthorDto> label="Mô tả" name="description">
+          <Input.TextArea autoSize={{ minRows: 1, maxRows: 3 }} allowClear placeholder="Nhập mô tả" />
+        </Form.Item>
+        <Form.Item<AuthorDto> label="Ảnh đại diện" name="image">
+          <AvatarUpload onSetValue={onSetValue} avatarUrl={record?.id && open ? record.image : undefined} />
         </Form.Item>
       </Form>
     </Modal>
