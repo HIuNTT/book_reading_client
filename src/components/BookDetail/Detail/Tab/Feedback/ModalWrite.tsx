@@ -18,9 +18,11 @@ const ModalWrite: FC<ModalWriteProps> = ({
 }
 ) => {
 
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const handleCloseModal = () => {
     setShowModal(false);
+    setLoading(false);
     form?.resetFields();
   }
 
@@ -57,6 +59,7 @@ const ModalWrite: FC<ModalWriteProps> = ({
       open={showModal}
       onCancel={handleCloseModal}
       onOk={() => form.submit()}
+      confirmLoading={loading}
     >
       <Form
         form={form}

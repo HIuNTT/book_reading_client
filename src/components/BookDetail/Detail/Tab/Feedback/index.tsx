@@ -1,11 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import StarIcon from '/img/star_icon.png'
 import { FeedbackItem } from 'types/feadback';
-import { getFeedbackList, getFeedbackUser } from 'modules/feedback';
+import { getFeedbackList } from 'modules/feedback';
 import { BookItem } from 'types/book';
 import { Button } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import ModalWrite from './ModalWrite';
+import { ChapterItem } from 'types/chapter';
+import { getChapterList } from 'modules/chapter';
+import { useNavigate } from 'react-router-dom';
 
 interface DataFeedbackProps {
   bookDetail: BookItem | undefined
@@ -20,6 +23,8 @@ const Feedback: FC<DataFeedbackProps> = (bookDetail) => {
     setTotal(res.total_elements);
   }
 
+  
+  const navigate = useNavigate()
   // const [feedbackUser, setFeedbackUser] = useState<FeedbackItem>();
   // const handleGetFeedbackUser = async () => {
   //   const res = await getFeedbackUser({ bookId: bookDetail.bookDetail?.id || null });
@@ -32,6 +37,7 @@ const Feedback: FC<DataFeedbackProps> = (bookDetail) => {
   useEffect(() => {
     // handleGetFeedbackUser();
     handleGetFeedbacks();
+  
   }, [])
   return (
     <div className="mt-5 mb-10">
