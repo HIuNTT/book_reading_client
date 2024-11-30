@@ -119,7 +119,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
             className="group relative max-[767px]:hover:scale-[1.05]"
             style={{ transition: '0.3s' }}
           >
-            <Link to={`/book/${bookItem.id}`} className="text-white">
+            <Link to={`/book/detail/${bookItem.id}`} className="text-white">
               <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[146.25%]">
                 <span className="absolute inset-0 overflow-hidden">
                   <img
@@ -146,7 +146,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
             </Link>
             <div
               className="h-[49.5px] cursor-pointer pt-[7.5px] sm:h-[50.75px] sm:pt-[8.75px] min-[1024px]:h-[52px] min-[1024px]:pt-[10px] xxl:h-[58px]"
-              onClick={() => navigate(`/book/${bookItem.id}`)}
+              onClick={() => navigate(`/book/detail/${bookItem.id}`)}
             >
               <p className="line-clamp-2 capitalize text-textColor group-hover:text-primary xxl:text-[16px]">
                 {bookItem.title}
@@ -156,7 +156,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
         </Popover>
       ) : (
         <div ref={triggerRef} className="group relative hover:scale-[1.05]" style={{ transition: '0.3s' }}>
-          <Link to={`/book/${bookItem.id}`} className="text-white">
+          <Link to={`/book/detail/${bookItem.id}`} className="text-white">
             <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[146.25%]">
               <span className="absolute inset-0 overflow-hidden">
                 <img

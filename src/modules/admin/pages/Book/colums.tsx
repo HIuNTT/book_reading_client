@@ -59,6 +59,11 @@ export const configColumns = (
       dataIndex:'summary',
       key:'summary',
       width:'30%',
+      render: (text: string) => (
+        <span>
+          {text.length > 100 ? `${text.slice(0, 100)}...` : text}
+        </span>
+      ),
     },
     {
       title:'Tác giả',
