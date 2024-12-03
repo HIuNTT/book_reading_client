@@ -26,7 +26,7 @@ export default function useUpload({ onSuccess, fileUrl }: UseUploadProps) {
         },
       ])
     }
-  }, [fileUrl])
+  }, [fileList.length, fileUrl])
 
   const beforeUpload = (file: FileType) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'

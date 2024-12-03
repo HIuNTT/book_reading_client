@@ -29,8 +29,8 @@ export interface BookBannerItem extends BookItem {
 export interface BookPayload {
   title?: string
   summary?: string
-  thumbnail_url?: string
-  banner_url?: string
+  thumbnail?: string
+  banner?: string
   author_id?: number
   category_book?: {
     category_id?: number

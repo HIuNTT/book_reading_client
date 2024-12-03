@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Upload } from 'antd'
+import { Upload, UploadFile } from 'antd'
 import useUpload from 'hooks/useUpload'
 
 interface AvatarUploadProps {
