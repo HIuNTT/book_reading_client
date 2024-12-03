@@ -127,14 +127,17 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           name={'file_url'}
           max={1}
           fieldProps={{ onRemove: () => setCurFileUrl([]) }}
-          fileList={curFileUrl}
+          fileList={curFileUrl.map((file) => ({
+            ...file,
+            status: 'done', 
+          }))}
           onChange={(e) => {
             if (e.fileList.length > 0) {
               const file = e.fileList[0].originFileObj;
               if (file) {
                 handleFileChange(file);
               }
-              setCurFileUrl(e.fileList);
+              setCurFileUrl(e.fileList.map((file) => ({ ...file, status: 'done' }))); 
             }
           }}
         />

@@ -191,32 +191,41 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           title="Upload"
           name={'thumbnail_url'}
           max={1}
-          fieldProps={{ onRemove: () => setCurThumbnailFile([]) }}
-          fileList={curThumbnailFile}
+          fieldProps={{
+            onRemove: () => setCurThumbnailFile([]),
+          }}
+          fileList={curThumbnailFile.map((file) => ({
+            ...file,
+            status: 'done', 
+          }))}
           onChange={(e) => {
             if (e.fileList.length > 0) {
-              const file = e.fileList[0].originFileObj
+              const file = e.fileList[0].originFileObj;
               if (file) {
-                handleThumbnailChange(file)
+                handleThumbnailChange(file);
               }
-              setCurThumbnailFile(e.fileList)
+              setCurThumbnailFile(e.fileList.map((file) => ({ ...file, status: 'done' }))); 
             }
           }}
         />
+
         <ProFormUploadButton
           label="Ảnh banner"
           title="Upload"
           name={'banner_url'}
           max={1}
           fieldProps={{ onRemove: () => setCurBannerFile([]) }}
-          fileList={curBannerFile}
+          fileList={curBannerFile.map((file) => ({
+            ...file,
+            status: 'done', 
+          }))}
           onChange={(e) => {
             if (e.fileList.length > 0) {
-              const file = e.fileList[0].originFileObj
+              const file = e.fileList[0].originFileObj;
               if (file) {
-                handleBannerChange(file)
+                handleBannerChange(file);
               }
-              setCurBannerFile(e.fileList)
+              setCurBannerFile(e.fileList.map((file) => ({ ...file, status: 'done' }))); 
             }
           }}
         />
