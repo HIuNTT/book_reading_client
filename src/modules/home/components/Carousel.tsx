@@ -155,8 +155,8 @@ export default function Carousel() {
                           />
                         </div>
                         <div
-                          className="absolute inset-0 bg-cover bg-no-repeat blur-[10px]"
-                          style={{ backgroundImage: `url(${book.banner_url})` }}
+                          className="absolute inset-0 bg-cover bg-no-repeat blur-[8px]"
+                          style={{ backgroundImage: `url(${book.banner_url})`, backgroundPosition: 'center' }}
                         ></div>
                       </div>
                     </div>

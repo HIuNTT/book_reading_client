@@ -1,5 +1,5 @@
 import { Form, message, Modal, UploadFile } from 'antd'
-import { ProFormSelect, ProFormText, ProFormUploadButton } from '@ant-design/pro-components'
+import { ProFormSelect, ProFormText, ProFormTextArea, ProFormUploadButton } from '@ant-design/pro-components'
 import { FC, useEffect, useState } from 'react'
 import { BookItem, BookPayload } from 'types/book'
 import { Category } from 'types/category'
@@ -98,8 +98,8 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
     const payload: BookPayload = {
       title: formItem.title,
       summary: formItem.summary,
-      thumbnail_url: nameThumbnailFile || curItem?.thumbnail_url,
-      banner_url: nameBannerFile || curItem?.banner_url,
+      thumbnail: nameThumbnailFile?.data.key || curItem?.thumbnail_url,
+      banner: nameBannerFile?.data.key || curItem?.banner_url,
       author_id: author || curItem?.author?.id,
       category_book: category_book,
     }
@@ -163,31 +163,31 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormSelect
-          label="The loai"
+          label="Thể loại"
           name={'category_book'}
-          placeholder=" Chon the loai"
+          placeholder=" Chọn thể loại"
           options={listCategory?.map((item) => ({ label: item.name, value: item.id }))}
           mode="multiple"
           onChange={(e: number[]) => setCategorySelected(e)}
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormSelect
-          label="Tac gia"
+          label="Tác giả"
           name={'author_id'}
-          placeholder=" Chon tac gia"
+          placeholder="Chọn tác giả"
           options={listAuthor?.map((item) => ({ label: item.name, value: item.id }))}
           mode="single"
           onChange={(e: number) => setAuthor(e)}
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
-        <ProFormText
+        <ProFormTextArea
           label="Tóm tắt"
           placeholder={''}
           name={'summary'}
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         />
         <ProFormUploadButton
-          label="Thumbnail"
+          label="Ảnh bìa"
           title="Upload"
           name={'thumbnail_url'}
           max={1}
@@ -204,7 +204,7 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
           }}
         />
         <ProFormUploadButton
-          label="Banner"
+          label="Ảnh banner"
           title="Upload"
           name={'banner_url'}
           max={1}
