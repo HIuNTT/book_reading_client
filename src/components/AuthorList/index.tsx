@@ -85,7 +85,7 @@ const AuthorList = () => {
                 onClick={() => navigate(`/author/${item.id}`)}
               >
                 <div className="w-[200px] h-[200px] rounded-full bg-gray-200">
-                  <img src={item.image} alt="" className="rounded-full"/>
+                  <img src={item.image} alt="" className="rounded-full w-full h-full"/>
                 </div>
                 <div className="w-full mt-[5px]">{item.name}</div>
               </div>

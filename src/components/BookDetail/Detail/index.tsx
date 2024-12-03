@@ -46,7 +46,7 @@ const Detail = () => {
     <div className="flex gap-[80px] mt-3 w-full pl-[40px] bg-black">
       <div className="sticky top-[20%] h-full w-[310px] mr-15">
         <div className=" relative h-[450px] bg-gray-200 mb-10">
-          <img src={bookDetail?.thumbnail_url} alt="" />
+          <img src={bookDetail?.thumbnail_url} alt="" className='w-full' />
         </div>
       </div>
       <div className="content-between w-[45%]">
