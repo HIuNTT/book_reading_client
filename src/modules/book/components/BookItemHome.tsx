@@ -139,7 +139,7 @@ export default function BookItemHome({ bookItem, isHistory }: BookItemProps) {
                   }}
                 >
                   <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
-                    Trọn bộ 38 chương
+                    {bookItem.status}
                   </div>
                 </div>
               </div>
