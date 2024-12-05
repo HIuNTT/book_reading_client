@@ -3,12 +3,10 @@ import { BookItem } from 'types/book';
 import { getBookList } from 'modules/book/services';
 import BookListHome from 'modules/book/components/BookListHome';
 
-const Rank: React.FC = () => {
+const Ngontinh: React.FC = () => {
   const [bookData, setBookData] = useState<BookItem[]>([]) 
   const handleGetBooks = async () => {
-    const res = await getBookList({
-      sort: 'avgRating,desc'
-    })
+    const res = await getBookList({categoryId:1})
     setBookData(res.content)
   } 
 
@@ -18,9 +16,9 @@ const Rank: React.FC = () => {
 
   return (
     <div>
-      <BookListHome books={bookData} title='Bảng xếp hạng' />
+      <BookListHome books={bookData} title='Ngôn tình' />
     </div>
   );
 };
 
-export default Rank;
+export default Ngontinh;

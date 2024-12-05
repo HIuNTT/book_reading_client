@@ -8,6 +8,8 @@ import CategoryListHome from 'modules/category/components/CategoryListHome'
 import { useGetBookUpList } from 'modules/book/services'
 import LoadingIcon from 'components/common/LoadingIcon'
 import BookListHome from 'modules/book/components/BookListHome'
+import VanHocVN from 'components/Home/VanHocVN'
+import Ngontinh from 'components/Home/NgonTinh'
 
 export default function HomePage() {
   console.log('HomePage')
@@ -28,6 +30,8 @@ export default function HomePage() {
         <BookListHome title="Mới cập nhật" books={getBookUpList.data.content} />
       ) : null}
       <Rank />
+      <VanHocVN />
+      <Ngontinh />
       <AuthorList />
     </div>
   )
