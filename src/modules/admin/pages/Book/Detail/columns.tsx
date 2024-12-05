@@ -58,13 +58,13 @@ export const configChapterColumns = (
       key:'order_chap',
       width:'15%',
     },
-    {
-      title:'Tên sách',
-      dataIndex:'book.title',
-      key:'book.title',
-      width:'10%',
-      render: (_, original) => <div>{original.title}</div>,
-    },
+    // {
+    //   title:'Tên sách',
+    //   dataIndex:'book.title',
+    //   key:'book.title',
+    //   width:'10%',
+    //   render: (_, original) => <div>{original.title}</div>,
+    // },
     {
       title: 'Action',
       dataIndex: 'action',
