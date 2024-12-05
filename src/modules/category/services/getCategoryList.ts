@@ -15,7 +15,7 @@ export interface CategoryListParams {
   page?: number
 }
 
-export async function getCategoryList(params?: CategoryListParams) {
+export async function getCategoryList(params: CategoryListParams) {
   return (
     (
       await api.get<CategoryListResponse>('/public/category/list_search', {
@@ -26,9 +26,9 @@ export async function getCategoryList(params?: CategoryListParams) {
 }
 
 /** Lấy danh sách thể loại GET /categories */
-export default function useGetCategoryList(params?: CategoryListParams) {
+export default function useGetCategoryList(params: CategoryListParams) {
   return useQuery({
-    queryKey: ['categoryList'],
+    queryKey: ['categoryList', params.name, params.size, params.page],
     queryFn: async () => await getCategoryList(params),
   })
 }

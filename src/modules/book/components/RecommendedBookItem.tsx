@@ -124,17 +124,17 @@ export default function RecommendedBookItem({ bookItem }: BookItemProps) {
               {/* Flag top right */}
               <div></div>
               {/* Update info layer */}
-              {/* <div
+              <div
                 className="absolute bottom-0 left-0 right-0 h-[60px]"
                 style={{
                   backgroundImage:
                     'linear-gradient(0deg, rgba(10, 12, 15, 0.8) 0%, rgba(10, 12, 15, 0.74) 4%, rgba(10, 12, 15, 0.59) 17%, rgba(10, 12, 15, 0.4) 34%, rgba(10, 12, 15, 0.21) 55%, rgba(10, 12, 15, 0.06) 78%, rgba(10, 12, 15, 0) 100%)',
                 }}
               >
-                <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
+                {/* <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
                   Trọn bộ 38 chương
-                </div>
-              </div> */}
+                </div> */}
+              </div>
             </div>
           </Link>
 

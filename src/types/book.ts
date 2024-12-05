@@ -1,4 +1,5 @@
 import { Author } from './author'
+import { ChapterHistory, NewChapter } from './chapter'
 
 export interface BookItem {
   id: number
@@ -16,6 +17,11 @@ export interface BookItem {
     category_id: number
     category_name: string
   }[]
+  new_chapter: NewChapter
+}
+
+export interface BookHistory extends BookItem {
+  chapter_history: ChapterHistory
 }
 
 export interface RecommendedBook extends Omit<BookItem, 'id'> {

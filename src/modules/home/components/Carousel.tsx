@@ -27,7 +27,7 @@ export default function Carousel() {
       {isFetching ? (
         <LoadingIcon />
       ) : !!data && data.number_of_elements > 0 ? (
-        <div className="relative -mt-[var(--app-home-header-height)] mb-6 px-0 pt-[var(--app-home-header-height)] md:px-8 xxl:px-16">
+        <div className="relative -mt-[var(--app-home-header-height)] mb-7 px-0 pt-[var(--app-home-header-height)] md:mb-9 md:px-8 min-[1024px]:mb-10 xxl:px-16">
           <div
             className="absolute inset-0 z-[1] bg-cover bg-center transition-all duration-[0.3s] ease-linear"
             style={{

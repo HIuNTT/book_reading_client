@@ -6,6 +6,7 @@ import MainLayout from 'components/layout/home'
 import { ERole } from 'enums/role'
 import { isEmpty } from 'lodash'
 import { adminRoute } from 'modules/admin/route'
+import { libraryRoute } from 'modules/book/route'
 import BookDetail from 'modules/bookDetail'
 import { chapterRoute } from 'modules/chapter/route'
 import { homeRoute } from 'modules/home/route'
@@ -25,7 +26,7 @@ export type AppRoute = NonIndexRouteObject & {
   children?: AppRoute[]
 }
 
-const routes: AppRoute[] = [homeRoute]
+const routes: AppRoute[] = [homeRoute, libraryRoute]
 
 function formatRoutes(routes: AppRoute[]): NonIndexRouteObject[] {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -77,13 +78,13 @@ export default function Routes() {
       element: <NotFound />,
     },
     {
-      path:'/category/:id',
-      element: <Category />
+      path: '/category/:id',
+      element: <Category />,
     },
     {
-      path:'/author/:id',
-      element: <AuthorDetail />
-    }
+      path: '/author/:id',
+      element: <AuthorDetail />,
+    },
   ])
   return element
 }

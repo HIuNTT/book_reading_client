@@ -7,6 +7,8 @@ export const themeConfig: ThemeConfig = {
     colorTextPlaceholder: 'rgba(17,24,28,0.7)',
     borderRadius: 8,
     borderRadiusLG: 12,
+    screenXXL: 1680,
+    screenLG: 1024,
   },
   components: {
     Input: {
