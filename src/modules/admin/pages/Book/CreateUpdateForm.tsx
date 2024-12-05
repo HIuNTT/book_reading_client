@@ -124,15 +124,42 @@ const CreatUpateForm: FC<CreateUpdateFormProps> = ({
   }
 
   useEffect(() => {
+    console.log('curItem:', curItem);
     form.setFieldValue('title', curItem?.title)
     form.setFieldValue('author_id', curItem?.author?.id)
-    form.setFieldValue(
-      'category_book',
-      curItem?.category_book?.map((item) => ({ label: item.category_name, value: item.category_id })),
-    )
+    if (curItem) {
+      const selectedCategories = curItem.category_book?.map((item) => item.category_id) || [];
+      setCategorySelected(selectedCategories);
+  
+      form.setFieldsValue({
+        category_book: curItem.category_book?.map((item) => ({
+          label: item.category_name,
+          value: item.category_id,
+        })),
+      });
+    }
     form.setFieldValue('summary', curItem?.summary)
-    form.setFieldValue('thumbnail_url', curItem?.thumbnail_url)
-    form.setFieldValue('banner_url', curItem?.banner_url)
+    if (curItem?.thumbnail_url) {
+      setCurThumbnailFile([
+        {
+          uid: '0', 
+          name: 'thumbnail_url', 
+          status: 'done', 
+          url: curItem?.thumbnail_url, 
+        },
+      ]);
+    }
+
+    if (curItem?.banner_url) {
+      setCurBannerFile([
+        {
+          uid: '1', 
+          name: 'banner_url', 
+          status: 'done', 
+          url: curItem?.banner_url, 
+        },
+      ]);
+    }
     handleGetListAuthor()
     handleGetListCategory()
   }, [curItem])
