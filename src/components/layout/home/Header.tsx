@@ -9,8 +9,6 @@ import { Icon } from '@iconify/react'
 import { EGender } from 'enums/gender'
 import { ReactNode, useEffect, useState } from 'react'
 import { cn } from 'utils/cn'
-import { Category } from 'types/category'
-import { getCategoryList } from 'modules/category/services/getCategoryList'
 import { queryClient } from 'configs/queryClient'
 
 interface DropdownItem {
@@ -33,18 +31,6 @@ function Header() {
 
   const disclosureLogin = useDisclosure()
   const disclosureSignup = useDisclosure()
-
-  const [listCategory, setListCategory] = useState<Category[]>();
-  const handleGetListCategory = async () => {
-    const res = await getCategoryList();
-    if (res) {
-      setListCategory(res.content);
-    }
-  };
-
-  useEffect(() => {
-    handleGetListCategory()
-  }, [])
 
   useEffect(() => {
     function handleScrollTop() {
@@ -85,7 +71,7 @@ function Header() {
       label: 'Đăng xuất',
       icon: <Icon width="1.3rem" icon="material-symbols:logout" />,
       onClick: () => {
-        queryClient.removeQueries({ queryKey: ['userInfo'] })
+        queryClient.clear()
         clear()
       },
     },
@@ -131,7 +117,7 @@ function Header() {
       >
         <div className="flex h-full items-center justify-between lg:py-1.5">
           <div className="flex h-full items-center">
-            <div className="h-full">
+            <div className="flex h-full items-center">
               <Link to="/" className="flex h-full items-center">
                 <div className="h-10 w-10">
                   <img src="/logo.svg" alt="Waka Logo" />
@@ -149,19 +135,33 @@ function Header() {
                   />
                 </div>
               </Link>
+              <div className="ml-6 flex gap-[30px]">
+                <div
+                  onClick={() => navigate('/')}
+                  className={cn(
+                    'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
+                    {
+                      'text-white': isTop && isHome,
+                    },
+                    { 'font-bold opacity-100': isHome },
+                  )}
+                >
+                  Đề xuất
+                </div>
+                <div
+                  onClick={() => navigate('/book-library')}
+                  className={cn(
+                    'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
+                    {
+                      'text-white': isTop && isHome,
+                    },
+                    { 'font-bold opacity-100': pathname.startsWith('/book-library') },
+                  )}
+                >
+                  Tìm sách
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className='grid grid-cols-7 gap-[10px] ml-[20px] h-full items-center'>
-            {listCategory?.map((item) => (
-              <Link
-                key={item.id}
-                to={`/category/${item.id}`}
-                className="hover:bg-slate-300 px-[5px] text-center rounded-xl cursor-pointe leading-[26px] text-black bg-slate-200"
-              >
-                {item.name}
-              </Link>
-            ))}
           </div>
 
           <div className="flex flex-1 justify-center">

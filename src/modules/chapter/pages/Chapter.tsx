@@ -7,14 +7,18 @@ import { useEffect, useRef, useState } from 'react'
 import { RenditionOptions } from 'epubjs/types/rendition'
 import CommentList from 'modules/comment/components/CommentList'
 import { ChapterParams } from '../route'
-import { useGetChapter } from '..'
+import { updateView, useGetChapter } from '..'
 import { cn } from 'utils/cn'
-import LoadingIcon from 'components/common/LoadingIcon'
+import { useTimeoutFn } from 'react-use'
+import PageLoading from 'components/common/PageLoading'
+import { useUser } from 'stores/user'
+import { saveHistory } from 'modules/book/services/history'
 
 export default function Chapter() {
   console.log('render chapter')
 
   const navigate = useNavigate()
+  const { user } = useUser()
 
   const { bookId, order } = useParams<keyof ChapterParams>()
 
@@ -27,12 +31,30 @@ export default function Chapter() {
 
   const epubRef = useRef<EpubViewRef>(null)
   const epubOptions = useRef<RenditionOptions>({ flow: 'scrolled' })
+  const commentsRef = useRef<HTMLDivElement>(null)
+
+  const handleClickScrollToComments = () => {
+    commentsRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleUpdateView = () => {
+    if (getChapter.isSuccess) {
+      updateView(getChapter.data?.id)
+    }
+  }
+  useTimeoutFn(handleUpdateView, 20 * 1000)
 
   useEffect(() => {
     if (getChapter.isError) {
       navigate('/')
     }
   }, [getChapter.isError, navigate])
+
+  useEffect(() => {
+    if (user.id && getChapter.isSuccess) {
+      saveHistory(getChapter.data?.id)
+    }
+  }, [user.id, getChapter.isSuccess, getChapter.data?.id])
 
   return (
     <Layout className="bg-transparent">
@@ -55,6 +77,7 @@ export default function Chapter() {
                   alt="Page Mode"
                 />
                 <Badge
+                  onClick={handleClickScrollToComments}
                   color="#11181c"
                   className="cursor-pointer"
                   offset={[4, -1]}
@@ -92,7 +115,7 @@ export default function Chapter() {
       </Layout.Header>
       <Layout.Content className="min-h-full w-full bg-transparent">
         {getChapter.isFetching ? (
-          <LoadingIcon />
+          <PageLoading />
         ) : getChapter.data?.file_url ? (
           <div className="mx-auto min-h-full w-full max-w-[720px]">
             <div className="min-h-screen py-[10vh]">
@@ -110,7 +133,7 @@ export default function Chapter() {
           </div>
         ) : null}
         {!!getChapter.data?.id && (
-          <div className="mx-auto w-full max-w-[1200px] p-8">
+          <div ref={commentsRef} className="mx-auto w-full max-w-[1200px] p-8">
             <CommentList chapterId={getChapter.data.id} onTotalChange={setTotalComments} />
           </div>
         )}

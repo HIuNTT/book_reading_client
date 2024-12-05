@@ -63,3 +63,7 @@ export function useGetChapter(params: GetChapterParams, enabled?: boolean) {
     enabled,
   })
 }
+
+export async function updateView(chapterId: number) {
+  return await api.post('/public/update_view', undefined, { params: { chapterId } })
+}

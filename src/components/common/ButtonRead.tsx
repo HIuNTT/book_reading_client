@@ -2,7 +2,14 @@ import { SVGProps } from 'react'
 
 export default function ButtonRead(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 42 42" fill="none" {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="100%"
+      height="100%"
+      viewBox="0 0 42 42"
+      fill="currentColor"
+      {...props}
+    >
       <g filter="url(#filter0_b_4990_15993)">
         <path
           d="M42 21C42 32.598 32.598 42 21 42C9.40202 42 0 32.598 0 21C0 9.40202 9.40202 0 21 0C32.598 0 42 9.40202 42 21Z"

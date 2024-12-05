@@ -55,7 +55,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
               <li
                 key={book.id}
                 className="flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(18,18,18,0.04)]"
-                onClick={() => navigate(`/book/${book.id}`)}
+                onClick={() => navigate(`/book/detail/${book.id}`)}
               >
                 <img
                   className="mx-2 my-[6px] mr-4 h-[76px] w-[58px] rounded-lg object-cover text-transparent"

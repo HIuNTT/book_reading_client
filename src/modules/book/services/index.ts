@@ -14,12 +14,18 @@ export interface UpdateBookDto extends BookPayload {
 }
 
 export interface BookListParams {
-  title?: string | null
-  status?: string | null
-  authorId?: number | null
-  categoryId?: number | null
+  title?: string
+  status?: string
+  authorId?: number
+  categoryId?: number
   size?: number
   page?: number
+  sort?: string
+}
+
+export interface BookUpListParams {
+  page?: number
+  size?: number
   sort?: string
 }
 
@@ -55,7 +61,7 @@ export interface UploadFileResponse {
   }
 }
 
-export async function getBookList(params?: BookListParams) {
+export async function getBookList(params: BookListParams) {
   return (
     (
       await api.get<BookListResponse>('/public/book/list_search', {
@@ -82,7 +88,7 @@ export async function getBookInfo(bookId: number) {
 }
 
 /** Lấy danh sách thể loại GET /books */
-export default function useGetBookList(params?: BookListParams) {
+export default function useGetBookList(params: BookListParams) {
   return useQuery({
     queryKey: ['bookList'],
     queryFn: async () => await getBookList(params),
@@ -102,7 +108,7 @@ export async function postFile(formData: FormData) {
 // Mỗi khi enabled đổi từ false sang true, query sẽ được fetch lại để đảm bảo dữ liệu là mới nhất, bất kể queryKey có thay đổi hay không
 export function useGetBookListInfinite(params: Omit<BookListParams, 'page'>, enabled?: boolean) {
   return useInfiniteQuery({
-    queryKey: ['bookList', params.size, params.status, params.authorId, params.categoryId, params.title],
+    queryKey: ['bookList', params.size, params.status, params.authorId, params.categoryId, params.title, params.sort],
     queryFn: async ({ pageParam }) =>
       await getBookList({
         ...params,
@@ -143,5 +149,16 @@ export function useGetBannerBookList(params: BannerBookListParams) {
   return useQuery({
     queryKey: ['bannerBookList', params.page, params.size, params.sort],
     queryFn: async () => await getBannerBookList(params),
+  })
+}
+
+export async function getBookUpList(params: BookUpListParams) {
+  return (await api.get<BookListResponse>('/public/book/list_new', { params })).data.data
+}
+
+export function useGetBookUpList(params: BookUpListParams) {
+  return useQuery({
+    queryKey: ['bookUpList', params.page, params.size, params.sort],
+    queryFn: async () => await getBookUpList(params),
   })
 }

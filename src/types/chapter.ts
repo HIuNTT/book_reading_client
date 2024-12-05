@@ -8,6 +8,18 @@ export interface ChapterItem {
   file_url: string
 }
 
+export interface ChapterHistory {
+  id: number
+  title: string
+  order_chap: number
+}
+
+export interface NewChapter {
+  id: number
+  title: string
+  order_chap: number
+}
+
 export interface ChapterPayload {
   title?: string
   order_chap?: number
