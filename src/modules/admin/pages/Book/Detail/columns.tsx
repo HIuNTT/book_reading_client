@@ -41,10 +41,12 @@ export const configChapterColumns = (
   };
   return [
     {
-      title:'ID',
-      dataIndex:'id',
-      key:'id',
-      width:'10%',
+      title: 'STT',
+      key: 'stt',
+      width: '10%',
+      render: (_: any, __: any, index: number) => {
+        return index + 1;
+      },
     },
     {
       title:'Tên chương',
