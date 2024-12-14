@@ -1,35 +1,55 @@
-import { ThemeConfig } from 'antd'
+import { theme, ThemeConfig } from 'antd'
 
-export const themeConfig: ThemeConfig = {
-  token: {
-    colorPrimary: '#ff2f7f',
-    colorTextBase: '#11181c',
-    colorTextPlaceholder: 'rgba(17,24,28,0.7)',
-    borderRadius: 8,
-    borderRadiusLG: 12,
-    screenXXL: 1680,
-    screenLG: 1024,
-  },
+const componentConfig: ThemeConfig = {
   components: {
     Input: {
-      paddingBlock: 9,
+      paddingBlock: 8,
       paddingInline: 12,
       paddingBlockLG: 11,
       paddingInlineLG: 12,
     },
     Button: {
-      paddingBlockSM: 13,
       paddingBlock: 19,
       paddingInline: 16,
       paddingBlockLG: 23,
       paddingInlineLG: 24,
     },
-    Card: {
-      borderRadiusLG: 6,
-    },
     InputNumber: {
-      paddingBlock: 9,
+      paddingBlock: 8,
       paddingInline: 12,
+      paddingBlockLG: 11,
+      paddingInlineLG: 12,
     },
   },
+}
+
+export const darkThemeConfig: ThemeConfig = {
+  token: {
+    colorPrimary: '#ff2f7f',
+    colorTextPlaceholder: 'rgb(179,179,179)',
+    colorText: 'rgb(255,255,255)',
+    borderRadiusLG: 12,
+    screenXXL: 1680,
+    screenLG: 1024,
+    colorBgLayout: '#141414',
+  },
+  components: {
+    ...componentConfig.components,
+    Layout: {
+      headerBg: '#141414',
+    },
+    Modal: {
+      colorIcon: 'rgba(255,255,255,0.45)',
+    },
+  },
+  algorithm: [theme.darkAlgorithm],
+}
+
+export const lightThemeConfig: ThemeConfig = {
+  token: {
+    colorPrimary: '#ff2f7f',
+    colorTextBase: '#11181c',
+    borderRadiusLG: 12,
+  },
+  ...componentConfig,
 }

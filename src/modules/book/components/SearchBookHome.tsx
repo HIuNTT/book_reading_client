@@ -98,16 +98,16 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                     <Icon
                       width="1rem"
                       icon="ep:close-bold"
-                      className={cn('text-[rgb(119,119,119)] hover:text-[rgba(17,24,28,0.88)]', {
+                      className={cn('text-[rgb(179,179,179)] hover:text-white', {
                         'text-white hover:text-white': isTop && isHome,
                       })}
                     />
                   ),
                 }}
                 className={cn(
-                  'bg-[rgba(18,18,18,0.04)] focus-within:border-[rgba(18,18,18,0.32)] hover:bg-[rgba(18,18,18,0.08)] focus-within:hover:border-transparent',
+                  'bg-[rgba(255,255,255,0.04)] focus-within:border-[rgba(255,255,255,0.32)] hover:bg-[rgba(255,255,255,0.08)] focus-within:hover:border-transparent',
                   {
-                    'border-transparent bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)] [&>input]:placeholder:text-[rgba(255,255,255,0.75)]':
+                    'border-transparent bg-[rgba(255,255,255,0.12)] text-white backdrop-blur-[20px] hover:bg-[rgba(255,255,255,0.2)] [&>input]:placeholder:text-[rgba(255,255,255,0.75)]':
                       isTop && isHome,
                   },
                 )}

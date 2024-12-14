@@ -37,7 +37,7 @@ export default function Carousel() {
             <div
               className="absolute inset-0 z-10 backdrop-blur-3xl"
               style={{
-                background: 'linear-gradient(0deg, rgb(255, 255, 255) 5%, rgba(0, 0, 0, 0) 60%) rgba(0, 0, 0, 0.5)',
+                background: 'linear-gradient(0deg, rgb(20, 20, 20) 5%, rgba(0, 0, 0, 0) 60%) rgba(0, 0, 0, 0.6)',
               }}
             ></div>
           </div>

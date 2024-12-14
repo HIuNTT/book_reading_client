@@ -30,50 +30,15 @@ export const adminRoute: AppRoute[] = [
         Component: Book,
       },
       {
-        path: '/admin/book/detail/:id', 
+        path: '/admin/book/detail/:id',
         name: 'Chi tiết sách',
-        showOnMenu: false, 
+        showOnMenu: false,
         element: 'Chi tiết sách',
         Component: Chapter,
       },
     ],
   },
-  {
-    path: '/admin/banner',
-    name: 'Banner',
-    icon: 'bi:badge-ad',
-    showOnMenu: true,
-    children: [
-      { path: '/admin/banner', redirect: '/admin/banner/list' },
-      {
-        path: '/admin/banner/list',
-        name: 'Tất cả banner',
-        showOnMenu: true,
-        element: 'Tất cả banner',
-      },
-      {
-        path: '/admin/banner/add',
-        name: 'Thêm banner mới',
-        showOnMenu: true,
-        element: 'Thêm banner mới',
-      },
-    ],
-  },
-  {
-    path: '/admin/recommend',
-    name: 'Đề xuất',
-    icon: 'tabler:file-ai',
-    showOnMenu: true,
-    children: [
-      { path: '/admin/recommend', redirect: '/admin/recommend/list' },
-      {
-        path: '/admin/recommend/list',
-        name: 'Sửa module',
-        showOnMenu: true,
-        element: 'Tất cả module',
-      },
-    ],
-  },
+
   { ...categoryAdminRoute },
   { ...authorAdminRoute },
 ]

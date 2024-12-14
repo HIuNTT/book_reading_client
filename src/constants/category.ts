@@ -23,4 +23,8 @@ export const categories: { id: number; name: string }[] = [
     id: 5,
     name: 'Kiếm hiệp',
   },
+  {
+    id: 6,
+    name: 'Thơ-Tản văn',
+  },
 ]

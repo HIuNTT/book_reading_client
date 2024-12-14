@@ -89,7 +89,7 @@ function Header() {
       <div className="w-full">
         {items.map((item) => (
           <div
-            className="flex cursor-pointer items-center justify-start rounded-xl p-4 hover:bg-[#1212120a]"
+            className="flex cursor-pointer items-center justify-start rounded-xl p-4 hover:bg-[rgba(255,255,255,0.08)]"
             onClick={item.onClick}
             key={item.key}
           >
@@ -105,7 +105,7 @@ function Header() {
     <>
       <Layout.Header
         className={cn(
-          'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b bg-white px-4 sm:px-8 xxl:px-16',
+          'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b border-[rgba(255,255,255,0.08)] px-4 sm:px-8 xxl:px-16',
           {
             'border-b-0 bg-transparent': isTop && isHome,
           },
@@ -123,16 +123,7 @@ function Header() {
                   <img src="/logo.svg" alt="Waka Logo" />
                 </div>
                 <div className="relative ml-2.5 w-[100px]">
-                  <img
-                    className={cn('absolute', { 'opacity-0': isTop && isHome })}
-                    src={'/img/logo waka rose.png'}
-                    alt="Waka Logo Text"
-                  />
-                  <img
-                    className={cn({ 'opacity-0': !isTop && !isHome })}
-                    src={'/img/logo waka white.png'}
-                    alt="Waka Logo Text"
-                  />
+                  <img src={'/img/logo waka white.png'} alt="Waka Logo Text" />
                 </div>
               </Link>
               <div className="ml-6 flex gap-[30px]">
@@ -140,21 +131,15 @@ function Header() {
                   onClick={() => navigate('/')}
                   className={cn(
                     'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
-                    {
-                      'text-white': isTop && isHome,
-                    },
                     { 'font-bold opacity-100': isHome },
                   )}
                 >
-                  Đề xuất
+                  Trang chủ
                 </div>
                 <div
                   onClick={() => navigate('/book-library')}
                   className={cn(
                     'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
-                    {
-                      'text-white': isTop && isHome,
-                    },
                     { 'font-bold opacity-100': pathname.startsWith('/book-library') },
                   )}
                 >
@@ -171,7 +156,9 @@ function Header() {
             <div className="flex items-center gap-5">
               <Button
                 size="large"
-                className="!w-12"
+                className={cn('!w-12 bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
+                  'bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.2)]': isHome && isTop,
+                })}
                 color="default"
                 variant="filled"
                 icon={<Icon width="24" icon="lucide:clock-5" />}
@@ -192,10 +179,10 @@ function Header() {
             <div className="flex items-center gap-3">
               <Button
                 size="large"
-                color="primary"
+                type="primary"
                 variant={isTop && isHome ? 'text' : 'filled'}
                 onClick={disclosureSignup.onOpen}
-                className={cn({
+                className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
                   'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
                 })}
                 style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
@@ -206,7 +193,7 @@ function Header() {
                 size="large"
                 type="primary"
                 onClick={disclosureLogin.onOpen}
-                className={cn({
+                className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
                   'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isHome && isTop,
                 })}
               >

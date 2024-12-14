@@ -28,6 +28,7 @@ import useGetAuthorList, { AuthorListParams } from '../services/getAuthorList'
 import { Author } from 'types/author'
 import { useDeleteAuthor } from '../services/deleteAuthor'
 import AuthorModal from '../components/AuthorModal'
+import { UserOutlined } from '@ant-design/icons'
 
 export default function AuthorAdmin() {
   console.log('render author')
@@ -53,22 +54,22 @@ export default function AuthorAdmin() {
       title: 'Ảnh đại diện',
       fixed: 'left',
       dataIndex: 'image',
-      width: 200,
-      render: (image: string) => <Avatar size="large" src={image || undefined} />,
+      align: 'center',
+      width: 150,
+      render: (image: string) => <Avatar size="large" icon={<UserOutlined />} src={image} />,
     },
     {
       title: 'Tên tác giả',
       width: 200,
       dataIndex: 'name',
-
       align: 'left',
       fixed: 'left',
     },
     {
       title: 'Mô tả',
+      ellipsis: true,
       dataIndex: 'description',
     },
-
     {
       title: 'Thao tác',
       fixed: 'right',
@@ -215,7 +216,6 @@ export default function AuthorAdmin() {
             }}
             dataSource={getAuthorList.data?.content}
             rowKey="id"
-            scroll={{ x: 'max-content' }}
             loading={getAuthorList.isFetching}
             onChange={handleTableChange}
           />

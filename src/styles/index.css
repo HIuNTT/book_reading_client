@@ -97,3 +97,9 @@
 .swiper-pagination-bullet-active {
   transition: all 0.6s cubic-bezier(0.14, 1, 0.34, 1) 0.3s;
 }
+
+.ant-upload-list-picture-card .ant-upload-list-item-actions .anticon-delete,
+.ant-upload-list-picture-card .ant-upload-list-item-actions .anticon-download,
+.ant-upload-list-picture-card .ant-upload-list-item-actions .anticon-eye {
+  color: #fff;
+}

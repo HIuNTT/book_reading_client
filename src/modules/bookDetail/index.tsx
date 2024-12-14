@@ -1,7 +1,7 @@
 import Detail from 'components/BookDetail/Detail'
 import Footer from 'components/Footer'
-import DeXuat from 'components/Home/DeXuat'
 import Rank from 'components/Home/Rank'
+import VanHocVN from 'components/Home/VanHocVN'
 import Header from 'components/layout/home/Header'
 
 export default function BookDetail() {
@@ -9,7 +9,7 @@ export default function BookDetail() {
     <div>
       <Header />
       <Detail />
-      <DeXuat />
+      <VanHocVN />
       <Rank />
       <Footer />
     </div>

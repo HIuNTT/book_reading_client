@@ -3,8 +3,8 @@ import { toast } from 'sonner'
 import { memo, useEffect } from 'react'
 import { AuthorDto, useCreateAuthor } from '../services/createAuthor'
 import { UpdateAuthorDto, useUpdateAuthor } from '../services/updateAuthor'
-import AvatarUpload from './AvatarUpload'
 import { Author } from 'types/author'
+import ImageUpload from 'components/common/ImageUpload'
 
 interface AuthorModalProps {
   open: boolean
@@ -14,8 +14,6 @@ interface AuthorModalProps {
 }
 
 function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
-  console.log('render category modal')
-
   const [form] = Form.useForm<AuthorDto>()
 
   const { mutate: mutateCreateAuthor, isPending: isPendingCreateAuthor } = useCreateAuthor()
@@ -45,14 +43,10 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
     }
   }
 
-  const onSetValue = (value: string) => {
-    form.setFieldsValue({ image: value })
-  }
-
   useEffect(() => {
     if (record?.id && open) {
       form.resetFields()
-      form.setFieldsValue(record)
+      form.setFieldsValue({ ...record, image: record.image_key })
     }
   }, [open, record, form])
 
@@ -88,7 +82,7 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
           <Input.TextArea autoSize={{ minRows: 1, maxRows: 3 }} allowClear placeholder="Nhập mô tả" />
         </Form.Item>
         <Form.Item<AuthorDto> label="Ảnh đại diện" name="image">
-          <AvatarUpload onSetValue={onSetValue} avatarUrl={record?.id && open ? record.image : undefined} />
+          <ImageUpload name={record?.image_key} imageUrl={record?.image} />
         </Form.Item>
       </Form>
     </Modal>
