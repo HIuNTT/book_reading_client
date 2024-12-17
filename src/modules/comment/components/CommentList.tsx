@@ -49,14 +49,14 @@ export default function CommentList({ chapterId, onTotalChange }: CommentListPro
             ? `Bình Luận (${data.pages[0].total_elements})`
             : 'Bình Luận (0)'}
       </Typography.Title>
-      <div>
-        <CommentInput chapterId={chapterId} />
-      </div>
-      <div className="mt-8 px-[15px]">
+
+      <CommentInput chapterId={chapterId} />
+
+      <div className="mt-8 px-[18px]">
         <Tabs items={items} onChange={onChange} />
       </div>
       <div>
-        {isLoading || (isFetching && !data?.pages.length) ? (
+        {isLoading || isFetching ? (
           <LoadingIcon />
         ) : !!data && data.pages[0].content.length > 0 ? (
           <>

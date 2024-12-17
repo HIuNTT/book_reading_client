@@ -12,7 +12,7 @@ export default function CategoryListHome() {
       <div className="flex h-[84px] flex-wrap gap-3 overflow-hidden min-[1024px]:h-9">
         <div
           onClick={() => navigate('/book-library')}
-          className="flex h-9 cursor-pointer rounded-md bg-[rgba(18,18,18,0.08)] px-[17px] py-[10px] leading-4 text-[rgb(62,62,65)] hover:text-textColor"
+          className="flex h-9 cursor-pointer rounded-md bg-white/[6%] px-[17px] py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white"
         >
           <span className="mr-2 inline-block">
             <Icon icon="ri:book-shelf-line" width="16" height="16" />
@@ -24,7 +24,7 @@ export default function CategoryListHome() {
           <div
             key={category.id}
             onClick={() => navigate(`/book-library?value=${category.id}`)}
-            className="h-9 cursor-pointer rounded-md bg-[rgba(18,18,18,0.08)] px-[17px] py-[10px] leading-4 text-[rgb(62,62,65)] hover:text-textColor"
+            className="h-9 cursor-pointer rounded-md bg-white/[6%] px-[17px] py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white"
           >
             {category.name}
           </div>

@@ -2,11 +2,13 @@ import { ConfigProvider, FloatButton, Layout } from 'antd'
 import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
-import { darkThemeConfig } from 'styles/theme'
+import { useTheme } from 'stores/theme'
 
 export default function MainLayout() {
+  const theme = useTheme()
+
   return (
-    <ConfigProvider theme={darkThemeConfig}>
+    <ConfigProvider theme={theme.themeConfig}>
       <Layout className="min-h-screen w-full">
         <Header />
         <Layout.Content>

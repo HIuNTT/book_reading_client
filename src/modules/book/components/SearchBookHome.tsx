@@ -54,7 +54,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
             {getBookList.data.pages[0].content.map((book) => (
               <li
                 key={book.id}
-                className="flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(18,18,18,0.04)]"
+                className="flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(255,255,255,0.04)]"
                 onClick={() => navigate(`/book/detail/${book.id}`)}
               >
                 <img
@@ -63,7 +63,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                   alt={book.title}
                 />
                 <div className="flex flex-1 flex-col overflow-hidden">
-                  <div className="text-ellipsis whitespace-nowrap font-semibold">{book.title}</div>
+                  <div className="overflow-hidden text-ellipsis whitespace-nowrap font-semibold">{book.title}</div>
                 </div>
               </li>
             ))}
@@ -90,6 +90,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
             overlayInnerStyle={{ padding: 0 }}
             overlayStyle={{ top: 'calc(100% + 13px)' }}
             placement="bottom"
+            color="#2c2c2c"
           >
             <div className="flex">
               <Input

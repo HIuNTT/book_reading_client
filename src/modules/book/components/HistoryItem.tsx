@@ -15,7 +15,7 @@ export default function HistoryItem({ bookItem }: HistoryItemProps) {
         <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[146.25%]">
           <span className="absolute inset-0 overflow-hidden">
             <img
-              className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full bg-[rgb(182,182,182)]"
+              className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full bg-[rgb(31,31,31)]"
               src={bookItem.thumbnail_url}
               alt={bookItem.title}
             />
@@ -41,9 +41,7 @@ export default function HistoryItem({ bookItem }: HistoryItemProps) {
         className="h-[49.5px] cursor-pointer pt-[7.5px] sm:h-[50.75px] sm:pt-[8.75px] min-[1024px]:h-[52px] min-[1024px]:pt-[10px] xxl:h-[58px]"
         onClick={() => navigate(`/book/detail/${bookItem.id}`)}
       >
-        <p className="line-clamp-2 capitalize text-textColor group-hover:text-primary xxl:text-[16px]">
-          {bookItem.title}
-        </p>
+        <p className="line-clamp-2 capitalize group-hover:text-primary xxl:text-[16px]">{bookItem.title}</p>
       </div>
     </div>
   )

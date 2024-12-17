@@ -30,10 +30,10 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
 
   const content = (
     <div className="w-full">
-      <Link className="text-white" to={`/book/detail/${bookItem.id}`}>
-        <div className="relative w-full bg-[#f5f5f5] max-[767px]:hidden">
+      <Link className="" to={`/book/detail/${bookItem.id}`}>
+        <div className="relative w-full max-[767px]:hidden">
           <div
-            className="w-full bg-cover bg-no-repeat pt-[56%]"
+            className="w-full bg-[rgb(31,31,31)] bg-cover bg-no-repeat pt-[56%]"
             style={{
               backgroundImage: `url(${bookItem.thumbnail_url})`,
               backgroundPosition: 'center 80%',
@@ -66,7 +66,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
                     <span className="ml-1 font-bold">{bookItem.avg_rating}</span>
                   </div>
                 </div>
-                <Divider type="vertical" className="mx-0 border-[1px] border-textColor/20" />
+                <Divider type="vertical" className="mx-0 border-[1px] border-[rgba(255,255,255,0.2)]" />
                 <Text className="flex items-center leading-[19px] max-[1679px]:text-[12px]">
                   <Icon icon="mdi:eye" className="mr-1" />
                   {formatCompactNumber(bookItem.view)}
@@ -78,7 +78,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
                   <Tag
                     key={category.category_id}
                     bordered={false}
-                    className="mb-[2px] bg-[rgba(0,0,0,0.08)] text-[11px] xxxl:text-[13px]"
+                    className="mb-[2px] bg-[rgba(255,255,255,0.08)] text-[11px] text-[rgb(236,236,236)] xxxl:text-[13px]"
                   >
                     {category.category_name}
                   </Tag>
@@ -87,7 +87,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
               <section className="mt-[6px] h-[100px] xxxl:mt-2 xxxl:h-[118px]">
                 <p className="line-clamp-5 text-[12px] xxxl:text-[14px]">{bookItem.summary}</p>
               </section>
-              <div className="absolute bottom-[10px] right-0 flex w-full items-center justify-end px-2 text-primary hover:text-primary/75 xxxl:bottom-[12px]">
+              <div className="absolute bottom-[10px] right-0 flex w-full items-center justify-end px-2 text-primary hover:text-[rgb(236,87,144)] xxxl:bottom-[12px]">
                 <span className="text-[12px] xxxl:text-[14px]">Xem thêm</span>
                 <Icon width={10} icon="fe:arrow-right" />
               </div>
@@ -101,7 +101,6 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
   return (
     <>
       <Popover
-        color="#f5f5f5"
         align={{ points: ['tc', 'tc'], targetOffset: ['0%', '5%'] }}
         content={content}
         autoAdjustOverflow={false}
@@ -117,7 +116,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
             <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[146.25%]">
               <span className="absolute inset-0 overflow-hidden">
                 <img
-                  className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full bg-[rgb(182,182,182)]"
+                  className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full bg-[rgb(31,31,31)]"
                   src={bookItem.thumbnail_url}
                   alt={bookItem.title}
                 />
@@ -144,9 +143,7 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
             className="h-[49.5px] cursor-pointer pt-[7.5px] sm:h-[50.75px] sm:pt-[8.75px] min-[1024px]:h-[52px] min-[1024px]:pt-[10px] xxl:h-[58px]"
             onClick={() => navigate(`/book/detail/${bookItem.id}`)}
           >
-            <p className="line-clamp-2 capitalize text-textColor group-hover:text-primary xxl:text-[16px]">
-              {bookItem.title}
-            </p>
+            <p className="line-clamp-2 capitalize group-hover:text-primary xxl:text-[16px]">{bookItem.title}</p>
           </div>
         </div>
       </Popover>

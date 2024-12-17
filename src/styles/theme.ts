@@ -51,5 +51,17 @@ export const lightThemeConfig: ThemeConfig = {
     colorTextBase: '#11181c',
     borderRadiusLG: 12,
   },
-  ...componentConfig,
+  components: {
+    ...componentConfig.components,
+    Layout: {
+      headerBg: '#fff',
+    },
+  },
 }
+
+export const themeColor = {
+  dark: darkThemeConfig,
+  light: lightThemeConfig,
+}
+
+export type ThemeColor = keyof typeof themeColor

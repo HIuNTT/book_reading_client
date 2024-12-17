@@ -27,7 +27,6 @@ function Header() {
   const { pathname } = useLocation()
 
   const isHome = pathname === '/'
-  console.log('render')
 
   const disclosureLogin = useDisclosure()
   const disclosureSignup = useDisclosure()
@@ -107,7 +106,7 @@ function Header() {
         className={cn(
           'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b border-[rgba(255,255,255,0.08)] px-4 sm:px-8 xxl:px-16',
           {
-            'border-b-0 bg-transparent': isTop && isHome,
+            'border-b-0 bg-transparent': isTop,
           },
         )}
         style={{
@@ -157,7 +156,7 @@ function Header() {
               <Button
                 size="large"
                 className={cn('!w-12 bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.2)]': isHome && isTop,
+                  'bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
                 })}
                 color="default"
                 variant="filled"
@@ -180,10 +179,10 @@ function Header() {
               <Button
                 size="large"
                 type="primary"
-                variant={isTop && isHome ? 'text' : 'filled'}
+                variant={isTop ? 'text' : 'filled'}
                 onClick={disclosureSignup.onOpen}
                 className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
+                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop,
                 })}
                 style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
               >
@@ -194,7 +193,7 @@ function Header() {
                 type="primary"
                 onClick={disclosureLogin.onOpen}
                 className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isHome && isTop,
+                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop,
                 })}
               >
                 Đăng nhập

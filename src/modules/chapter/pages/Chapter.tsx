@@ -1,10 +1,7 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { Badge, Divider, FloatButton, Layout, Space, Typography } from 'antd'
-
+import { Badge, Card, ConfigProvider, Divider, Layout, Space, Typography } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
-import EpubView, { EpubViewRef } from '../components/EpubView'
 import { useEffect, useRef, useState } from 'react'
-import { RenditionOptions } from 'epubjs/types/rendition'
 import CommentList from 'modules/comment/components/CommentList'
 import { ChapterParams } from '../route'
 import { updateView, useGetChapter } from '..'
@@ -13,12 +10,20 @@ import { useTimeoutFn } from 'react-use'
 import PageLoading from 'components/common/PageLoading'
 import { useUser } from 'stores/user'
 import { saveHistory } from 'modules/book/services/history'
+import { useTheme } from 'stores/theme'
+import ChapterReader from '../components/ChapterReader'
+import ViewerSetting from '../components/ViewerSetting'
+import { useViewerSetting } from 'stores/viewerSetting'
+import { themeSpace } from 'constants/viewerLayout'
 
 export default function Chapter() {
-  console.log('render chapter')
+  const [totalComments, setTotalComments] = useState<number>(0)
+  const [headerOpen, setHeaderOpen] = useState<boolean>(true)
 
   const navigate = useNavigate()
   const { user } = useUser()
+  const theme = useTheme()
+  const { spaceColor } = useViewerSetting()
 
   const { bookId, order } = useParams<keyof ChapterParams>()
 
@@ -27,10 +32,6 @@ export default function Chapter() {
     !!Number(bookId) && !!Number(order),
   )
 
-  const [totalComments, setTotalComments] = useState<number>()
-
-  const epubRef = useRef<EpubViewRef>(null)
-  const epubOptions = useRef<RenditionOptions>({ flow: 'scrolled' })
   const commentsRef = useRef<HTMLDivElement>(null)
 
   const handleClickScrollToComments = () => {
@@ -57,91 +58,94 @@ export default function Chapter() {
   }, [user.id, getChapter.isSuccess, getChapter.data?.id])
 
   return (
-    <Layout className="bg-transparent">
-      <Layout.Header className="fixed top-0 z-50 flex h-[68px] w-full justify-center border-b-[1px] bg-white p-0">
-        <div className="w-full max-w-[1200px]">
-          <div className="flex h-full items-center justify-between px-7">
-            <div className="mr-3 flex items-center">
-              <div className="cursor-pointer" onClick={() => navigate(`/book/detail/${bookId}`)}>
-                <img className="mr-4 hover:opacity-65 active:opacity-30" src="/home-list.svg" alt="Home List Icon" />
+    <ConfigProvider theme={theme.themeConfig}>
+      <Layout>
+        <Layout.Header
+          className={cn('fixed top-0 z-50 flex h-[68px] w-full translate-y-0 justify-center p-0 transition-all', {
+            '-translate-y-full': !headerOpen,
+          })}
+        >
+          <div className="w-full max-w-[1200px]">
+            <div className="flex h-full items-center justify-between px-7">
+              <div className="mr-3 flex items-center">
+                <div className="cursor-pointer" onClick={() => navigate(`/book/detail/${bookId}`)}>
+                  <img className="mr-4 hover:opacity-65 active:opacity-30" src="/home-list.svg" alt="Home List Icon" />
+                </div>
+                <Typography.Text className="line-clamp-1 break-all text-[16px] font-bold leading-[22px]">
+                  {getChapter.data?.title}
+                </Typography.Text>
               </div>
-              <Typography.Text className="line-clamp-1 break-all text-[16px] font-bold leading-[22px]">
-                {getChapter.data?.title}
-              </Typography.Text>
-            </div>
-            <div className="flex">
-              <Space size={24} align="center" className="mr-10 [&>:nth-child(2)]:flex [&>:nth-child(2)]:items-center">
-                <img
-                  className="hidden cursor-pointer hover:opacity-65 active:opacity-30"
-                  src="/page.svg"
-                  alt="Page Mode"
-                />
-                <Badge
-                  onClick={handleClickScrollToComments}
-                  color="#11181c"
-                  className="cursor-pointer"
-                  offset={[4, -1]}
-                  count={totalComments}
-                  showZero
-                  classNames={{ indicator: 'text-[10px] px-[5px]' }}
-                >
-                  <img className="hover:opacity-65 active:opacity-30" src="/comment.svg" alt="Comment" />
-                </Badge>
-              </Space>
-              <Space size={16}>
-                <div
-                  className={cn('flex cursor-pointer items-center hover:opacity-65', {
-                    'pointer-events-none cursor-default opacity-30 hover:opacity-30': !getChapter.data?.order_previous,
-                  })}
-                  onClick={() => navigate(`/book/${getChapter.data?.book.id}/${getChapter.data?.order_previous}`)}
-                >
-                  <LeftOutlined className="text-[24px]" />
-                  <Typography.Text>Chương Trước</Typography.Text>
-                </div>
-                <Divider className="m-0 border-[rgba(0,0,0,0.1)]" type="vertical" />
-                <div
-                  className={cn('flex cursor-pointer items-center hover:opacity-65', {
-                    'pointer-events-none cursor-default opacity-30 hover:opacity-30': !getChapter.data?.order_next,
-                  })}
-                  onClick={() => navigate(`/book/${getChapter.data?.book.id}/${getChapter.data?.order_next}`)}
-                >
-                  <Typography.Text className="mr-1">Chương Sau</Typography.Text>
-                  <RightOutlined className="text-[24px]" />
-                </div>
-              </Space>
+              <div className="flex">
+                <Space size={24} align="center" className="mr-10 [&>:nth-child(2)]:flex [&>:nth-child(2)]:items-center">
+                  <img
+                    className="hidden cursor-pointer hover:opacity-65 active:opacity-30"
+                    src="/page.svg"
+                    alt="Page Mode"
+                  />
+                  <Badge
+                    onClick={handleClickScrollToComments}
+                    color="#eee"
+                    className="cursor-pointer"
+                    offset={[4, -1]}
+                    count={totalComments}
+                    showZero
+                    classNames={{ indicator: 'text-[10px] px-[5px] text-black' }}
+                  >
+                    <img className="hover:opacity-65 active:opacity-30" src="/comment.svg" alt="Comment" />
+                  </Badge>
+                </Space>
+                <Space size={16}>
+                  <div
+                    className={cn('flex cursor-pointer items-center hover:opacity-65', {
+                      'pointer-events-none cursor-default opacity-30 hover:opacity-30':
+                        !getChapter.data?.order_previous,
+                    })}
+                    onClick={() => navigate(`/book/${getChapter.data?.book.id}/${getChapter.data?.order_previous}`)}
+                  >
+                    <LeftOutlined className="text-[24px]" />
+                    <Typography.Text>Chương Trước</Typography.Text>
+                  </div>
+                  <Divider className="m-0" type="vertical" />
+                  <div
+                    className={cn('flex cursor-pointer items-center hover:opacity-65', {
+                      'pointer-events-none cursor-default opacity-30 hover:opacity-30': !getChapter.data?.order_next,
+                    })}
+                    onClick={() => navigate(`/book/${getChapter.data?.book.id}/${getChapter.data?.order_next}`)}
+                  >
+                    <Typography.Text className="mr-1">Chương Sau</Typography.Text>
+                    <RightOutlined className="text-[24px]" />
+                  </div>
+                </Space>
+              </div>
             </div>
           </div>
-        </div>
-      </Layout.Header>
-      <Layout.Content className="min-h-full w-full bg-transparent">
-        {getChapter.isFetching ? (
-          <PageLoading />
-        ) : getChapter.data?.file_url ? (
-          <div className="mx-auto min-h-full w-full max-w-[720px]">
-            <div className="min-h-screen py-[10vh]">
-              <EpubView
-                url={getChapter.data.file_url}
-                ref={epubRef}
-                location="epubcfi(/6/2!/4/2/1:0)"
-                epubOptions={epubOptions.current}
-                onLocationChange={(location: string) => {
-                  window.localStorage.setItem('epub', location)
-                  console.log(location)
-                }}
-              />
-            </div>
+        </Layout.Header>
+        <Layout.Content>
+          <div
+            onClick={() => setHeaderOpen(!headerOpen)}
+            className="min-h-full w-full pb-[10vh]"
+            style={{ backgroundColor: themeSpace[spaceColor].backgroundColor }}
+          >
+            {getChapter.isFetching ? (
+              <PageLoading />
+            ) : getChapter.data?.file_url ? (
+              <ChapterReader fileUrl={getChapter.data.file_url} />
+            ) : null}
+            {!!getChapter.data?.id && (
+              <Card
+                bordered={false}
+                classNames={{ body: 'p-0' }}
+                ref={commentsRef}
+                className="mx-auto w-full max-w-[1200px] p-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CommentList chapterId={getChapter.data.id} onTotalChange={setTotalComments} />
+              </Card>
+            )}
           </div>
-        ) : null}
-        {!!getChapter.data?.id && (
-          <div ref={commentsRef} className="mx-auto w-full max-w-[1200px] p-8">
-            <CommentList chapterId={getChapter.data.id} onTotalChange={setTotalComments} />
-          </div>
-        )}
-      </Layout.Content>
-      <FloatButton.BackTop
-        visibilityHeight={0}
-        style={{ insetInlineEnd: 30, insetBlockEnd: 50, width: '46px', height: '46px' }}
-      />
-    </Layout>
+        </Layout.Content>
+        <ViewerSetting />
+      </Layout>
+    </ConfigProvider>
   )
 }
