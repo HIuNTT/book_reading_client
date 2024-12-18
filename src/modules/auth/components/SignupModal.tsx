@@ -112,19 +112,6 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
             </span>
           </div>
         </Form>
-        {/* <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '15px' }} plain>
-          Hoặc tiếp tục với
-        </Divider>
-        <Button
-          htmlType="button"
-          size="large"
-          block
-          icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-          variant="filled"
-          color="primary"
-        >
-          Tiếp tục với Google
-        </Button> */}
       </div>
     </>
   )

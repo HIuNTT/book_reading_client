@@ -50,6 +50,7 @@ export const lightThemeConfig: ThemeConfig = {
     colorPrimary: '#ff2f7f',
     colorTextBase: '#11181c',
     borderRadiusLG: 12,
+    colorBgLayout: '#ffffff',
   },
   components: {
     ...componentConfig.components,

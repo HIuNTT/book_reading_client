@@ -89,7 +89,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
       {isDeleted ? null : (
         <>
           <div
-            className={cn('flex w-full border-t px-[18px] py-5 first:border-t-0', {
+            className={cn('flex w-full border-t border-[rgb(246,246,246)] px-[18px] py-5 first:border-t-0', {
               'border-[#1f1f1f]': theme === 'dark',
             })}
           >
@@ -163,7 +163,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
           )}
           {isReplying && (
             <div
-              className={cn('mx-[18px] mb-5 rounded-lg bg-[rgb(247,247,247)]', {
+              className={cn('mx-[18px] mb-5 rounded-lg bg-[rgb(246,246,246)]', {
                 'bg-[rgba(242,242,242,0.05)]': theme === 'dark',
               })}
             >

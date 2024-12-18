@@ -46,7 +46,7 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
               <Input.Password classNames={{ suffix: 'text-[16px]' }} placeholder="Nhập mật khẩu" />
             </Form.Item>
             <div className="mb-4 mt-[-10px] text-end">
-              <span className="cursor-pointer text-[rgba(255,255,255,0.6)] hover:text-white">Quên mật khẩu?</span>
+              <span className="cursor-pointer opacity-60 hover:opacity-100">Quên mật khẩu?</span>
             </div>
             <Form.Item className="mb-4" shouldUpdate>
               {() => {
@@ -79,19 +79,6 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
               </span>
             </div>
           </Form>
-          {/* <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '14px' }} plain>
-            Hoặc tiếp tục với
-          </Divider>
-          <Button
-            htmlType="button"
-            size="large"
-            block
-            icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-            variant="filled"
-            color="primary"
-          >
-            Tiếp tục với Google
-          </Button> */}
         </div>
       </div>
     </>

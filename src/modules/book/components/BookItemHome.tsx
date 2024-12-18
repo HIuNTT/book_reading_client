@@ -1,13 +1,16 @@
 import { StarFilled } from '@ant-design/icons'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { Divider, Popover, Space, Tag, Typography } from 'antd'
+import { Divider, Popover, Space, Tag, theme, Typography } from 'antd'
 import ButtonRead from 'components/common/ButtonRead'
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTheme } from 'stores/theme'
 import { BookItem } from 'types/book'
+import { cn } from 'utils/cn'
 import { formatCompactNumber } from 'utils/number'
 
 const { Paragraph, Text } = Typography
+const { useToken } = theme
 
 interface BookItemProps {
   bookItem: BookItem
@@ -19,6 +22,9 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
   const [contentWidth, setContentWidth] = useState<number>(0)
 
   const navigate = useNavigate()
+  const { token } = useToken()
+
+  const { theme } = useTheme()
 
   const handlePopoverHover = () => {
     if (triggerRef.current) {
@@ -30,13 +36,14 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
 
   const content = (
     <div className="w-full">
-      <Link className="" to={`/book/detail/${bookItem.id}`}>
+      <Link to={`/book/detail/${bookItem.id}`}>
         <div className="relative w-full max-[767px]:hidden">
           <div
-            className="w-full bg-[rgb(31,31,31)] bg-cover bg-no-repeat pt-[56%]"
+            className="w-full bg-cover bg-no-repeat pt-[56%]"
             style={{
               backgroundImage: `url(${bookItem.thumbnail_url})`,
               backgroundPosition: 'center 80%',
+              backgroundColor: token.colorBgElevated,
             }}
           ></div>
           {/* Flag */}
@@ -66,7 +73,12 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
                     <span className="ml-1 font-bold">{bookItem.avg_rating}</span>
                   </div>
                 </div>
-                <Divider type="vertical" className="mx-0 border-[1px] border-[rgba(255,255,255,0.2)]" />
+                <Divider
+                  type="vertical"
+                  className={cn('mx-0 border-[1px] border-[rgba(0,0,0,0.2)]', {
+                    'border-[rgba(255,255,255,0.2)]': theme === 'dark',
+                  })}
+                />
                 <Text className="flex items-center leading-[19px] max-[1679px]:text-[12px]">
                   <Icon icon="mdi:eye" className="mr-1" />
                   {formatCompactNumber(bookItem.view)}
@@ -78,7 +90,9 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
                   <Tag
                     key={category.category_id}
                     bordered={false}
-                    className="mb-[2px] bg-[rgba(255,255,255,0.08)] text-[11px] text-[rgb(236,236,236)] xxxl:text-[13px]"
+                    className={cn('mb-[2px] bg-[rgba(0,0,0,0.08)] text-[11px] xxxl:text-[13px]', {
+                      'bg-[rgba(255,255,255,0.08)] text-[rgb(236,236,236)]': theme === 'dark',
+                    })}
                   >
                     {category.category_name}
                   </Tag>
@@ -116,7 +130,8 @@ export default function BookItemHome({ bookItem }: BookItemProps) {
             <div className="relative z-[2] overflow-hidden rounded-md before:block before:pt-[146.25%]">
               <span className="absolute inset-0 overflow-hidden">
                 <img
-                  className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full bg-[rgb(31,31,31)]"
+                  className="h-0 max-h-full min-h-full w-0 min-w-full max-w-full"
+                  style={{ backgroundColor: token.colorBgElevated }}
                   src={bookItem.thumbnail_url}
                   alt={bookItem.title}
                 />

@@ -19,7 +19,7 @@ export default function AdminLayout() {
         <Logo collapsed={collapsed} />
         <MenuComponent collapsed={collapsed} />
       </Layout.Sider>
-      <Layout>
+      <Layout className="bg-[#f5f5f5]">
         <Header toggle={toggle} collapsed={collapsed} />
         <Layout.Content className="overflow-auto">
           <Suspense fallback={<PageLoading />}>

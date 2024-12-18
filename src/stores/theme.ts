@@ -10,8 +10,8 @@ interface ThemeState {
 }
 
 const defaultThemeState: Omit<ThemeState, 'toggleTheme'> = {
-  theme: 'dark',
-  themeConfig: themeColor['dark'],
+  theme: 'light',
+  themeConfig: themeColor['light'],
 }
 
 export const useTheme = create<ThemeState>()(
@@ -23,6 +23,16 @@ export const useTheme = create<ThemeState>()(
     {
       name: 'theme',
       partialize: (state) => ({ theme: state.theme }),
+      onRehydrateStorage: () => {
+        return (state, error) => {
+          if (state?.theme) {
+            state.themeConfig = themeColor[state.theme]
+          }
+          if (error) {
+            console.log('an error happened during hydration', error)
+          }
+        }
+      },
     },
   ),
 )

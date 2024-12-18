@@ -1,4 +1,4 @@
-import { Avatar, Button, Layout, Modal, Popover } from 'antd'
+import { Avatar, Button, Layout, Modal, Popover, Switch } from 'antd'
 import LoginModal from 'modules/auth/components/LoginModal'
 import useDisclosure from 'hooks/useDisclosure'
 import SignupModal from 'modules/auth/components/SignupModal'
@@ -10,11 +10,15 @@ import { EGender } from 'enums/gender'
 import { ReactNode, useEffect, useState } from 'react'
 import { cn } from 'utils/cn'
 import { queryClient } from 'configs/queryClient'
+import { useTheme } from 'stores/theme'
+import { MoonOutlined } from '@ant-design/icons'
+import { ERole } from 'enums/role'
 
 interface DropdownItem {
   key: string
   label: string
   icon: ReactNode
+  extra?: ReactNode
   onClick?(): void
 }
 
@@ -22,6 +26,7 @@ function Header() {
   const [isTop, setIsTop] = useState(true)
 
   const { user, clear } = useUser()
+  const { theme, toggleTheme } = useTheme()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -46,7 +51,21 @@ function Header() {
     }
   }, [])
 
+  const handleSwitchChange = (checked: boolean) => {
+    toggleTheme(checked ? 'dark' : 'light')
+  }
+
   const items: DropdownItem[] = [
+    ...(user.role.name === ERole.ADMIN
+      ? [
+          {
+            key: 'admin',
+            label: 'Trang quản lý',
+            icon: <Icon width="1.3rem" icon="eos-icons:admin-outlined" />,
+            onClick: () => navigate('/admin'),
+          },
+        ]
+      : []),
     {
       key: 'account/profile',
       label: 'Quản lý tài khoản',
@@ -54,16 +73,10 @@ function Header() {
       onClick: () => navigate('/account/profile'),
     },
     {
-      key: 'account/bookcase',
-      label: 'Tủ sách của tôi',
-      icon: <Icon width="1.3rem" icon="material-symbols:bookmark-add-outline" />,
-      onClick: () => navigate('/account/bookcase'),
-    },
-    {
-      key: 'account/transaction-histories',
-      label: 'Lịch sử giao dịch',
-      icon: <Icon width="1.3rem" icon="eva:shopping-bag-outline" />,
-      onClick: () => navigate('/account/transaction-histories'),
+      key: 'night_mode',
+      label: 'Chế độ tối',
+      icon: <MoonOutlined className="text-[20px]" />,
+      extra: <Switch checked={theme === 'dark'} onChange={handleSwitchChange} />,
     },
     {
       key: 'logout',
@@ -77,7 +90,7 @@ function Header() {
   ]
 
   const renderContent = (
-    <div className="w-[240px] max-w-[326px] p-1">
+    <div className="w-[240px] max-w-[350px] p-1">
       <div className="mb-4 flex items-center justify-between">
         <div className="text-[19px] font-medium">{user.username}</div>
         <Avatar
@@ -88,12 +101,18 @@ function Header() {
       <div className="w-full">
         {items.map((item) => (
           <div
-            className="flex cursor-pointer items-center justify-start rounded-xl p-4 hover:bg-[rgba(255,255,255,0.08)]"
+            className={cn(
+              'flex cursor-pointer items-center justify-start rounded-xl p-4 hover:bg-[rgba(18,18,18,0.04)]',
+              {
+                'hover:bg-[rgba(255,255,255,0.04)]': theme === 'dark',
+              },
+            )}
             onClick={item.onClick}
             key={item.key}
           >
             <div className="mr-4">{item.icon}</div>
             <div className="text-[16px] font-medium">{item.label}</div>
+            {item.extra && <div className="ml-auto">{item.extra}</div>}
           </div>
         ))}
       </div>
@@ -106,8 +125,9 @@ function Header() {
         className={cn(
           'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b border-[rgba(255,255,255,0.08)] px-4 sm:px-8 xxl:px-16',
           {
-            'border-b-0 bg-transparent': isTop,
+            'border-b-0 bg-transparent': isTop && isHome,
           },
+          { 'border-[rgba(18,18,18,0.08)]': theme === 'light' },
         )}
         style={{
           transition:
@@ -122,7 +142,18 @@ function Header() {
                   <img src="/logo.svg" alt="Waka Logo" />
                 </div>
                 <div className="relative ml-2.5 w-[100px]">
-                  <img src={'/img/logo waka white.png'} alt="Waka Logo Text" />
+                  {theme === 'light' && (
+                    <img
+                      className={cn('absolute', { 'opacity-0': isTop && isHome })}
+                      src={'/img/logo waka rose.png'}
+                      alt="Waka Logo Text"
+                    />
+                  )}
+                  <img
+                    className={cn({ 'opacity-0': !isTop && theme === 'light' })}
+                    src={'/img/logo waka white.png'}
+                    alt="Waka Logo Text"
+                  />
                 </div>
               </Link>
               <div className="ml-6 flex gap-[30px]">
@@ -131,6 +162,7 @@ function Header() {
                   className={cn(
                     'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
                     { 'font-bold opacity-100': isHome },
+                    { 'text-white': isTop && isHome && theme === 'light' },
                   )}
                 >
                   Trang chủ
@@ -140,6 +172,7 @@ function Header() {
                   className={cn(
                     'cursor-pointer select-none text-[16px] font-medium leading-6 opacity-80 hover:text-primary',
                     { 'font-bold opacity-100': pathname.startsWith('/book-library') },
+                    { 'text-white': isTop && isHome && theme === 'light' },
                   )}
                 >
                   Tìm sách
@@ -155,12 +188,17 @@ function Header() {
             <div className="flex items-center gap-5">
               <Button
                 size="large"
-                className={cn('!w-12 bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
-                })}
+                className={cn(
+                  '!w-12 bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]',
+                  { 'bg-[rgba(18,18,18,0.04)] hover:bg-[rgba(18,18,18,0.08)]': theme === 'light' },
+                  {
+                    'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
+                  },
+                )}
                 color="default"
                 variant="filled"
                 icon={<Icon width="24" icon="lucide:clock-5" />}
+                style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
               />
               <Popover content={renderContent} placement="bottomRight" arrow={false}>
                 <div className="flex h-[44px] cursor-pointer">
@@ -178,23 +216,32 @@ function Header() {
             <div className="flex items-center gap-3">
               <Button
                 size="large"
-                type="primary"
-                variant={isTop ? 'text' : 'filled'}
+                type="text"
+                variant="text"
                 onClick={disclosureSignup.onOpen}
-                className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop,
-                })}
+                className={cn(
+                  'bg-[rgba(255,255,255,0.04)] font-medium hover:bg-[rgba(255,255,255,0.08)]',
+                  { 'bg-[rgba(18,18,18,0.04)] hover:bg-[rgba(18,18,18,0.08)]': theme === 'light' },
+                  {
+                    'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
+                  },
+                )}
                 style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
               >
                 Đăng ký
               </Button>
               <Button
                 size="large"
-                type="primary"
+                type="text"
                 onClick={disclosureLogin.onOpen}
-                className={cn('bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.08)]', {
-                  'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop,
-                })}
+                className={cn(
+                  'bg-[rgba(255,255,255,0.04)] font-medium hover:bg-[rgba(255,255,255,0.08)]',
+                  { 'bg-[rgba(18,18,18,0.04)] hover:bg-[rgba(18,18,18,0.08)]': theme === 'light' },
+                  {
+                    'bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)]': isTop && isHome,
+                  },
+                )}
+                style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
               >
                 Đăng nhập
               </Button>

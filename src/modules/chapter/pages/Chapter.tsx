@@ -57,6 +57,19 @@ export default function Chapter() {
     }
   }, [user.id, getChapter.isSuccess, getChapter.data?.id])
 
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 0 && headerOpen) {
+        setTimeout(() => {
+          setHeaderOpen(false)
+        }, 500)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [headerOpen])
+
   return (
     <ConfigProvider theme={theme.themeConfig}>
       <Layout>
@@ -69,7 +82,11 @@ export default function Chapter() {
             <div className="flex h-full items-center justify-between px-7">
               <div className="mr-3 flex items-center">
                 <div className="cursor-pointer" onClick={() => navigate(`/book/detail/${bookId}`)}>
-                  <img className="mr-4 hover:opacity-65 active:opacity-30" src="/home-list.svg" alt="Home List Icon" />
+                  <img
+                    className="mr-4 hover:opacity-65 active:opacity-30"
+                    src={theme.theme === 'dark' ? '/home-list.svg' : '/home-list-black.svg'}
+                    alt="Home List Icon"
+                  />
                 </div>
                 <Typography.Text className="line-clamp-1 break-all text-[16px] font-bold leading-[22px]">
                   {getChapter.data?.title}
@@ -84,14 +101,18 @@ export default function Chapter() {
                   />
                   <Badge
                     onClick={handleClickScrollToComments}
-                    color="#eee"
+                    color={theme.theme === 'dark' ? '#eee' : '#222222'}
                     className="cursor-pointer"
                     offset={[4, -1]}
                     count={totalComments}
                     showZero
-                    classNames={{ indicator: 'text-[10px] px-[5px] text-black' }}
+                    classNames={{ indicator: `text-[10px] px-[5px] ${theme.theme === 'dark' && 'text-black'}` }}
                   >
-                    <img className="hover:opacity-65 active:opacity-30" src="/comment.svg" alt="Comment" />
+                    <img
+                      className="hover:opacity-65 active:opacity-30"
+                      src={theme.theme === 'dark' ? '/comment.svg' : '/comment-black.svg'}
+                      alt="Comment"
+                    />
                   </Badge>
                 </Space>
                 <Space size={16}>

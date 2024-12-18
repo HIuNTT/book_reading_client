@@ -95,7 +95,6 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
   const handleLocationChange = useCallback(
     (loc: Location) => {
       const newLocation = loc.start.cfi
-      console.log(newLocation)
 
       // setMergedLocation(newLocation)
       onLocationChange?.(newLocation)
