@@ -1,5 +1,4 @@
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { Button, Divider, Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { LoginDto, useAuthLogin } from '../services/login'
 import { CSSProperties } from 'react'
 import { useUser } from 'stores/user'
@@ -10,8 +9,6 @@ interface LoginModalProp {
 }
 
 export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalProp) {
-  console.log('render login modal')
-
   const [form] = Form.useForm<LoginDto>()
 
   const login = useAuthLogin()
@@ -49,7 +46,7 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
               <Input.Password classNames={{ suffix: 'text-[16px]' }} placeholder="Nhập mật khẩu" />
             </Form.Item>
             <div className="mb-4 mt-[-10px] text-end">
-              <span className="cursor-pointer hover:text-[rgba(0,0,0,0.65)]">Quên mật khẩu?</span>
+              <span className="cursor-pointer opacity-60 hover:opacity-100">Quên mật khẩu?</span>
             </div>
             <Form.Item className="mb-4" shouldUpdate>
               {() => {
@@ -66,7 +63,6 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
                     style={disabled ? disabledStyle : {}}
                     htmlType="submit"
                     className="!font-semibold"
-                    size="middle"
                     block
                     type="primary"
                     loading={login.isPending}
@@ -77,25 +73,12 @@ export default function LoginModal({ onSwitchSignup, onCloseModal }: LoginModalP
               }}
             </Form.Item>
             <div className="leading-none">
-              <span className="mr-2 text-[13px]">Bạn chưa có tài khoản?</span>
-              <span className="cursor-pointer text-[13px] text-primary" onClick={handleSwitchSignup}>
+              <span className="mr-2 text-[13px] opacity-85">Bạn chưa có tài khoản?</span>
+              <span className="cursor-pointer text-[13px] font-bold" onClick={handleSwitchSignup}>
                 Đăng ký ngay
               </span>
             </div>
           </Form>
-          <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '14px' }} plain>
-            Hoặc tiếp tục với
-          </Divider>
-          <Button
-            htmlType="button"
-            size="large"
-            block
-            icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-            variant="filled"
-            color="primary"
-          >
-            Tiếp tục với Google
-          </Button>
         </div>
       </div>
     </>

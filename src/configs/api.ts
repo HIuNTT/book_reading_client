@@ -2,7 +2,7 @@ import axios, { AxiosHeaders } from 'axios'
 import { useUser } from 'stores/user'
 
 export const api = axios.create({
-  baseURL: 'https://dz9k802l-8080.asse.devtunnels.ms/',
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
 api.interceptors.request.use(

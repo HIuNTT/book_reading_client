@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import useClickOutside from 'hooks/useClickOutside'
 import { cn } from 'utils/cn'
 import { useGetBookListInfinite } from '../services'
+import { useTheme } from 'stores/theme'
 
 interface SearchBookHomeProps {
   isTop?: boolean
@@ -20,6 +21,8 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
   const { nodeRef } = useClickOutside(() => setOpen(false))
 
   const navigate = useNavigate()
+
+  const { theme } = useTheme()
 
   const getBookList = useGetBookListInfinite({ size: 10, title: searchValue }, gte(searchValue?.trim().length, 3))
 
@@ -54,7 +57,9 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
             {getBookList.data.pages[0].content.map((book) => (
               <li
                 key={book.id}
-                className="flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(18,18,18,0.04)]"
+                className={cn('flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(255,255,255,0.04)]', {
+                  'hover:bg-[rgba(18,18,18,0.04)]': theme === 'light',
+                })}
                 onClick={() => navigate(`/book/detail/${book.id}`)}
               >
                 <img
@@ -63,7 +68,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                   alt={book.title}
                 />
                 <div className="flex flex-1 flex-col overflow-hidden">
-                  <div className="text-ellipsis whitespace-nowrap font-semibold">{book.title}</div>
+                  <div className="overflow-hidden text-ellipsis whitespace-nowrap font-semibold">{book.title}</div>
                 </div>
               </li>
             ))}
@@ -90,6 +95,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
             overlayInnerStyle={{ padding: 0 }}
             overlayStyle={{ top: 'calc(100% + 13px)' }}
             placement="bottom"
+            color={theme === 'dark' ? '#2c2c2c' : ''}
           >
             <div className="flex">
               <Input
@@ -98,16 +104,24 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                     <Icon
                       width="1rem"
                       icon="ep:close-bold"
-                      className={cn('text-[rgb(119,119,119)] hover:text-[rgba(17,24,28,0.88)]', {
-                        'text-white hover:text-white': isTop && isHome,
-                      })}
+                      className={cn(
+                        'text-[rgb(179,179,179)] hover:text-white',
+                        { 'text-[rgb(84,84,84)] hover:text-[rgb(18,18,18)]': theme === 'light' },
+                        {
+                          'text-white hover:text-white': isTop && isHome,
+                        },
+                      )}
                     />
                   ),
                 }}
                 className={cn(
-                  'bg-[rgba(18,18,18,0.04)] focus-within:border-[rgba(18,18,18,0.32)] hover:bg-[rgba(18,18,18,0.08)] focus-within:hover:border-transparent',
+                  'bg-[rgba(255,255,255,0.04)] focus-within:border-[rgba(255,255,255,0.32)] hover:bg-[rgba(255,255,255,0.08)] focus-within:hover:border-transparent',
                   {
-                    'border-transparent bg-[rgba(255,255,255,0.12)] text-white hover:bg-[rgba(255,255,255,0.2)] [&>input]:placeholder:text-[rgba(255,255,255,0.75)]':
+                    'bg-[rgba(18,18,18,0.04)] focus-within:border-[rgba(18,18,18,0.32)] hover:bg-[rgba(18,18,18,0.08)] [&>input]:placeholder:text-[rgb(84,84,84)]':
+                      theme === 'light',
+                  },
+                  {
+                    'border-transparent bg-[rgba(255,255,255,0.12)] text-white backdrop-blur-[20px] hover:bg-[rgba(255,255,255,0.2)] [&>input]:placeholder:text-[rgba(255,255,255,0.75)]':
                       isTop && isHome,
                   },
                 )}
@@ -119,7 +133,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                 classNames={{ prefix: 'mr-2' }}
                 size="large"
                 variant="filled"
-                placeholder="Nhập tên sách, tác giả..."
+                placeholder="Nhập tên sách..."
                 onChange={onValueChange}
                 onClear={() => setSearchValue('')}
                 onFocus={() => setOpen(true)}

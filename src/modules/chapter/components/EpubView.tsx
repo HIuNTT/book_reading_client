@@ -25,7 +25,6 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [book, setBook] = useState<Book | null>(null)
   const [rendition, setRendition] = useState<Rendition | null>(null)
-  console.log('ren', rendition)
 
   const viewRef = useRef<HTMLDivElement>(null)
 
@@ -46,7 +45,6 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
     if (!mounted) return
 
     const ebook = ePub(url, epubInitOptions)
-    console.log('render book')
 
     setBook(ebook)
     setIsLoading(false)
@@ -69,9 +67,8 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
       const rendition_ = book.renderTo(el, {
         width: '100%',
         height: '100%',
-        ...epubOptions,
+        flow: 'scrolled',
       })
-      console.log('rerender')
 
       setRendition(rendition_)
 
@@ -87,7 +84,7 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
     return () => {
       mounted = false
     }
-  }, [book, location, epubOptions])
+  }, [book, location])
 
   useEffect(() => {
     if (!rendition) return
@@ -98,7 +95,6 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
   const handleLocationChange = useCallback(
     (loc: Location) => {
       const newLocation = loc.start.cfi
-      console.log(newLocation)
 
       // setMergedLocation(newLocation)
       onLocationChange?.(newLocation)
@@ -119,8 +115,6 @@ const EpubView = (props: EpubViewProps, ref: RefObject<EpubViewRef> | any) => {
 
   useEffect(() => {
     if (!rendition) return
-
-    console.log('event')
 
     if (ref.current) {
       ref.current.prevPage = prevPage

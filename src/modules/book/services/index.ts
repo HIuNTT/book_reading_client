@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { AxiosRequestConfig } from 'axios'
 import { api, apiRecommend } from 'configs/api'
 import { BookBannerItem, BookItem, BookPayload, RecommendedBook } from 'types/book'
 import { PageParams, PaginationResult } from 'types/getList'
@@ -95,11 +96,12 @@ export default function useGetBookList(params: BookListParams) {
   })
 }
 
-export async function postFile(formData: FormData) {
+export async function postFile(formData: FormData, options?: AxiosRequestConfig) {
   const response = await api.post<UploadFileResponse>('/file/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    ...options,
   })
   return response.data
 }

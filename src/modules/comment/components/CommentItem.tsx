@@ -11,6 +11,7 @@ import { useDeleteComment } from '../services/deleteComment'
 import CommentInput from './CommentInput'
 import { useGetReplyCommentList } from '../services/getComment'
 import LoadingIcon from 'components/common/LoadingIcon'
+import { useTheme } from 'stores/theme'
 
 const { confirm } = Modal
 
@@ -26,6 +27,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
   const [isReplying, setIsReplying] = useState<boolean>(false)
 
   const user = useUser()
+  const { theme } = useTheme()
 
   const likeComment = useLikeComment()
   const deleteComment = useDeleteComment()
@@ -86,7 +88,11 @@ export default function CommentItem({ comment }: CommentItemProps) {
     <>
       {isDeleted ? null : (
         <>
-          <div className="flex w-full border-t px-[18px] py-5 first:border-t-0">
+          <div
+            className={cn('flex w-full border-t border-[rgb(246,246,246)] px-[18px] py-5 first:border-t-0', {
+              'border-[#1f1f1f]': theme === 'dark',
+            })}
+          >
             <div>
               <Avatar
                 size={46}
@@ -99,12 +105,24 @@ export default function CommentItem({ comment }: CommentItemProps) {
             <div className="ml-3 flex w-full flex-col">
               <div className="flex items-center justify-between">
                 <Typography.Text className="text-[13px] font-semibold">{comment.user.name}</Typography.Text>
-                <Typography.Text className="text-[12px] text-[#656565]">{comment.last_updated}</Typography.Text>
+                <Typography.Text
+                  className={cn('text-[12px] text-[rgba(0,0,0,0.45)]', {
+                    'text-[rgba(255,255,255,0.45)]': theme === 'dark',
+                  })}
+                >
+                  {comment.last_updated}
+                </Typography.Text>
               </div>
               <div className="mt-[10px]">
                 <Typography.Paragraph className="mb-2 whitespace-pre-wrap">{comment.comment}</Typography.Paragraph>
                 {!comment.parent_id && (
-                  <Typography.Text className="text-[12px] text-[#656565]">{comment.title}</Typography.Text>
+                  <Typography.Text
+                    className={cn('text-[12px] text-[rgba(0,0,0,0.45)]', {
+                      'text-[rgba(255,255,255,0.45)]': theme === 'dark',
+                    })}
+                  >
+                    {comment.title}
+                  </Typography.Text>
                 )}
               </div>
               <div className="mt-5">
@@ -144,7 +162,11 @@ export default function CommentItem({ comment }: CommentItemProps) {
             </div>
           )}
           {isReplying && (
-            <div className="mb-5 rounded-lg bg-[rgb(247,247,247)] pl-[18px]">
+            <div
+              className={cn('mx-[18px] mb-5 rounded-lg bg-[rgb(246,246,246)]', {
+                'bg-[rgba(242,242,242,0.05)]': theme === 'dark',
+              })}
+            >
               {isLoading ? (
                 <LoadingIcon />
               ) : !!data && data.pages[0].content.length > 0 ? (

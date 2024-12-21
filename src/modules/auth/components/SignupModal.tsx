@@ -1,5 +1,4 @@
-import { Icon } from '@iconify/react'
-import { Button, Divider, Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 import { SignupDto, useAuthSignup } from '../services/signup'
 import { CSSProperties } from 'react'
 import { toast } from 'sonner'
@@ -107,25 +106,12 @@ export default function SignupModal({ onSwitchLogin, onCloseModal }: SignupModal
             }}
           </Form.Item>
           <div className="text-center leading-none">
-            <span className="mr-2 text-[13px]">Bạn đã có tài khoản?</span>
-            <span className="cursor-pointer text-[13px] text-primary" onClick={handleSwitchLogin}>
+            <span className="mr-2 text-[13px] opacity-85">Bạn đã có tài khoản?</span>
+            <span className="cursor-pointer text-[13px] font-bold" onClick={handleSwitchLogin}>
               Đăng nhập ngay
             </span>
           </div>
         </Form>
-        <Divider style={{ borderColor: 'rgba(0,0,0,0.1)', fontSize: '15px' }} plain>
-          Hoặc tiếp tục với
-        </Divider>
-        <Button
-          htmlType="button"
-          size="large"
-          block
-          icon={<Icon width="1.8rem" icon="flat-color-icons:google" />}
-          variant="filled"
-          color="primary"
-        >
-          Tiếp tục với Google
-        </Button>
       </div>
     </>
   )

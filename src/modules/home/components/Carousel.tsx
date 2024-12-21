@@ -6,6 +6,7 @@ import LoadingIcon from 'components/common/LoadingIcon'
 import { useGetBannerBookList } from 'modules/book/services'
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTheme } from 'stores/theme'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import { cn } from 'utils/cn'
@@ -15,6 +16,8 @@ const { Text } = Typography
 
 export default function Carousel() {
   const [activeIndex, setActiveIndex] = useState<number>(0)
+
+  const { theme } = useTheme()
 
   const { data, isFetching } = useGetBannerBookList({ page: 1, size: 6, sort: 'view,desc' })
 
@@ -37,7 +40,10 @@ export default function Carousel() {
             <div
               className="absolute inset-0 z-10 backdrop-blur-3xl"
               style={{
-                background: 'linear-gradient(0deg, rgb(255, 255, 255) 5%, rgba(0, 0, 0, 0) 60%) rgba(0, 0, 0, 0.5)',
+                background:
+                  theme === 'dark'
+                    ? 'linear-gradient(0deg, rgb(20, 20, 20) 5%, rgba(0, 0, 0, 0) 60%) rgba(0, 0, 0, 0.6)'
+                    : 'linear-gradient(0deg, rgb(255, 255, 255) 5%, rgba(0, 0, 0, 0) 60%) rgba(0, 0, 0, 0.6)',
               }}
             ></div>
           </div>

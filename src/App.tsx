@@ -7,15 +7,15 @@ import { Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import Routes from 'routes'
 import { Toaster } from 'sonner'
-import { themeConfig } from 'styles/theme'
 import vi_VN from 'antd/locale/vi_VN'
 import ScrollToTop from 'components/common/ScrollToTop'
 import { StyleProvider } from '@ant-design/cssinjs'
+import { lightThemeConfig } from 'styles/theme'
 
 function App() {
   return (
     <BrowserRouter>
-      <ConfigProvider theme={themeConfig} componentSize="middle" locale={vi_VN}>
+      <ConfigProvider theme={lightThemeConfig} locale={vi_VN}>
         <StyleProvider layer>
           <QueryClientProvider client={queryClient}>
             <Suspense fallback={<PageLoading />}>

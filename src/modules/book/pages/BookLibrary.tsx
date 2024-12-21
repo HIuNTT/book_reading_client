@@ -1,6 +1,5 @@
-import { Col, Empty, Row, Typography } from 'antd'
+import { Col, Empty, Row, theme, Typography } from 'antd'
 import ButtonRead from 'components/common/ButtonRead'
-import { categories } from 'constants/category'
 import { statuses } from 'constants/status'
 import { Link, useLocation } from 'react-router-dom'
 import { useGetBookListInfinite } from '../services'
@@ -9,21 +8,29 @@ import { cn } from 'utils/cn'
 import LoadingIcon from 'components/common/LoadingIcon'
 import { useInView } from 'react-intersection-observer'
 import qs from 'qs'
+import { useTheme } from 'stores/theme'
+import useGetCategoryList from 'modules/category/services/getCategoryList'
 
 const sortOptions: { key: string; lable: string }[] = [
   { key: 'view,desc', lable: 'Lượt đọc' },
   { key: 'createdAt,desc', lable: 'Mới phát hành' },
 ]
 
+const { useToken } = theme
+
 export default function BookLibrary() {
   const { search } = useLocation()
   const { value } = qs.parse(search, { ignoreQueryPrefix: true })
+
+  const { theme } = useTheme()
+  const { token } = useToken()
 
   const [categoryId, setCategoryId] = useState<number>(value ? Number(value) : 0)
   const [status, setStatus] = useState<string | undefined>(undefined)
   const [sort, setSort] = useState<string>('view,desc')
 
   const getBookList = useGetBookListInfinite({ size: 12, ...(categoryId && { categoryId }), status, sort }, true)
+  const getCategoryList = useGetCategoryList({})
 
   const { ref, inView } = useInView()
 
@@ -31,7 +38,7 @@ export default function BookLibrary() {
     if (inView) {
       getBookList.fetchNextPage()
     }
-  }, [inView, getBookList.fetchNextPage])
+  }, [inView, getBookList])
 
   return (
     <div className="px-[50px] pb-[60px] min-[1024px]:px-[60px] min-[1680px]:px-[190px]">
@@ -40,13 +47,25 @@ export default function BookLibrary() {
           <div className="mr-4 w-[88px] max-w-[120px] shrink-0 text-right text-base leading-[30px] max-[1023px]:hidden">
             Thể loại
           </div>
-          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden">
-            {categories.map((category) => (
+          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden xxxl:gap-x-4 xxxl:gap-y-3">
+            <div
+              key={0}
+              onClick={() => setCategoryId(0)}
+              className={cn(
+                'rounded-md bg-white/[6%] px-3 py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white',
+                { 'bg-[rgba(18,18,18,0.08)] text-[rgb(62,62,65)] hover:text-textColor': theme === 'light' },
+                { 'text-primary hover:text-primary': categoryId === 0 },
+              )}
+            >
+              Toàn bộ các loại
+            </div>
+            {getCategoryList.data?.content.map((category) => (
               <div
                 key={category.id}
                 onClick={() => setCategoryId(category.id)}
                 className={cn(
-                  'rounded-md bg-[rgba(18,18,18,0.08)] px-3 py-[10px] leading-4 text-[rgb(62,62,65)] hover:text-textColor',
+                  'rounded-md bg-white/[6%] px-3 py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white',
+                  { 'bg-[rgba(18,18,18,0.08)] text-[rgb(62,62,65)] hover:text-textColor': theme === 'light' },
                   { 'text-primary hover:text-primary': category.id === categoryId },
                 )}
               >
@@ -59,13 +78,14 @@ export default function BookLibrary() {
           <div className="mr-4 w-[88px] max-w-[120px] shrink-0 text-right text-base leading-[30px] max-[1023px]:hidden">
             Trạng thái
           </div>
-          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden">
+          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden xxxl:gap-x-4 xxxl:gap-y-3">
             {statuses.map((statusItem, idx) => (
               <div
                 key={idx}
                 onClick={() => setStatus(statusItem.value)}
                 className={cn(
-                  'rounded-md bg-[rgba(18,18,18,0.08)] px-3 py-[10px] leading-4 text-[rgb(62,62,65)] hover:text-textColor',
+                  'rounded-md bg-white/[6%] px-3 py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white',
+                  { 'bg-[rgba(18,18,18,0.08)] text-[rgb(62,62,65)] hover:text-textColor': theme === 'light' },
                   { 'text-primary hover:text-primary': statusItem.value === status },
                 )}
               >
@@ -78,13 +98,14 @@ export default function BookLibrary() {
           <div className="mr-4 w-[88px] max-w-[120px] shrink-0 text-right text-base leading-[30px] max-[1023px]:hidden">
             Sắp xếp
           </div>
-          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden">
+          <div className="flex cursor-pointer flex-wrap gap-2 overflow-hidden xxxl:gap-x-4 xxxl:gap-y-3">
             {sortOptions.map((option) => (
               <div
                 key={option.key}
                 onClick={() => setSort(option.key)}
                 className={cn(
-                  'rounded-md bg-[rgba(18,18,18,0.08)] px-3 py-[10px] leading-4 text-[rgb(62,62,65)] hover:text-textColor',
+                  'rounded-md bg-white/[6%] px-3 py-[10px] leading-4 text-[rgb(179,179,179)] hover:text-white',
+                  { 'bg-[rgba(18,18,18,0.08)] text-[rgb(62,62,65)] hover:text-textColor': theme === 'light' },
                   { 'text-primary hover:text-primary': option.key === sort },
                 )}
               >
@@ -119,9 +140,10 @@ export default function BookLibrary() {
                     <div className="relative">
                       <div className="relative before:block before:pt-[146.25%]">
                         <img
-                          className="absolute inset-0 h-full w-full rounded-md bg-[#f5f5f5] object-fill"
+                          className="absolute inset-0 h-full w-full rounded-md object-fill"
                           src={book.thumbnail_url}
-                          alt="Book Cover"
+                          alt={book.title}
+                          style={{ backgroundColor: token.colorBgElevated }}
                         />
                         <div className="absolute bottom-0 left-0 hidden h-full w-full group-hover:block">
                           <div className="absolute bottom-1/2 left-1/2 size-8 -translate-x-1/2 translate-y-1/2 text-primary hover:text-[rgb(255,87,151)] xxxl:size-10">
@@ -143,14 +165,16 @@ export default function BookLibrary() {
                         >
                           {book.new_chapter && (
                             <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
-                              {`${book.status === 'Hoàn thành' ? 'Trọn bộ' : 'Cập nhật'} ${book.status === 'Hoàn thành' ? book.new_chapter.order_chap.toString() + ' chương' : 'chương ' + book.new_chapter.order_chap.toString()}`}
+                              {book.status === 'Hoàn thành'
+                                ? `${book.new_chapter.order_chap} chương`
+                                : `Cập nhật tới chương ${book.new_chapter.order_chap}`}
                             </div>
                           )}
                         </div>
                       </div>
                     </div>
                     <div className="pt-[7px] md:pt-[10px]" style={{ transition: 'color 0.3s' }}>
-                      <p className="line-clamp-2 font-medium capitalize text-textColor opacity-80 group-hover:text-primary min-[1024px]:text-[16px]">
+                      <p className="line-clamp-2 font-medium capitalize group-hover:text-primary min-[1024px]:text-[16px]">
                         {book.title}
                       </p>
                     </div>
