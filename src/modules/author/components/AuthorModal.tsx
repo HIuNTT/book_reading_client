@@ -4,7 +4,7 @@ import { memo, useEffect } from 'react'
 import { AuthorDto, useCreateAuthor } from '../services/createAuthor'
 import { UpdateAuthorDto, useUpdateAuthor } from '../services/updateAuthor'
 import { Author } from 'types/author'
-import ImageUpload from 'components/common/ImageUpload'
+import ImageUpload from 'components/core/ImageUpload'
 
 interface AuthorModalProps {
   open: boolean
