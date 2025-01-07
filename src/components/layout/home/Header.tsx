@@ -85,6 +85,7 @@ function Header() {
       onClick: () => {
         queryClient.clear()
         clear()
+        navigate('/')
       },
     },
   ]
@@ -92,7 +93,7 @@ function Header() {
   const renderContent = (
     <div className="w-[240px] max-w-[350px] p-1">
       <div className="mb-4 flex items-center justify-between">
-        <div className="text-[19px] font-medium">{user.username}</div>
+        <div className="text-[19px] font-medium">{user.name}</div>
         <Avatar
           size={44}
           src={user.avatar_url || (user.gender === EGender.FEMALE ? '/avatar/female-130.png' : '/avatar/male-130.png')}
@@ -125,7 +126,7 @@ function Header() {
         className={cn(
           'sticky top-0 z-[150] h-[var(--app-home-header-height)] max-w-[2560px] border-b border-[rgba(255,255,255,0.08)] px-4 sm:px-8 xxl:px-16',
           {
-            'border-b-0 bg-transparent': isTop && isHome,
+            'border-b-0 bg-transparent': isTop,
           },
           { 'border-[rgba(18,18,18,0.08)]': theme === 'light' },
         )}

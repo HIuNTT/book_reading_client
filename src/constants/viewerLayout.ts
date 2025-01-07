@@ -1,34 +1,29 @@
-interface SpaceStyle {
-  backgroundColor: string
-  color: string
-}
-
-const white: SpaceStyle = {
+const white = {
   backgroundColor: '#fff',
   color: '#11181c',
 }
 
-const lightGray: SpaceStyle = {
+const lightGray = {
   backgroundColor: '#e0e0e0',
   color: '#11181c',
 }
 
-const darkGray: SpaceStyle = {
+const darkGray = {
   backgroundColor: '#222222',
   color: '#bcbcbc',
 }
 
-const black: SpaceStyle = {
+const black = {
   backgroundColor: '#000',
   color: '#eeeeee',
 }
 
-const sepia: SpaceStyle = {
+const sepia = {
   backgroundColor: '#f6f1e5',
   color: '#4e3726',
 }
 
-const green: SpaceStyle = {
+const green = {
   backgroundColor: '#233e3b',
   color: '#c8d9d7',
 }

@@ -20,6 +20,12 @@ const componentConfig: ThemeConfig = {
       paddingBlockLG: 11,
       paddingInlineLG: 12,
     },
+    DatePicker: {
+      controlHeight: 40,
+    },
+    Select: {
+      controlHeight: 40,
+    },
   },
 }
 

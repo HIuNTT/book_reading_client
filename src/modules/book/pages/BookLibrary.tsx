@@ -11,7 +11,7 @@ import qs from 'qs'
 import { useTheme } from 'stores/theme'
 import useGetCategoryList from 'modules/category/services/getCategoryList'
 
-const sortOptions: { key: string; lable: string }[] = [
+const sortOptions = [
   { key: 'view,desc', lable: 'Lượt đọc' },
   { key: 'createdAt,desc', lable: 'Mới phát hành' },
 ]
@@ -29,16 +29,23 @@ export default function BookLibrary() {
   const [status, setStatus] = useState<string | undefined>(undefined)
   const [sort, setSort] = useState<string>('view,desc')
 
-  const getBookList = useGetBookListInfinite({ size: 12, ...(categoryId && { categoryId }), status, sort }, true)
+  const {
+    data: bookList,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+  } = useGetBookListInfinite({ size: 12, ...(categoryId && { categoryId }), status, sort }, true)
   const getCategoryList = useGetCategoryList({})
 
   const { ref, inView } = useInView()
 
   useEffect(() => {
     if (inView) {
-      getBookList.fetchNextPage()
+      fetchNextPage()
     }
-  }, [inView, getBookList])
+  }, [inView, fetchNextPage])
 
   return (
     <div className="px-[50px] pb-[60px] min-[1024px]:px-[60px] min-[1680px]:px-[190px]">
@@ -116,81 +123,85 @@ export default function BookLibrary() {
         </div>
       </div>
       <div className="mt-8 min-[1024px]:mt-7 xxxl:mt-9">
-        {getBookList.isFetching ? (
+        {(isFetching && !isFetchingNextPage) || isLoading ? (
           <div className="py-4">
             <LoadingIcon />
           </div>
-        ) : !!getBookList.data && getBookList.data.pages[0].content.length > 0 ? (
-          <Row
-            gutter={[
-              { xxl: 20, xs: 14, sm: 14, md: 14, lg: 14, xl: 14 },
-              { xxl: 50, xs: 40, sm: 40, md: 40, lg: 40, xl: 40 },
-            ]}
-          >
-            {getBookList.data.pages.map((page) =>
-              page.content.map((book) => (
-                <Col
-                  key={book.id}
-                  lg={4}
-                  className="group cursor-pointer hover:scale-[1.05]"
-                  style={{ transition: '0.3s' }}
-                  span={6}
-                >
-                  <Link to={`/book/detail/${book.id}`} className="text-white">
-                    <div className="relative">
-                      <div className="relative before:block before:pt-[146.25%]">
-                        <img
-                          className="absolute inset-0 h-full w-full rounded-md object-fill"
-                          src={book.thumbnail_url}
-                          alt={book.title}
-                          style={{ backgroundColor: token.colorBgElevated }}
-                        />
-                        <div className="absolute bottom-0 left-0 hidden h-full w-full group-hover:block">
-                          <div className="absolute bottom-1/2 left-1/2 size-8 -translate-x-1/2 translate-y-1/2 text-primary hover:text-[rgb(255,87,151)] xxxl:size-10">
-                            <ButtonRead />
+        ) : !!bookList && bookList.pages[0].content.length > 0 ? (
+          <>
+            <Row
+              gutter={[
+                { xxl: 20, xs: 14, sm: 14, md: 14, lg: 14, xl: 14 },
+                { xxl: 50, xs: 40, sm: 40, md: 40, lg: 40, xl: 40 },
+              ]}
+            >
+              {bookList.pages.map((page) =>
+                page.content.map((book) => (
+                  <Col
+                    key={book.id}
+                    lg={4}
+                    className="group cursor-pointer hover:scale-[1.05]"
+                    style={{ transition: '0.3s' }}
+                    span={6}
+                  >
+                    <Link to={`/book/detail/${book.id}`} className="text-white">
+                      <div className="relative">
+                        <div className="relative before:block before:pt-[146.25%]">
+                          <img
+                            className="absolute inset-0 h-full w-full rounded-md object-fill"
+                            src={book.thumbnail_url}
+                            alt={book.title}
+                            style={{ backgroundColor: token.colorBgElevated }}
+                          />
+                          <div className="absolute bottom-0 left-0 hidden h-full w-full group-hover:block">
+                            <div className="absolute bottom-1/2 left-1/2 size-8 -translate-x-1/2 translate-y-1/2 text-primary hover:text-[rgb(255,87,151)] xxxl:size-10">
+                              <ButtonRead />
+                            </div>
+                            <div
+                              className="absolute bottom-0 h-[84px] w-full rounded-b-md"
+                              style={{
+                                backgroundImage:
+                                  'linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 80%)',
+                              }}
+                            ></div>
                           </div>
                           <div
-                            className="absolute bottom-0 h-[84px] w-full rounded-b-md"
+                            className="absolute bottom-0 left-0 right-0 h-12 rounded-b-md"
                             style={{
-                              backgroundImage: 'linear-gradient(-180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 80%)',
+                              backgroundImage:
+                                'linear-gradient(0deg, rgba(10, 12, 15, 0.8) 0%, rgba(10, 12, 15, 0.74) 4%, rgba(10, 12, 15, 0.59) 17%, rgba(10, 12, 15, 0.4) 34%, rgba(10, 12, 15, 0.21) 55%, rgba(10, 12, 15, 0.06) 78%, rgba(10, 12, 15, 0) 100%)',
                             }}
-                          ></div>
-                        </div>
-                        <div
-                          className="absolute bottom-0 left-0 right-0 h-12 rounded-b-md"
-                          style={{
-                            backgroundImage:
-                              'linear-gradient(0deg, rgba(10, 12, 15, 0.8) 0%, rgba(10, 12, 15, 0.74) 4%, rgba(10, 12, 15, 0.59) 17%, rgba(10, 12, 15, 0.4) 34%, rgba(10, 12, 15, 0.21) 55%, rgba(10, 12, 15, 0.06) 78%, rgba(10, 12, 15, 0) 100%)',
-                          }}
-                        >
-                          {book.new_chapter && (
-                            <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
-                              {book.status === 'Hoàn thành'
-                                ? `${book.new_chapter.order_chap} chương`
-                                : `Cập nhật tới chương ${book.new_chapter.order_chap}`}
-                            </div>
-                          )}
+                          >
+                            {book.new_chapter && (
+                              <div className="absolute bottom-[10px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
+                                {book.status === 'Hoàn thành'
+                                  ? `${book.new_chapter.order_chap} chương`
+                                  : `Cập nhật tới chương ${book.new_chapter.order_chap}`}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="pt-[7px] md:pt-[10px]" style={{ transition: 'color 0.3s' }}>
-                      <p className="line-clamp-2 font-medium capitalize group-hover:text-primary min-[1024px]:text-[16px]">
-                        {book.title}
-                      </p>
-                    </div>
-                  </Link>
-                </Col>
-              )),
-            )}
-
-            {getBookList.isFetchingNextPage && (
+                      <div
+                        className="pt-[7px] md:pt-[10px]"
+                        style={{ transition: 'color 0.3s', color: token.colorText }}
+                      >
+                        <p className="line-clamp-2 font-medium capitalize group-hover:text-primary min-[1024px]:text-[16px]">
+                          {book.title}
+                        </p>
+                      </div>
+                    </Link>
+                  </Col>
+                )),
+              )}
+            </Row>
+            {isFetchingNextPage && (
               <div className="py-4">
                 <LoadingIcon />
               </div>
             )}
-
-            {getBookList.hasNextPage && <div ref={ref}></div>}
-          </Row>
+            {hasNextPage && !isFetchingNextPage && <div ref={ref}></div>}
+          </>
         ) : (
           <Empty
             className="mt-6"

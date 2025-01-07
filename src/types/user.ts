@@ -14,6 +14,7 @@ export interface User {
   birthday: string
   gender: string
   avatar_url: string
+  avatar_key: string
   role: Role
 }
 

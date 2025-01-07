@@ -1,4 +1,4 @@
-export const statuses: { label: string; value: string | undefined }[] = [
+export const statuses = [
   {
     label: 'Toàn bộ trạng thái',
     value: undefined,
