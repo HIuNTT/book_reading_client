@@ -17,7 +17,7 @@ export default function PrivateRoute({ roles, ...props }: PrivateRouteProps) {
     ) : (
       <NotFound />
     )
-  ) : roles?.includes(ERole.ADMIN) ? (
+  ) : roles?.includes(ERole.ADMIN) && !roles?.includes(ERole.USER) ? (
     <NotFound />
   ) : (
     <Navigate to="/" replace />

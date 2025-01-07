@@ -11,7 +11,7 @@ import qs from 'qs'
 import { useTheme } from 'stores/theme'
 import useGetCategoryList from 'modules/category/services/getCategoryList'
 
-const sortOptions: { key: string; lable: string }[] = [
+const sortOptions = [
   { key: 'view,desc', lable: 'Lượt đọc' },
   { key: 'createdAt,desc', lable: 'Mới phát hành' },
 ]

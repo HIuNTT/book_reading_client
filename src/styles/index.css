@@ -106,3 +106,10 @@
 .ant-upload-list-picture-card .ant-upload-list-item-actions .anticon-eye {
   color: #fff;
 }
+
+.ant-upload-wrapper.ant-upload-picture-circle-wrapper
+  .ant-upload-list.ant-upload-list-picture-circle
+  .ant-upload-list-item-actions
+  .anticon-eye {
+  color: #fff;
+}

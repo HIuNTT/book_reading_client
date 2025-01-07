@@ -1,6 +1,6 @@
 import { Form, Input, Modal } from 'antd'
 import { toast } from 'sonner'
-import { memo, useEffect } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { AuthorDto, useCreateAuthor } from '../services/createAuthor'
 import { UpdateAuthorDto, useUpdateAuthor } from '../services/updateAuthor'
 import { Author } from 'types/author'
@@ -16,12 +16,13 @@ interface AuthorModalProps {
 function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
   const [form] = Form.useForm<AuthorDto>()
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const { mutate: mutateCreateAuthor, isPending: isPendingCreateAuthor } = useCreateAuthor()
   const { mutate: mutateUpdateAuthor, isPending: isPendingUpdateAuthor } = useUpdateAuthor()
 
   const onSubmit = (data: AuthorDto | UpdateAuthorDto) => {
     if (record?.id) {
-      console.log('update')
       mutateUpdateAuthor(
         { ...data, id: record.id },
         {
@@ -67,7 +68,7 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
       onOk={() => form.submit()}
       cancelButtonProps={{ danger: true, type: 'text' }}
       maskClosable={false}
-      confirmLoading={isPendingCreateAuthor || isPendingUpdateAuthor}
+      confirmLoading={isPendingCreateAuthor || isPendingUpdateAuthor || loading}
     >
       <Form layout="vertical" form={form} onFinish={onSubmit}>
         <Form.Item<AuthorDto>
@@ -82,7 +83,7 @@ function AuthorModal({ open, onCancel, record, onSuccess }: AuthorModalProps) {
           <Input.TextArea autoSize={{ minRows: 1, maxRows: 3 }} allowClear placeholder="Nhập mô tả" />
         </Form.Item>
         <Form.Item<AuthorDto> label="Ảnh đại diện" name="image">
-          <ImageUpload name={record?.image_key} imageUrl={record?.image} />
+          <ImageUpload name={record?.image_key} imageUrl={record?.image} onLoading={setLoading} />
         </Form.Item>
       </Form>
     </Modal>

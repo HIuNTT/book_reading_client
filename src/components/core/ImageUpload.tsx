@@ -1,17 +1,32 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Image, Upload, UploadFile, UploadProps } from 'antd'
+import { Image, Typography, Upload, UploadFile, UploadProps } from 'antd'
+import { AxiosError } from 'axios'
+import { ErrorEnum } from 'constants/errorCode'
 import { postFile } from 'modules/book/services'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { cn } from 'utils/cn'
 
 interface ImageUploadProps {
   name?: string
   imageUrl?: string
   value?: string
-  onChange?(value: string): void
+  description?: string | null
+  type?: UploadProps['listType']
+  className?: string
+  onLoading?: (isLoading: boolean) => void
+  onChange?(value: string | undefined): void
 }
 
-export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadProps) {
+export default function ImageUpload({
+  imageUrl,
+  name,
+  description = 'Tối đa 1 file, dung lượng file không được quá 2MB',
+  type = 'picture-card',
+  className,
+  onLoading,
+  onChange,
+}: ImageUploadProps) {
   type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0]
 
   const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -47,7 +62,7 @@ export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadPro
 
     const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
-      toast.error('Kích thước ảnh phải nhỏ hơn 2MB!')
+      toast.error('Kích thước file phải nhỏ hơn 2MB!')
     }
 
     return isJpgOrPng && isLt2M
@@ -56,16 +71,29 @@ export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadPro
   const customRequest: UploadProps['customRequest'] = async (options) => {
     const formData = new FormData()
     formData.append('file', options.file as FileType)
-    const {
-      data: { key },
-    } = await postFile(formData, {
-      onUploadProgress(progressEvent) {
-        const complete = ((progressEvent.loaded / progressEvent.total!) * 100) | 0
-        options.onProgress?.({ percent: complete })
-      },
-    })
-    options.onSuccess?.('OK')
-    onChange?.(key)
+    try {
+      onLoading?.(true)
+      const {
+        data: { key },
+      } = await postFile(formData, {
+        onUploadProgress(progressEvent) {
+          const complete = ((progressEvent.loaded / progressEvent.total!) * 100) | 0
+          options.onProgress?.({ percent: complete })
+        },
+      })
+      options.onSuccess?.('Success')
+      onChange?.(key)
+      onLoading?.(false)
+    } catch (error: unknown) {
+      let message = ''
+      if (error instanceof AxiosError) {
+        message = ErrorEnum[error.response?.data?.data.error_codes[0] as keyof typeof ErrorEnum] || error.message
+      } else if (error instanceof Error) {
+        message = `Execution error: ${error.message}`
+      }
+      options.onError?.({ message, name: 'Error' })
+      onLoading?.(false)
+    }
   }
 
   const handleChange: UploadProps['onChange'] = ({ file }) => {
@@ -73,7 +101,7 @@ export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadPro
   }
 
   const handleRemove: UploadProps['onRemove'] = () => {
-    onChange?.('')
+    onChange?.(undefined)
     setFileList([])
     return false
   }
@@ -89,14 +117,15 @@ export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadPro
   return (
     <>
       <Upload
-        className="min-h-[110px]"
+        className={cn('min-h-[110px]', className)}
         fileList={fileList}
         beforeUpload={beforeUpload}
         customRequest={customRequest}
         onRemove={handleRemove}
         onChange={handleChange}
         onPreview={handlePreview}
-        listType="picture-card"
+        listType={type}
+        maxCount={1}
         accept=".jpg,.jpeg,.png"
       >
         {fileList.length < 1 && (
@@ -117,9 +146,11 @@ export default function ImageUpload({ imageUrl, name, onChange }: ImageUploadPro
           src={previewImage}
         />
       )}
-      <small className="text-[rgb(153,153,153)]">
-        <i>Tối đa 1 file, dung lượng file không được quá 2MB</i>
-      </small>
+      {description && (
+        <Typography.Text className="text-[11px] leading-[18px]" italic type="secondary">
+          {description}
+        </Typography.Text>
+      )}
     </>
   )
 }

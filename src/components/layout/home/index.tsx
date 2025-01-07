@@ -3,12 +3,13 @@ import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
 import { useTheme } from 'stores/theme'
+import vi_VN from 'antd/locale/vi_VN'
 
 export default function MainLayout() {
   const theme = useTheme()
 
   return (
-    <ConfigProvider theme={theme.themeConfig}>
+    <ConfigProvider theme={theme.themeConfig} locale={vi_VN}>
       <Layout className="min-h-screen w-full">
         <Header />
         <Layout.Content>
