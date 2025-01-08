@@ -1,5 +1,5 @@
 export const nav = {
-  BOOK: '/book',
+  BOOK: '/book/detail',
 
   ACCOUNT: '/account',
   PROFILE: '/profile',

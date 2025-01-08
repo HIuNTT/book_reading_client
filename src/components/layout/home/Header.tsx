@@ -13,6 +13,7 @@ import { queryClient } from 'configs/queryClient'
 import { useTheme } from 'stores/theme'
 import { MoonOutlined } from '@ant-design/icons'
 import { ERole } from 'enums/role'
+import { nav } from 'constants/nav'
 
 interface DropdownItem {
   key: string
@@ -199,6 +200,7 @@ function Header() {
                 color="default"
                 variant="filled"
                 icon={<Icon width="24" icon="lucide:clock-5" />}
+                onClick={() => navigate(nav.ACCOUNT + nav.HISTORY)}
                 style={{ transition: 'background-color 0.2s cubic-bezier(0.05, 0, 0.2, 1)' }}
               />
               <Popover content={renderContent} placement="bottomRight" arrow={false}>

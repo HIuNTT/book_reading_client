@@ -1,4 +1,5 @@
 import ButtonRead from 'components/common/ButtonRead'
+import { nav } from 'constants/nav'
 import { Link, useNavigate } from 'react-router-dom'
 import { BookHistory } from 'types/book'
 
@@ -29,7 +30,7 @@ export default function HistoryItem({ bookItem }: HistoryItemProps) {
             }}
           >
             <div className="absolute bottom-[14px] left-2 right-[10px] overflow-hidden text-ellipsis whitespace-nowrap text-[14px] font-medium tracking-[0px] max-[1680px]:text-[12px]">
-              {`Đọc tiếp ${bookItem.chapter_history.title.split('-').at(-1)?.trim().toLowerCase()}`}
+              {`Đọc tiếp ${bookItem.chapter_history.title.split(/[:-]/).at(0)?.trim().toLowerCase()}`}
             </div>
             <div className="absolute bottom-[10px] right-2 flex size-6 text-primary transition-all group-hover:opacity-85 xxxl:size-8">
               <ButtonRead />
@@ -39,7 +40,7 @@ export default function HistoryItem({ bookItem }: HistoryItemProps) {
       </Link>
       <div
         className="h-[49.5px] cursor-pointer pt-[7.5px] sm:h-[50.75px] sm:pt-[8.75px] min-[1024px]:h-[52px] min-[1024px]:pt-[10px] xxl:h-[58px]"
-        onClick={() => navigate(`/book/detail/${bookItem.id}`)}
+        onClick={() => navigate(`${nav.BOOK}/${bookItem.id}`)}
       >
         <p className="line-clamp-2 capitalize group-hover:text-primary xxl:text-[16px]">{bookItem.title}</p>
       </div>

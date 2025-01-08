@@ -164,3 +164,11 @@ export function useGetBookUpList(params: BookUpListParams) {
     queryFn: async () => await getBookUpList(params),
   })
 }
+
+export function useGetBookInfo(bookId: number, enabled?: boolean) {
+  return useQuery({
+    queryKey: ['bookInfo', bookId],
+    queryFn: async () => await getBookInfo(bookId),
+    enabled,
+  })
+}

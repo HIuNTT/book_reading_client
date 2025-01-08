@@ -39,7 +39,7 @@ export default function UpdateProfileModal({ onClose, ...profile }: UpdateProfil
       avatar: profile.avatar_key || undefined,
       name: profile.name || undefined,
       gender: profile.gender || EGender.MALE,
-      birthday: dayjs(profile.birthday) || undefined,
+      birthday: profile.birthday ? dayjs(profile.birthday) : dayjs('1970-01-01'),
       email: profile.email || undefined,
       phone: profile.phone || undefined,
     })
@@ -77,7 +77,7 @@ export default function UpdateProfileModal({ onClose, ...profile }: UpdateProfil
           />
         </Form.Item>
         <Form.Item<UpdateProfileDto> name="birthday" label="Ngày sinh">
-          <DatePicker format="DD/MM/YYYY" placeholder="Chọn ngày" />
+          <DatePicker allowClear={false} format="DD/MM/YYYY" placeholder="Chọn ngày" />
         </Form.Item>
         <Form.Item<UpdateProfileDto>
           name="email"

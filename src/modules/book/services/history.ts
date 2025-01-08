@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { api } from 'configs/api'
 import { BookHistory } from 'types/book'
-import { PaginationResult } from 'types/getList'
+import { PageParams, PaginationResult } from 'types/getList'
 
 export type BookHistoryListResponse = {
   data: {
@@ -26,6 +26,28 @@ export function useGetBookHistoryList(params: BookHistoryListParams, enabled?: b
   return useQuery({
     queryKey: ['bookHistoryList', params.page, params.size],
     queryFn: () => getBookHistoryList(params),
+    enabled,
+  })
+}
+
+export function useGetBookHistoryInfinite(params: BookHistoryListParams, enabled?: boolean) {
+  return useInfiniteQuery({
+    queryKey: ['bookHistoryListInfinite', params.size, params.page],
+    queryFn: async ({ pageParam }) =>
+      await getBookHistoryList({
+        ...params,
+        page: pageParam.page,
+      }),
+    initialPageParam: { page: 1 } as PageParams,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage) return
+
+      if (lastPage.is_last) return
+
+      return {
+        page: lastPage.number + 1,
+      }
+    },
     enabled,
   })
 }
