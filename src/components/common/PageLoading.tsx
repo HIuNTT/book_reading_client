@@ -1,8 +1,17 @@
-import { Flex, Spin } from "antd";
+import { ConfigProvider, Layout, Spin } from 'antd'
 import { Icon } from '@iconify/react'
+import { useTheme } from 'stores/theme'
 
 export default function PageLoading() {
-  return <Flex justify="center" align="center">
-    <Spin tip="Đang tải..." indicator={<Icon icon="eos-icons:loading" />} />
-  </Flex>
+  const { themeConfig } = useTheme()
+
+  return (
+    <ConfigProvider theme={themeConfig}>
+      <Layout>
+        <div className="flex h-screen items-center justify-center">
+          <Spin size="large" indicator={<Icon icon="eos-icons:loading" />} />
+        </div>
+      </Layout>
+    </ConfigProvider>
+  )
 }
