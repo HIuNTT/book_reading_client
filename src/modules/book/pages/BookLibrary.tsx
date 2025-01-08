@@ -10,6 +10,7 @@ import { useInView } from 'react-intersection-observer'
 import qs from 'qs'
 import { useTheme } from 'stores/theme'
 import useGetCategoryList from 'modules/category/services/getCategoryList'
+import { nav } from 'constants/nav'
 
 const sortOptions = [
   { key: 'view,desc', lable: 'Lượt đọc' },
@@ -144,7 +145,7 @@ export default function BookLibrary() {
                     style={{ transition: '0.3s' }}
                     span={6}
                   >
-                    <Link to={`/book/detail/${book.id}`} className="text-white">
+                    <Link to={`${nav.BOOK}/${book.id}`} className="text-white">
                       <div className="relative">
                         <div className="relative before:block before:pt-[146.25%]">
                           <img

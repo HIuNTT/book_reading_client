@@ -5,6 +5,10 @@ import { RouteObject } from 'react-router-dom'
 const BookLibrary = lazy(() => import('./pages/BookLibrary'))
 const Book = lazy(() => import('./pages/Book'))
 
+export interface BookParams {
+  bookId: string
+}
+
 export const libraryRoute: RouteObject = {
   path: 'book-library',
   Component: BookLibrary,

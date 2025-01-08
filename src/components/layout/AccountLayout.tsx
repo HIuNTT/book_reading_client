@@ -51,7 +51,7 @@ export default function AccountLayout() {
     <div className="mx-auto">
       <div className="flex">
         <div
-          className="sticky ml-4 h-[calc(100vh-var(--app-home-header-height))] min-w-[250px] px-5 max-[1023px]:hidden sm:ml-8 xxl:ml-16 xxxl:w-[340px]"
+          className="sticky top-[var(--app-home-header-height)] ml-4 h-[calc(100vh-var(--app-home-header-height))] min-w-[250px] px-5 max-[1023px]:hidden sm:ml-8 xxl:ml-16 xxxl:w-[340px]"
           style={{ borderRight: `1px solid ${token.colorSplit}` }}
         >
           <Space size={16} className="w-full py-6 pl-5">

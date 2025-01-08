@@ -50,6 +50,20 @@ function formatRoutes(routes: AppRoute[]): NonIndexRouteObject[] {
 export default function Routes() {
   const element = useRoutes([
     {
+      path: '/book/detail',
+      element: (
+        <AuthLayout>
+          <MainLayout />
+        </AuthLayout>
+      ),
+      children: [
+        {
+          path: ':id',
+          element: <BookDetail />,
+        },
+      ],
+    },
+    {
       path: '',
       element: (
         <AuthLayout>
@@ -57,10 +71,6 @@ export default function Routes() {
         </AuthLayout>
       ),
       children: [homeRoute, libraryRoute, bookRoute, ...formatRoutes([accountRoute])],
-    },
-    {
-      path: '/book/detail/:id',
-      element: <BookDetail />,
     },
     chapterRoute,
     {

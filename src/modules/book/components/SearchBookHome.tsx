@@ -8,6 +8,7 @@ import useClickOutside from 'hooks/useClickOutside'
 import { cn } from 'utils/cn'
 import { useGetBookListInfinite } from '../services'
 import { useTheme } from 'stores/theme'
+import { nav } from 'constants/nav'
 
 interface SearchBookHomeProps {
   isTop?: boolean
@@ -60,7 +61,7 @@ export default function SearchBookHome({ isTop, isHome }: SearchBookHomeProps) {
                 className={cn('flex cursor-pointer items-center rounded-xl p-1 hover:bg-[rgba(255,255,255,0.04)]', {
                   'hover:bg-[rgba(18,18,18,0.04)]': theme === 'light',
                 })}
-                onClick={() => navigate(`/book/detail/${book.id}`)}
+                onClick={() => navigate(`${nav.BOOK}/${book.id}`)}
               >
                 <img
                   className="mx-2 my-[6px] mr-4 h-[76px] w-[58px] rounded-lg object-cover text-transparent"
